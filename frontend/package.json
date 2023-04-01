@@ -16,6 +16,7 @@
     "@types/node": "^16.18.23",
     "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
+    "compress-create-react-app": "^1.4.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.7",
@@ -24,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && compress-cra",
     "test": "react-scripts test",
     "prepare": "cd .. && husky install frontend/.husky"
   },
