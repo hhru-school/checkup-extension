@@ -1,0 +1,16 @@
+.root {
+  color: #fafafa;
+}
+
+button {
+  appearance: none;
+  margin-top: 5px;
+  padding: 0;
+  border-radius: 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  color: #2f80ed;
+  text-decoration: underline;
+  cursor: pointer;
+}
