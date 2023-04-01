@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  color: #fafafa;
+  text-decoration: none;
+}

@@ -1,10 +1,10 @@
-export const App = () => {
-  return (
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci,
-      aperiam architecto cupiditate eum excepturi fuga laborum nihil omnis
-      perferendis perspiciatis quam temporibus totam voluptas? A aliquam impedit
-      incidunt placeat ratione!
-    </p>
-  );
-};
+import "antd/dist/reset.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
+import { Alert } from "antd";
+
+export const App = () => (
+  <Alert.ErrorBoundary>
+    <RouterProvider router={router} />
+  </Alert.ErrorBoundary>
+);

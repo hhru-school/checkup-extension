@@ -1,0 +1,16 @@
+.root {
+  background: #f7f7f7;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 25px;
+  min-height: 100vh;
+  padding-bottom: 25px;
+}
+
+.content {
+  background: #fff;
+  max-width: 1250px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 25px;
+}
