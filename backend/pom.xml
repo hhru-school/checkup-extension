@@ -12,7 +12,7 @@
     <artifactId>checkupextension</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>checkup-extension</name>
-    <description>Fronted-contest system</description>
+    <description>Frontend-contest system</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -23,8 +23,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.1.7.Final</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
