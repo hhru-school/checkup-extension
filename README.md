@@ -2,7 +2,7 @@
 
 Сервис для тестирования frontend-разработчиков.
 
-# Запуск
+## Запуск
 
 ```
 git clone https://github.com/hhru-school/checkup-extension.git
