@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JerseyConfig {
     @Bean
-    public ResourceConfig jerseyConfig() {
+    public ResourceConfig config() {
         ResourceConfig config = new ResourceConfig();
         // config.register(TestResource.class);
         return config;
