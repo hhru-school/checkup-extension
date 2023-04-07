@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: checkup_extension_frontend
+    ports:
+      - 8080:8080
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    container_name: checkup_extension_backend
+    ports:
+      - 8081:8081
+    depends_on:
+      - database
+  database:
+    image: postgres:alpine
+    container_name: checkup_extension_db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=checkup_extension
