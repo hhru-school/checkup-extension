@@ -1,9 +1,14 @@
 package ru.hh.school.checkupextension.core;
 
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import ru.hh.school.checkupextension.utils.exception.AuthorizedException;
 
 public class ContestService {
+
+    private final static Logger LOGGER = getLogger(ContestService.class);
     private final CheckupInteraction checkupInteraction;
 
     @Inject
