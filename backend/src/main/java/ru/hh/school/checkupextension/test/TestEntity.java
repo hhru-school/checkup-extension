@@ -1,5 +1,6 @@
 package ru.hh.school.checkupextension.test;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,8 +11,10 @@ import jakarta.persistence.Table;
 @Table(name = "test_table")
 public class TestEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "testdata")
     private String testData;
 
     public TestEntity() { }
