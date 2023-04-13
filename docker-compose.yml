@@ -1,0 +1,36 @@
+services:
+  database:
+    image: postgres:alpine
+    container_name: checkup_extension_db
+    volumes:
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  backend:
+    build: ./backend
+    container_name: checkup_extension_backend
+    ports:
+      - "8081:8081"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: checkup_extension_frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+
+
