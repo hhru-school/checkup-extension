@@ -1,10 +1,11 @@
-package ru.hh.school.checkupextension.core;
+package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotAuthorizedException;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import ru.hh.school.checkupextension.utils.exception.AuthorizedException;
+import ru.hh.school.checkupextension.core.CheckupInteraction;
 
 public class ContestService {
 
@@ -16,9 +17,9 @@ public class ContestService {
         this.checkupInteraction = checkupInteraction;
     }
 
-    public String getProblem() throws AuthorizedException{
-        if (!checkupInteraction.verifyUserToken(""))
-            throw new AuthorizedException(); // Через свои исключения избавляемся от привязки к определённым технологиям
+    public String getProblem() {
+        if (checkupInteraction.verifyUserToken(""))
+            throw new NotAuthorizedException("");
 
         return "Problem's statement";
     }
