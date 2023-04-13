@@ -1,68 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import tasks from "../json/tasks.json";
+
+type Task = {
+  id: number;
+  type: "js" | "html";
+  title: string;
+  description: string;
+  step: number;
+  status: "process" | "error";
+  content: string;
+};
 
 type TasksType = {
   isLoading: boolean;
   error: string | null;
-  tasks: Array<{
-    id: number;
-    type: "js" | "html";
-    title: string;
-    description: string;
-    step: number;
-    status: "process" | "error";
-    content: string;
-  }>;
+  tasks: Array<Task>;
 };
 
-const initialState: TasksType = {
-  isLoading: false,
-  error: null,
-  tasks: [
-    {
-      id: 1,
-      type: "js",
-      title: "Интересная задача по JS",
-      description: "Задача на проверку базовых знаний JS, DOM API",
-      step: 0,
-      status: "process",
-      content: `Есть ферма животных, у всех животных есть имена и возраст. Животные бывают разных типов: Кошки, Собаки, Коровы. У каждого животного могут быть дети. Если животное является родителем этих детей, в свою очередь глубина семейного древа может достигать N либо 0.
-            Опишите структуры данных для фермы животных и напишите функцию, которая делает подсчёт всех возрастов животных и выводит общий возраст для всей фермы.`,
-    },
-    {
-      id: 2,
-      type: "html",
-      title: "Интересная задача по HTML и CSS",
-      description: "Задача на проверку базовых знаний HTML и CSS",
-      step: 1,
-      status: "error",
-      content: `Исправьте ошибки в приведенном коде.
-
-            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-            <html>
-             <head>
-              <meta http-equiv="Content-Type" content="text/html; charset=utf-1">
-             <body>
-              <h11 align="justify">Галион</h1>
-              <p align="justify">
-               <strong>Галион</b> - большое трехмачтовое судно особо прочной постройки, 
-               снабженное тяжелой артиллерией.</br> 
-               Эти суда служили для перевозки товаров и драгоценных металлов из испанских и португальских 
-               колоний в Европу.</p>
-               <hr>
-               <blockquote>Флагманский корабль был мощным <i>галионом</i>, вооруженным сорока восьмью
-                большими пушками и восьмью малыми.</blockquote>
-               </hr>
-              </p>
-             </body>
-            </html>`,
-    },
-  ],
-};
+const initialState: TasksType = tasks as TasksType;
 
 // TODO: implement fetch from back, or use RTK?
-export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
-  return initialState.tasks;
-});
+export const fetchTasks = createAsyncThunk<Array<Task>>(
+  "tasks/fetchTasks",
+  async () => {
+    return tasks.tasks as Array<Task>;
+  }
+);
 
 const slice = createSlice({
   name: "tasks",

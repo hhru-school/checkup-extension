@@ -6,6 +6,9 @@ import { StoreType } from "../../__data__/store";
 import { Link, useParams } from "react-router-dom";
 import { Editor } from "../../components/editor";
 import { History } from "../../components/history";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export const Page = () => {
   const { t } = useTranslation();
@@ -37,7 +40,27 @@ export const Page = () => {
           <Col span={24}>
             <Collapse defaultActiveKey={["0"]} ghost>
               <Collapse.Panel header={t("tasks.description.title")} key="0">
-                <Typography.Paragraph>{task.content}</Typography.Paragraph>
+                <ReactMarkdown
+                  children={task.content}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          {...props}
+                          children={String(children).replace(/\n$/, "")}
+                          style={coy}
+                          language={match[1]}
+                          PreTag="div"
+                        />
+                      ) : (
+                        <code {...props} className={className}>
+                          {children}
+                        </code>
+                      );
+                    },
+                  }}
+                />
               </Collapse.Panel>
             </Collapse>
           </Col>
