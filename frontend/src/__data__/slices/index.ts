@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tasks from "../json/tasks.json";
 
-type Task = {
+export type Task = {
   id: number;
   type: "js" | "html";
   title: string;
@@ -9,6 +9,7 @@ type Task = {
   step: number;
   status: "process" | "error";
   content: string;
+  active: boolean;
 };
 
 type TasksType = {
