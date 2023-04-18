@@ -19,10 +19,10 @@ import java.util.List;
  * такие как ok(), noContent() и т.д., чтобы создавать ответы на запросы.
  */
 @Path("/api/verifications")
-public class VerificationController {
+public class VerificationResource {
   private final VerificationService verificationService;
 
-  public VerificationController(VerificationService verificationService) {
+  public VerificationResource(VerificationService verificationService) {
     this.verificationService = verificationService;
   }
 

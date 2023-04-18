@@ -1,7 +1,7 @@
 package ru.hh.school.checkupextension.core.data.service;
 
-import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
-import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
+import ru.hh.school.checkupextension.core.data.dao.ProblemDao;
+import ru.hh.school.checkupextension.core.data.dao.VerificationDao;
 import ru.hh.school.checkupextension.core.data.dto.VerificationDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
@@ -21,10 +21,10 @@ import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionCo
  * связанную с этими сущностями.
  */
 public class VerificationService {
-  private final VerificationDaoImpl verificationDao;
-  private final ProblemDaoImpl problemDao;
+  private final VerificationDao verificationDao;
+  private final ProblemDao problemDao;
 
-  public VerificationService(VerificationDaoImpl verificationDao, ProblemDaoImpl problemDao) {
+  public VerificationService(VerificationDao verificationDao, ProblemDao problemDao) {
     this.verificationDao = verificationDao;
     this.problemDao = problemDao;
   }

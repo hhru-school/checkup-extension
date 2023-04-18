@@ -19,10 +19,10 @@ import java.util.List;
  * такие как ok(), noContent() и т.д., чтобы создавать ответы на запросы.
  */
 @Path("/api/submissions")
-public class SubmissionController {
+public class SubmissionResource {
   private final SubmissionService submissionService;
 
-  public SubmissionController(SubmissionService submissionService) {
+  public SubmissionResource(SubmissionService submissionService) {
     this.submissionService = submissionService;
   }
 

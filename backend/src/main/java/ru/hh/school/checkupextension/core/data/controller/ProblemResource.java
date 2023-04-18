@@ -19,10 +19,10 @@ import java.util.List;
  * такие как ok(), noContent() и т.д., чтобы создавать ответы на запросы.
  */
 @Path("/api/problems")
-public class ProblemController {
+public class ProblemResource {
   private final ProblemService problemService;
 
-  public ProblemController(ProblemService problemService) {
+  public ProblemResource(ProblemService problemService) {
     this.problemService = problemService;
   }
 

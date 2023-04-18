@@ -1,6 +1,6 @@
 package ru.hh.school.checkupextension.core.data.service;
 
-import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
+import ru.hh.school.checkupextension.core.data.dao.ProblemDao;
 import ru.hh.school.checkupextension.core.data.dto.ProblemDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
@@ -17,9 +17,9 @@ import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionCo
  * связанную с этими сущностями.
  */
 public class ProblemService {
-  private final ProblemDaoImpl problemDao;
+  private final ProblemDao problemDao;
 
-  public ProblemService(ProblemDaoImpl problemRepository) {
+  public ProblemService(ProblemDao problemRepository) {
     this.problemDao = problemRepository;
   }
 

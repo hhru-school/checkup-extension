@@ -1,7 +1,7 @@
 package ru.hh.school.checkupextension.core.data.service;
 
-import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
-import ru.hh.school.checkupextension.core.data.daoimpl.SubmissionDaoImpl;
+import ru.hh.school.checkupextension.core.data.dao.ProblemDao;
+import ru.hh.school.checkupextension.core.data.dao.SubmissionDao;
 import ru.hh.school.checkupextension.core.data.dto.SubmissionDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
@@ -21,10 +21,10 @@ import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionCo
  * связанную с этими сущностями.
  */
 public class SubmissionService {
-  private final SubmissionDaoImpl submissionDao;
-  private final ProblemDaoImpl problemDao;
+  private final SubmissionDao submissionDao;
+  private final ProblemDao problemDao;
 
-  public SubmissionService(SubmissionDaoImpl submissionDao, ProblemDaoImpl problemDao) {
+  public SubmissionService(SubmissionDao submissionDao, ProblemDao problemDao) {
     this.submissionDao = submissionDao;
     this.problemDao = problemDao;
   }

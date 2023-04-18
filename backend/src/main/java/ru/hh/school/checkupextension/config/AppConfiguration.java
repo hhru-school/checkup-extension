@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import ru.hh.school.checkupextension.core.data.controller.ProblemController;
-import ru.hh.school.checkupextension.core.data.controller.SubmissionController;
-import ru.hh.school.checkupextension.core.data.controller.VerificationController;
+import ru.hh.school.checkupextension.core.data.controller.ProblemResource;
+import ru.hh.school.checkupextension.core.data.controller.SubmissionResource;
+import ru.hh.school.checkupextension.core.data.controller.VerificationResource;
 import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
 import ru.hh.school.checkupextension.core.data.daoimpl.SubmissionDaoImpl;
 import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
@@ -38,9 +38,9 @@ public class AppConfiguration {
   public ResourceConfig jerseyConfig() {
     var config = new ResourceConfig();
 
-    config.register(VerificationController.class);
-    config.register(ProblemController.class);
-    config.register(SubmissionController.class);
+    config.register(VerificationResource.class);
+    config.register(ProblemResource.class);
+    config.register(SubmissionResource.class);
     config.register(ContestApiResource.class);
 
     config.register(VerificationNotFoundExceptionMapper.class);
