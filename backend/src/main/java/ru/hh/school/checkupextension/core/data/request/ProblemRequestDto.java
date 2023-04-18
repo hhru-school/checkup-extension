@@ -13,11 +13,11 @@ public class ProblemRequestDto {
   private String condition;
 
   @NotBlank(message = "Type cannot be blank")
-  private String type;
+  private byte type;
 
   @NotNull(message = "Max attempts cannot be null")
   @Min(value = 1, message = "Max attempts must be greater than or equal to 1")
-  private Integer maxAttempts;
+  private Short maxAttempts;
 
   public ProblemRequestDto() {
   }
@@ -30,19 +30,19 @@ public class ProblemRequestDto {
     this.condition = condition;
   }
 
-  public String getType() {
+  public byte getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(byte type) {
     this.type = type;
   }
 
-  public Integer getMaxAttempts() {
+  public Short getMaxAttempts() {
     return maxAttempts;
   }
 
-  public void setMaxAttempts(Integer maxAttempts) {
+  public void setMaxAttempts(Short maxAttempts) {
     this.maxAttempts = maxAttempts;
   }
 }

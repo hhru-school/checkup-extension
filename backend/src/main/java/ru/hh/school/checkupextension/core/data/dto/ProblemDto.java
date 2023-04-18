@@ -6,13 +6,13 @@ package ru.hh.school.checkupextension.core.data.dto;
 public class ProblemDto {
   private Long id;
   private String condition;
-  private String type;
-  private Integer maxAttempts;
+  private byte type;
+  private Short maxAttempts;
 
   public ProblemDto() {
   }
 
-  public ProblemDto(Long id, String condition, String type, Integer maxAttempts) {
+  public ProblemDto(Long id, String condition, byte type, Short maxAttempts) {
     this.id = id;
     this.condition = condition;
     this.type = type;
@@ -35,19 +35,19 @@ public class ProblemDto {
     this.condition = condition;
   }
 
-  public String getType() {
+  public byte getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(byte type) {
     this.type = type;
   }
 
-  public Integer getMaxAttempts() {
+  public Short getMaxAttempts() {
     return maxAttempts;
   }
 
-  public void setMaxAttempts(Integer maxAttempts) {
+  public void setMaxAttempts(Short maxAttempts) {
     this.maxAttempts = maxAttempts;
   }
 }

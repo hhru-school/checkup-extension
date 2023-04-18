@@ -23,10 +23,10 @@ public class Problem {
   private String condition;
 
   @Column(name = "type")
-  private String type;
+  private byte type;
 
   @Column(name = "max_attempts")
-  private Integer maxAttempts;
+  private Short maxAttempts;
 
   public Problem() {
   }
@@ -47,19 +47,19 @@ public class Problem {
     this.condition = condition;
   }
 
-  public String getType() {
+  public byte getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(byte type) {
     this.type = type;
   }
 
-  public Integer getMaxAttempts() {
+  public Short getMaxAttempts() {
     return maxAttempts;
   }
 
-  public void setMaxAttempts(Integer maxAttempts) {
+  public void setMaxAttempts(Short maxAttempts) {
     this.maxAttempts = maxAttempts;
   }
 
