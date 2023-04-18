@@ -1,10 +1,9 @@
 package ru.hh.school.checkupextension.core.data.service;
 
-import org.springframework.stereotype.Service;
+import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.ProblemDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException;
-import ru.hh.school.checkupextension.core.data.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.data.request.ProblemRequestDto;
 
 import java.util.List;
@@ -17,22 +16,23 @@ import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFound
  * Он реализует логику создания, чтения, обновления и удаления сущностей, а также любую другую бизнес-логику,
  * связанную с этими сущностями.
  */
-@Service
 public class ProblemService {
-  private final ProblemRepository problemRepository;
+  private final ProblemDaoImpl problemDao;
 
-  public ProblemService(ProblemRepository problemRepository) {
-    this.problemRepository = problemRepository;
+  public ProblemService(ProblemDaoImpl problemRepository) {
+    this.problemDao = problemRepository;
   }
 
   public ProblemDto getById(Long id) {
-    Problem problem = problemRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id)));
+    Problem problem = problemDao.getById(id);
+    if (problem == null) {
+      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
+    }
     return toDto(problem);
   }
 
   public List<ProblemDto> getAll() {
-    List<Problem> problems = problemRepository.findAll();
+    List<Problem> problems = problemDao.getAll();
     return problems.stream()
         .map(this::toDto)
         .collect(Collectors.toList());
@@ -43,22 +43,24 @@ public class ProblemService {
     problem.setCondition(requestDto.getCondition());
     problem.setType(requestDto.getType());
     problem.setMaxAttempts(requestDto.getMaxAttempts());
-    Problem savedProblem = problemRepository.save(problem);
+    Problem savedProblem = problemDao.create(problem);
     return toDto(savedProblem);
   }
 
   public ProblemDto update(Long id, ProblemRequestDto requestDto) {
-    Problem problem = problemRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id)));
+    Problem problem = problemDao.getById(id);
+    if (problem == null) {
+      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
+    }
     problem.setCondition(requestDto.getCondition());
     problem.setType(requestDto.getType());
     problem.setMaxAttempts(requestDto.getMaxAttempts());
-    Problem savedProblem = problemRepository.save(problem);
+    Problem savedProblem = problemDao.update(problem);
     return toDto(savedProblem);
   }
 
   public void delete(Long id) {
-    problemRepository.deleteById(id);
+    problemDao.delete(id);
   }
 
   private ProblemDto toDto(Problem problem) {

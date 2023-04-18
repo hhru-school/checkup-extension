@@ -1,24 +1,24 @@
 package ru.hh.school.checkupextension.core.data.controller;
 
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import ru.hh.school.checkupextension.core.data.dto.VerificationDto;
 import ru.hh.school.checkupextension.core.data.request.VerificationRequestDto;
 import ru.hh.school.checkupextension.core.data.service.VerificationService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/verifications")
+/**
+ * В данном классе мы использовали аннотации Jersey, такие как @Path и @PathParam, чтобы определить пути запросов
+ * и параметры пути. Возвращаемый тип методов теперь Response, в котором мы используем методы класса Response,
+ * такие как ok(), noContent() и т.д., чтобы создавать ответы на запросы.
+ */
+@Path("/api/verifications")
 public class VerificationController {
   private final VerificationService verificationService;
 
@@ -30,45 +30,52 @@ public class VerificationController {
    * Метод getById() обрабатывает GET-запрос по адресу "/api/verifications/{id}" и возвращает сущность
    * VerificationDto с указанным идентификатором.
    */
-  @GetMapping("/{id}")
-  public VerificationDto getById(@PathVariable Long id) {
-    return verificationService.getById(id);
+  @GET
+  @Path("/{id}")
+  public Response getById(@PathParam("id") Long id) {
+    VerificationDto verificationDto = verificationService.getById(id);
+    return Response.ok(verificationDto).build();
   }
 
   /**
    * Метод getAll() обрабатывает GET-запрос по адресу "/api/verifications"
    * и возвращает список всех сущностей типа VerificationDto.
    */
-  @GetMapping
-  public List<VerificationDto> getAll() {
-    return verificationService.getAll();
+  @GET
+  public Response getAll() {
+    List<VerificationDto> verificationDtos = verificationService.getAll();
+    return Response.ok(verificationDtos).build();
   }
 
   /**
    * Метод create() обрабатывает POST-запрос по адресу "/api/verifications"
    * и создает новую сущность типа VerificationDto на основе полученной в теле запроса информации.
    */
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public VerificationDto create(@RequestBody @Valid VerificationRequestDto requestDto) {
-    return verificationService.create(requestDto);
+  @POST
+  public Response create(VerificationRequestDto requestDto) {
+    VerificationDto verificationDto = verificationService.create(requestDto);
+    return Response.status(Response.Status.CREATED).entity(verificationDto).build();
   }
 
   /**
    * Метод update() обрабатывает PUT-запрос по адресу "/api/verifications/{id}"
    * и обновляет существующую сущность типа VerificationDto с указанным идентификатором.
    */
-  @PutMapping("/{id}")
-  public VerificationDto update(@PathVariable Long id, @RequestBody @Valid VerificationRequestDto requestDto) {
-    return verificationService.update(id, requestDto);
+  @PUT
+  @Path("/{id}")
+  public Response update(@PathParam("id") Long id, VerificationRequestDto requestDto) {
+    VerificationDto verificationDto = verificationService.update(id, requestDto);
+    return Response.ok(verificationDto).build();
   }
 
   /**
    * Метод delete() обрабатывает DELETE-запрос по адресу "/api/verifications/{id}"
    * и удаляет существующую сущность типа VerificationDto с указанным идентификатором.
    */
-  @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id) {
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") Long id) {
     verificationService.delete(id);
+    return Response.noContent().build();
   }
 }

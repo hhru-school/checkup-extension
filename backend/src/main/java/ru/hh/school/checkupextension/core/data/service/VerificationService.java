@@ -1,12 +1,11 @@
 package ru.hh.school.checkupextension.core.data.service;
 
-import org.springframework.stereotype.Service;
+import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
+import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.VerificationDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 import ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException;
-import ru.hh.school.checkupextension.core.data.repository.ProblemRepository;
-import ru.hh.school.checkupextension.core.data.repository.VerificationRepository;
 import ru.hh.school.checkupextension.core.data.request.VerificationRequestDto;
 
 import java.util.List;
@@ -20,54 +19,61 @@ import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFound
  * Он реализует логику создания, чтения, обновления и удаления сущностей, а также любую другую бизнес-логику,
  * связанную с этими сущностями.
  */
-@Service
 public class VerificationService {
-  private final VerificationRepository verificationRepository;
-  private final ProblemRepository problemRepository;
+  private final VerificationDaoImpl verificationDao;
+  private final ProblemDaoImpl problemDao;
 
-  public VerificationService(VerificationRepository verificationRepository, ProblemRepository problemRepository) {
-    this.verificationRepository = verificationRepository;
-    this.problemRepository = problemRepository;
+  public VerificationService(VerificationDaoImpl verificationDao, ProblemDaoImpl problemDao) {
+    this.verificationDao = verificationDao;
+    this.problemDao = problemDao;
   }
 
   public VerificationDto getById(Long id) {
-    Verification verification = verificationRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id)));
+    Verification verification = verificationDao.getById(id);
+    if (verification == null) {
+      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+    }
     return mapToDto(verification);
   }
 
   public List<VerificationDto> getAll() {
-    List<Verification> verifications = verificationRepository.findAll();
+    List<Verification> verifications = verificationDao.getAll();
     return verifications.stream()
         .map(this::mapToDto)
         .collect(Collectors.toList());
   }
 
   public VerificationDto create(VerificationRequestDto requestDto) {
-    Problem problem = problemRepository.findById(requestDto.getProblemId())
-        .orElseThrow(() -> new ResourceNotFoundException
-            (String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId())));
+    Problem problem = problemDao.getById(requestDto.getProblemId());
+    if (problem == null) {
+      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+    }
     Verification verification = mapToEntity(requestDto, problem);
-    verificationRepository.save(verification);
+    verificationDao.create(verification);
     return mapToDto(verification);
   }
 
   public VerificationDto update(Long id, VerificationRequestDto requestDto) {
-    Verification verification = verificationRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id)));
-    Problem problem = problemRepository.findById(requestDto.getProblemId())
-        .orElseThrow(() -> new ResourceNotFoundException
-            (String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId())));
+    Verification verification = verificationDao.getById(id);
+    if (verification == null) {
+      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+    }
+    Problem problem = problemDao.getById(requestDto.getProblemId());
+    if (problem == null) {
+      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+    }
     verification.setProblem(problem);
     verification.setContent(requestDto.getContent());
-    verificationRepository.save(verification);
+    verificationDao.update(verification);
     return mapToDto(verification);
   }
 
   public void delete(Long id) {
-    Verification verification = verificationRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id)));
-    verificationRepository.delete(verification);
+    Verification verification = verificationDao.getById(id);
+    if (verification == null) {
+      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+    }
+    verificationDao.delete(id);
   }
 
   private Verification mapToEntity(VerificationRequestDto requestDto, Problem problem) {
