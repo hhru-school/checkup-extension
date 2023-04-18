@@ -5,14 +5,15 @@ import ru.hh.school.checkupextension.core.data.daoimpl.SubmissionDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.SubmissionDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
-import ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
 import ru.hh.school.checkupextension.core.data.request.SubmissionRequestDto;
+import ru.hh.school.checkupextension.utils.exception.SubmissionNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
-import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.SUBMISSION_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionConstants.PROBLEM_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionConstants.SUBMISSION_ID_NOT_FOUND_MESSAGE;
 
 /**
  * SubmissionService - это класс, который содержит бизнес-логику для работы с сущностями типа Submission и Problem.
@@ -31,7 +32,7 @@ public class SubmissionService {
   public SubmissionDto getById(Long id) {
     Submission submission = submissionDao.getById(id);
     if (submission == null) {
-      throw new ResourceNotFoundException(String.format(SUBMISSION_ID_NOT_FOUND_MESSAGE, id));
+      throw new SubmissionNotFoundException(String.format(SUBMISSION_ID_NOT_FOUND_MESSAGE, id));
     }
     return new SubmissionDto(submission.getId(), submission.getUser(), submission.getProblem().getId(),
         submission.getSolution(), submission.getStatus());
@@ -47,7 +48,7 @@ public class SubmissionService {
   public SubmissionDto create(SubmissionRequestDto requestDto) {
     Problem problem = problemDao.getById(requestDto.getProblemId());
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
     }
     Submission submission = new Submission(requestDto.getUserId(), problem, requestDto.getSolution(), "PENDING");
     submissionDao.create(submission);
@@ -58,11 +59,11 @@ public class SubmissionService {
   public SubmissionDto update(Long id, SubmissionRequestDto requestDto) {
     Submission submission = submissionDao.getById(id);
     if (submission == null) {
-      throw new ResourceNotFoundException(String.format(SUBMISSION_ID_NOT_FOUND_MESSAGE, id));
+      throw new SubmissionNotFoundException(String.format(SUBMISSION_ID_NOT_FOUND_MESSAGE, id));
     }
     Problem problem = problemDao.getById(requestDto.getProblemId());
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
     }
     submission.setUser(requestDto.getUserId());
     submission.setProblem(problem);

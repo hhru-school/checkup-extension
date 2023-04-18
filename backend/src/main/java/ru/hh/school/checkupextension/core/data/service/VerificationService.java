@@ -5,14 +5,15 @@ import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.VerificationDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
-import ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
 import ru.hh.school.checkupextension.core.data.request.VerificationRequestDto;
+import ru.hh.school.checkupextension.utils.exception.VerificationNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
-import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.VERIFICATION_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionConstants.PROBLEM_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionConstants.VERIFICATION_ID_NOT_FOUND_MESSAGE;
 
 /**
  * VerificationService - это класс, который содержит бизнес-логику для работы с сущностями типа Verification и Problem.
@@ -31,7 +32,7 @@ public class VerificationService {
   public VerificationDto getById(Long id) {
     Verification verification = verificationDao.getById(id);
     if (verification == null) {
-      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+      throw new VerificationNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
     }
     return mapToDto(verification);
   }
@@ -46,7 +47,7 @@ public class VerificationService {
   public VerificationDto create(VerificationRequestDto requestDto) {
     Problem problem = problemDao.getById(requestDto.getProblemId());
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
     }
     Verification verification = mapToEntity(requestDto, problem);
     verificationDao.create(verification);
@@ -56,11 +57,11 @@ public class VerificationService {
   public VerificationDto update(Long id, VerificationRequestDto requestDto) {
     Verification verification = verificationDao.getById(id);
     if (verification == null) {
-      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+      throw new VerificationNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
     }
     Problem problem = problemDao.getById(requestDto.getProblemId());
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, requestDto.getProblemId()));
     }
     verification.setProblem(problem);
     verification.setContent(requestDto.getContent());
@@ -71,7 +72,7 @@ public class VerificationService {
   public void delete(Long id) {
     Verification verification = verificationDao.getById(id);
     if (verification == null) {
-      throw new ResourceNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
+      throw new VerificationNotFoundException(String.format(VERIFICATION_ID_NOT_FOUND_MESSAGE, id));
     }
     verificationDao.delete(id);
   }

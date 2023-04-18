@@ -3,13 +3,13 @@ package ru.hh.school.checkupextension.core.data.service;
 import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.ProblemDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
-import ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
 import ru.hh.school.checkupextension.core.data.request.ProblemRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.constant.ExceptionConstants.PROBLEM_ID_NOT_FOUND_MESSAGE;
 
 /**
  * ProblemService - это класс, который содержит бизнес-логику для работы с сущностями типа Problem.
@@ -26,7 +26,7 @@ public class ProblemService {
   public ProblemDto getById(Long id) {
     Problem problem = problemDao.getById(id);
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
     }
     return toDto(problem);
   }
@@ -50,7 +50,7 @@ public class ProblemService {
   public ProblemDto update(Long id, ProblemRequestDto requestDto) {
     Problem problem = problemDao.getById(id);
     if (problem == null) {
-      throw new ResourceNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
+      throw new ProblemNotFoundException(String.format(PROBLEM_ID_NOT_FOUND_MESSAGE, id));
     }
     problem.setCondition(requestDto.getCondition());
     problem.setType(requestDto.getType());
