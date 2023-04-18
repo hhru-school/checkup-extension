@@ -1,4 +1,4 @@
-package ru.hh.school.checkupextension.core.data.exception;
+package ru.hh.school.checkupextension.utils.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
   public static final String PROBLEM_ID_NOT_FOUND_MESSAGE = "Problem not found with id: %s";

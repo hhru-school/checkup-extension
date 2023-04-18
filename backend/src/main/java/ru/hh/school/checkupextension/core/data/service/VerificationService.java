@@ -5,14 +5,14 @@ import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.VerificationDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
-import ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException;
 import ru.hh.school.checkupextension.core.data.request.VerificationRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
-import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException.VERIFICATION_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.VERIFICATION_ID_NOT_FOUND_MESSAGE;
 
 /**
  * VerificationService - это класс, который содержит бизнес-логику для работы с сущностями типа Verification и Problem.

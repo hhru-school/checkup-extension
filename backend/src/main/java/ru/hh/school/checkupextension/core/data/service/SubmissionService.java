@@ -5,14 +5,14 @@ import ru.hh.school.checkupextension.core.data.daoimpl.SubmissionDaoImpl;
 import ru.hh.school.checkupextension.core.data.dto.SubmissionDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
-import ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException;
 import ru.hh.school.checkupextension.core.data.request.SubmissionRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
-import static ru.hh.school.checkupextension.core.data.exception.ResourceNotFoundException.SUBMISSION_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.PROBLEM_ID_NOT_FOUND_MESSAGE;
+import static ru.hh.school.checkupextension.utils.exception.ResourceNotFoundException.SUBMISSION_ID_NOT_FOUND_MESSAGE;
 
 /**
  * SubmissionService - это класс, который содержит бизнес-логику для работы с сущностями типа Submission и Problem.

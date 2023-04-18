@@ -8,5 +8,4 @@ public class CheckupExtensionApplication {
     public static void main(String[] args) {
         SpringApplication.run(CheckupExtensionApplication.class, args);
     }
-
 }
