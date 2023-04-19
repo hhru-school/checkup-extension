@@ -1,6 +1,5 @@
 package ru.hh.school.checkupextension.config;
 
-
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,9 +34,10 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.put(Environment.DIALECT, dialect);
         properties.put(Environment.SHOW_SQL, showSql);
+        // TODO: Temporary solution
+        properties.put(Environment.HBM2DDL_AUTO, "update");//"create-drop");
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-        // TODO: Exchange the package's name
         factoryBean.setPackagesToScan("ru.hh.school.checkupextension.core.data.entity");
         factoryBean.setDataSource(dataSource);
         factoryBean.setHibernateProperties(properties);

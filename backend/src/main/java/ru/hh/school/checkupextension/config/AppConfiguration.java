@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestApiResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
@@ -15,27 +16,36 @@ import ru.hh.school.checkupextension.utils.exception.mapper.ProblemNotFoundExcep
 import ru.hh.school.checkupextension.utils.exception.mapper.SubmissionNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
+import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
-    VerificationRepository.class,
-    ProblemRepository.class,
-    SubmissionRepository.class,
-    ContestService.class,
-    CheckupApiStub.class,
+        // Repository
+        VerificationRepository.class,
+//        ProblemRepository.class,
+        SubmissionRepository.class,
+
+        // Services
+        ContestService.class,
+//        AdminService.class,
+
+        CheckupApiStub.class,
+
+        // TODO: Debug
+        ProblemRepositoryStub.class
 })
 public class AppConfiguration {
-  @Bean
-  public ResourceConfig jerseyConfig() {
-    var config = new ResourceConfig();
+    @Bean
+    public ResourceConfig jerseyConfig() {
+        var config = new ResourceConfig();
 
-    config.register(ContestApiResource.class);
+        config.register(ContestApiResource.class);
 
-    config.register(VerificationNotFoundExceptionMapper.class);
-    config.register(ProblemNotFoundExceptionMapper.class);
-    config.register(SubmissionNotFoundExceptionMapper.class);
-    config.register(AuthorizedExceptionMapper.class);
+        config.register(VerificationNotFoundExceptionMapper.class);
+        config.register(ProblemNotFoundExceptionMapper.class);
+        config.register(SubmissionNotFoundExceptionMapper.class);
+        config.register(AuthorizedExceptionMapper.class);
 
-    return config;
-  }
+        return config;
+    }
 }
