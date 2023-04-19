@@ -4,21 +4,21 @@
   "tasks": [
     {
       "id": 1,
-      "type": "js",
+      "type": 0,
       "title": "Интересная задача по JS",
       "description": "Задача на проверку базовых знаний JS, DOM API",
       "step": 0,
-      "status": "process",
+      "status": 0,
       "content": "Есть ферма животных, у всех животных есть имена и возраст. Животные бывают разных типов: Кошки, Собаки, Коровы. У каждого животного могут быть дети. Если животное является родителем этих детей, в свою очередь глубина семейного древа может достигать N либо 0. Опишите структуры данных для фермы животных и напишите функцию, которая делает подсчёт всех возрастов животных и выводит общий возраст для всей фермы.",
       "active": true
     },
     {
       "id": 2,
-      "type": "html",
+      "type": 1,
       "title": "Интересная задача по HTML и CSS",
       "description": "Задача на проверку базовых знаний HTML и CSS",
       "step": 1,
-      "status": "error",
+      "status": 1,
       "content": "```js\n\nimport React from 'react'\n\nimport ReactDOM from 'react-dom'\n\nimport ReactMarkdown from 'react-markdown'\n\nimport rehypeHighlight from 'rehype-highlight'\n\nReactDOM.render(\n\n<ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,\n\ndocument.querySelector('#content'))\n\n```",
       "active": true
     }

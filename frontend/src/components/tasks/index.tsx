@@ -1,41 +1,43 @@
 import { Col, Row, Switch, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./index.module.css";
-import i18next from "../../i18n";
 import { Link } from "react-router-dom";
 import { TabHeader } from "../tab-header";
-import type { Task } from "../../__data__/slices";
+import { Task, TaskTypes } from "../../__data__/slices";
 import { useSelector } from "react-redux";
 import { getTasks } from "../../__data__/selectors";
+import { useTranslation } from "react-i18next";
 
 export const Tasks = () => {
+  const { t } = useTranslation();
+
   const columns: ColumnsType<Task> = [
     {
-      title: i18next.t("table.column.id"),
+      title: t("table.column.id"),
       dataIndex: "id",
       key: "id",
     },
     {
-      title: i18next.t("table.column.title"),
+      title: t("table.column.title"),
       dataIndex: "title",
       key: "title",
     },
     {
-      title: i18next.t("table.column.active"),
+      title: t("table.column.active"),
       dataIndex: "active",
       key: "active",
       render: (_, { active }) => <Switch checked={active} disabled />,
     },
     {
-      title: i18next.t("table.column.type"),
+      title: t("table.column.type"),
       dataIndex: "type",
       key: "type",
-      render: (_, { type }) => i18next.t(`task.type.${type}`),
+      render: (_, { type }) => t(`task.type.${TaskTypes[type].toLowerCase()}`),
     },
     {
-      title: i18next.t("table.column.actions"),
+      title: t("table.column.actions"),
       key: "actions",
-      render: (_, record) => <Link to="#">{i18next.t("link.edit")}</Link>,
+      render: (_, record) => <Link to="#">{t("link.edit")}</Link>,
     },
   ];
 
@@ -47,7 +49,7 @@ export const Tasks = () => {
   return (
     <>
       <Space direction="vertical" size="large" className={styles.space}>
-        <TabHeader title={i18next.t("tasks.title")} onAdd={() => {}} />
+        <TabHeader title={t("tasks.title")} onAdd={() => {}} />
         <Row>
           <Col span={24}>
             <Table columns={columns} dataSource={data} />

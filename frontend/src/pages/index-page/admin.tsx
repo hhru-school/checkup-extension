@@ -1,15 +1,12 @@
 import { Tabs } from "antd";
-import { Challenges } from "../../components/challenges";
 import { Tasks } from "../../components/tasks";
 import { Results } from "../../components/results";
-import i18next from "../../i18n";
-import {
-  AppstoreOutlined,
-  FileOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { FileOutlined, UserOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 export const Admin = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Tabs
@@ -19,19 +16,8 @@ export const Admin = () => {
           {
             label: (
               <span>
-                <AppstoreOutlined />
-                {i18next.t("challenges.title")}
-              </span>
-            ),
-            key: "1",
-            disabled: false,
-            children: <Challenges />,
-          },
-          {
-            label: (
-              <span>
                 <FileOutlined />
-                {i18next.t("tasks.title")}
+                {t("tasks.title")}
               </span>
             ),
             key: "2",
@@ -42,7 +28,7 @@ export const Admin = () => {
             label: (
               <span>
                 <UserOutlined />
-                {i18next.t("results.title")}
+                {t("results.title")}
               </span>
             ),
             key: "3",

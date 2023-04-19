@@ -6,6 +6,7 @@ import js from "./js.svg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { StoreType } from "../../__data__/store";
+import { TaskProcess, TaskTypes } from "../../__data__/slices";
 
 const stepsItems = [
   {
@@ -37,7 +38,7 @@ export const TaskList: FC = () => {
                 <Avatar
                   shape="square"
                   size={64}
-                  src={item.type === "js" ? js : html}
+                  src={item.type === TaskTypes.JS ? js : html}
                 />
               }
               title={<Link to={String(item.id)}>{item.title}</Link>}
@@ -47,7 +48,9 @@ export const TaskList: FC = () => {
               className={styles.steps}
               type="inline"
               current={item.step}
-              status={item.status as StepsProps["status"]}
+              status={
+                TaskProcess[item.status].toLowerCase() as StepsProps["status"]
+              }
               items={stepsItems}
             />
           </List.Item>

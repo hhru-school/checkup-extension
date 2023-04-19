@@ -1,9 +1,9 @@
 import { Col, Row, Space, Table, Radio } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./index.module.css";
-import i18next from "../../i18n";
 import { Link } from "react-router-dom";
 import { TabHeader } from "../tab-header";
+import { useTranslation } from "react-i18next";
 
 type DataType = {
   id: number;
@@ -31,48 +31,46 @@ const data: Array<DataType> = [
 ];
 
 export const Results = () => {
+  const { t } = useTranslation();
+
   const columns: ColumnsType<DataType> = [
     {
-      title: i18next.t("table.column.id"),
+      title: t("table.column.id"),
       dataIndex: "id",
       key: "id",
     },
     {
-      title: i18next.t("table.column.challenge"),
+      title: t("table.column.challenge"),
       dataIndex: "challenge",
       key: "challenge",
     },
     {
-      title: i18next.t("table.column.user"),
+      title: t("table.column.user"),
       dataIndex: "user",
       key: "user",
     },
     {
-      title: i18next.t("table.column.status"),
+      title: t("table.column.status"),
       dataIndex: "status",
       key: "status",
     },
     {
-      title: i18next.t("table.column.actions"),
+      title: t("table.column.actions"),
       key: "actions",
-      render: (_, record) => <Link to="#">{i18next.t("link.preview")}</Link>,
+      render: (_, record) => <Link to="#">{t("link.preview")}</Link>,
     },
   ];
 
   return (
     <>
       <Space direction="vertical" size="large" className={styles.space}>
-        <TabHeader title={i18next.t("results.title")} />
+        <TabHeader title={t("results.title")} />
         <Radio.Group defaultValue="challenge">
           <Radio.Button value="challenge">
-            {i18next.t("table.column.challenge")}
+            {t("table.column.challenge")}
           </Radio.Button>
-          <Radio.Button value="status">
-            {i18next.t("table.column.status")}
-          </Radio.Button>
-          <Radio.Button value="user">
-            {i18next.t("table.column.user")}
-          </Radio.Button>
+          <Radio.Button value="status">{t("table.column.status")}</Radio.Button>
+          <Radio.Button value="user">{t("table.column.user")}</Radio.Button>
         </Radio.Group>
         <Row>
           <Col span={24}>
