@@ -32,12 +32,12 @@ public class Submission {
   private String solution;
 
   @Column(name = "status")
-  private String status;
+  private byte status;
 
   public Submission() {
   }
 
-  public Submission(Long user, Problem problem, String solution, String status) {
+  public Submission(Long user, Problem problem, String solution, byte status) {
     this.user = user;
     this.problem = problem;
     this.solution = solution;
@@ -76,11 +76,11 @@ public class Submission {
     this.solution = solution;
   }
 
-  public String getStatus() {
+  public byte getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(byte status) {
     this.status = status;
   }
 
