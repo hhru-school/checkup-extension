@@ -3,6 +3,7 @@ package ru.hh.school.checkupextension.contest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
@@ -17,9 +18,9 @@ public class ContestApiResource {
     }
 
     @GET
-    @Path("/problem")
+    @Path("/problem/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ContestProblem getProblem() {
-        return contestService.getProblem();
+    public ContestProblem getProblem(@PathParam("id")long id) {
+        return contestService.getProblem(id);
     }
 }

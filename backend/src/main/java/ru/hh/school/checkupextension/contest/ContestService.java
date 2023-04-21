@@ -13,6 +13,7 @@ import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionEntity;
 import ru.hh.school.checkupextension.core.data.nullobject.EmptyProblem;
 import ru.hh.school.checkupextension.core.repository.Repository;
+import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.ProblemMapper;
 
 public class ContestService {
@@ -33,11 +34,11 @@ public class ContestService {
     }
 
     @Transactional
-    public ContestProblem getProblem() {
+    public ContestProblem getProblem(Long problemId) {
         if (checkupInteraction.verifyUserToken(""))
             throw new NotAuthorizedException("");
 
-        return ProblemMapper.toContestProblem(
-                problemRepository.getById(1L).get());
+        var problem = problemRepository.getById(problemId).orElseThrow(() -> new ProblemNotFoundException(problemId));
+        return ProblemMapper.toContestProblem(problem);
     }
 }
