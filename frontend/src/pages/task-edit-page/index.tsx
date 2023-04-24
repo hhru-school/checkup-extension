@@ -9,6 +9,8 @@ import { History } from "../../components/history";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { LeftOutlined } from "@ant-design/icons";
+import { TaskTypes } from "../../__data__/slices";
 
 export const Page = () => {
   const { t } = useTranslation();
@@ -33,7 +35,9 @@ export const Page = () => {
             <Typography.Title level={1}>{task.title}</Typography.Title>
           </Col>
           <Col span={4}>
-            <Link to={"/"}>{t("button.back")}</Link>
+            <Link to={"/"}>
+              <Button icon={<LeftOutlined />}>{t("button.back")}</Button>
+            </Link>
           </Col>
         </Row>
         <Row>
@@ -67,7 +71,7 @@ export const Page = () => {
         </Row>
         <Row gutter={20}>
           <Col span={16}>
-            {task.type === "html" && (
+            {task.type === TaskTypes.HTML && (
               <>
                 <Space
                   direction="vertical"
@@ -87,7 +91,7 @@ export const Page = () => {
                 </Space>
               </>
             )}
-            {task.type === "js" && (
+            {task.type === TaskTypes.JS && (
               <>
                 <Editor mode="js" title="JS" onChange={handleJsEditorChange} />
               </>

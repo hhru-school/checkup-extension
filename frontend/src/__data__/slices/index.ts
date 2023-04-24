@@ -1,14 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tasks from "../json/tasks.json";
 
-type Task = {
+export enum TaskTypes {
+  JS = 0,
+  HTML,
+}
+
+export enum TaskProcess {
+  PROCESS = 0,
+  ERROR,
+}
+
+export type Task = {
   id: number;
-  type: "js" | "html";
+  type: TaskTypes;
   title: string;
   description: string;
   step: number;
-  status: "process" | "error";
+  status: TaskProcess;
   content: string;
+  active: boolean;
 };
 
 type TasksType = {
