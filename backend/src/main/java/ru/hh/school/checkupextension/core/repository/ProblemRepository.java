@@ -7,19 +7,27 @@ import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс, отвечающий за работу с базой данных и взаимодействие с таблицей, хранящей информацию о задачах.
+ */
 public class ProblemRepository extends GenericRepository<ProblemEntity> {
     @Inject
     public ProblemRepository(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    @Override
     public Optional<ProblemEntity> getById(Long id) {
-        return getById(ProblemEntity.class, id);
+        return Optional.ofNullable(getSession().get(ProblemEntity.class, id));
     }
 
     @Override
     public List<ProblemEntity> getAll() {
-        return getSession().createQuery("SELECT p FROM Problem p", ProblemEntity.class).getResultList();
+        return getSession().createQuery("SELECT p FROM ProblemEntity p", ProblemEntity.class).getResultList();
+    }
+
+    @Override
+    public ProblemEntity create(ProblemEntity problem) {
+        getSession().save(problem);
+        return problem;
     }
 }

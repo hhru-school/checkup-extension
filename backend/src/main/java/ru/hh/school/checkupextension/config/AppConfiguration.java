@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestApiResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
@@ -16,7 +15,6 @@ import ru.hh.school.checkupextension.utils.exception.mapper.ProblemNotFoundExcep
 import ru.hh.school.checkupextension.utils.exception.mapper.SubmissionNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
-import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
@@ -31,8 +29,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
         CheckupApiStub.class,
 
-        // TODO: Debug
-        ProblemRepositoryStub.class
+        ProblemRepository.class
 })
 public class AppConfiguration {
     @Bean
