@@ -9,8 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "submission")
@@ -28,20 +31,14 @@ public class SubmissionEntity {
     @JoinColumn(name = "problem_id")
     private ProblemEntity problem;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "solution")
-    private String solution;
+    private UserSolution solution;
 
     @Column(name = "status")
     private byte status;
 
     public SubmissionEntity() {
-    }
-
-    public SubmissionEntity(Long user, ProblemEntity problem, String solution, byte status) {
-        this.user = user;
-        this.problem = problem;
-        this.solution = solution;
-        this.status = status;
     }
 
     public Long getId() {
@@ -68,11 +65,11 @@ public class SubmissionEntity {
         this.problem = problem;
     }
 
-    public String getSolution() {
+    public UserSolution getSolution() {
         return solution;
     }
 
-    public void setSolution(String solution) {
+    public void setSolution(UserSolution solution) {
         this.solution = solution;
     }
 
@@ -96,5 +93,15 @@ public class SubmissionEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, user, problem, solution, status);
+    }
+
+    public static class UserSolution {
+        private String htmlPart;
+        private String cssPart;
+        private String jsPart;
+
+        public Optional<String> getHtmlPart() { return Optional.ofNullable(this.htmlPart); }
+        public Optional<String> getCssPart() { return Optional.ofNullable(this.cssPart); }
+        public Optional<String> getJsPart() { return Optional.of(this.jsPart); }
     }
 }
