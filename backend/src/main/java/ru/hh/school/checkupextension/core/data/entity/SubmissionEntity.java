@@ -1,5 +1,6 @@
 package ru.hh.school.checkupextension.core.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -96,12 +98,30 @@ public class SubmissionEntity {
     }
 
     public static class UserSolution {
+        @JsonProperty("html")
         private String htmlPart;
+        @JsonProperty("css")
         private String cssPart;
+        @JsonProperty("js")
         private String jsPart;
 
         public Optional<String> getHtmlPart() { return Optional.ofNullable(this.htmlPart); }
         public Optional<String> getCssPart() { return Optional.ofNullable(this.cssPart); }
-        public Optional<String> getJsPart() { return Optional.of(this.jsPart); }
+        public Optional<String> getJsPart() { return Optional.ofNullable(this.jsPart); }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            var that = (UserSolution) obj;
+            return Objects.equals(this.htmlPart, that.htmlPart) &&
+                    Objects.equals(this.cssPart, that.cssPart) &&
+                    Objects.equals(this.jsPart, that.jsPart);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.htmlPart, this.cssPart, this.jsPart);
+        }
     }
 }
