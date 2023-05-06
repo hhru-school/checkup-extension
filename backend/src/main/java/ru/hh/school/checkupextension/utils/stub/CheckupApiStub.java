@@ -6,4 +6,9 @@ public class CheckupApiStub implements CheckupInteraction {
     public boolean verifyUserToken(String userToken) {
         return false;
     }
+
+    @Override
+    public long getUserId(String userToken) {
+        return 1L;
+    }
 }
