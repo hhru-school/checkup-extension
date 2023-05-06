@@ -10,10 +10,10 @@ create table if not exists problem (
 
 create table if not exists submission (
     id serial primary key,
-    solution varchar(255),
-    status smallint,
     user_id bigint,
     problem_id bigint,
+    solution jsonb,
+    status smallint,
 
     CONSTRAINT fk_problem
         FOREIGN KEY (problem_id)
