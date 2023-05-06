@@ -7,10 +7,13 @@ public class ProblemMapper {
     public static ContestProblem toContestProblem(Problem problem) {
         var res = new ContestProblem(
                 problem.getId(),
-                problem.getCondition(),
+                problem.getTitle(),
+                problem.getDescription(),
+                problem.getContent(),
                 problem.getType(),
-                problem.getType());
-
+                problem.getActive(),
+                problem.getTemplate()
+        );
         return res;
     }
 }

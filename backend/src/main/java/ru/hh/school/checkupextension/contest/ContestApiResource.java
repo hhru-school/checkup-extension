@@ -44,7 +44,7 @@ public class ContestApiResource {
      * @return - список всех задач
      */
     @GET
-    @Path("/problem")
+    @Path("/problems")
     @Produces(MediaType.APPLICATION_JSON)
     public List<ProblemEntity> getAllProblems() {
         return contestService.getAllProblems();

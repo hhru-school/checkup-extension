@@ -1,6 +1,7 @@
 package ru.hh.school.checkupextension.core.data.nullobject;
 
 import ru.hh.school.checkupextension.core.data.Problem;
+import ru.hh.school.checkupextension.core.data.pojo.MyJson;
 
 public class EmptyProblem implements Problem {
     private final static EmptyProblem instance = new EmptyProblem();
@@ -20,14 +21,6 @@ public class EmptyProblem implements Problem {
     public void setId(Long id) { }
 
     @Override
-    public String getCondition() {
-        return "";
-    }
-
-    @Override
-    public void setCondition(String condition) { }
-
-    @Override
     public byte getType() {
         return -1;
     }
@@ -36,10 +29,53 @@ public class EmptyProblem implements Problem {
     public void setType(byte type) { }
 
     @Override
-    public Short getMaxAttempts() {
-        return 0;
+    public String getTitle() {
+        return null;
     }
 
     @Override
-    public void setMaxAttempts(Short maxAttempts) { }
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public void setDescription(String description) {
+
+    }
+
+    @Override
+    public String getContent() {
+        return null;
+    }
+
+    @Override
+    public void setContent(String content) {
+
+    }
+
+    @Override
+    public boolean getActive() {
+        return false;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public MyJson getTemplate() {
+        return null;
+    }
+
+    @Override
+    public void setTemplate(MyJson template) {
+
+    }
+
 }
