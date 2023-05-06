@@ -35,7 +35,7 @@ public class HibernateConfiguration {
         properties.put(Environment.DIALECT, dialect);
         properties.put(Environment.SHOW_SQL, showSql);
         // TODO: Temporary solution
-        properties.put(Environment.HBM2DDL_AUTO, "update");//"create-drop");
+//        properties.put(Environment.HBM2DDL_AUTO, "create-drop");
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setPackagesToScan("ru.hh.school.checkupextension.core.data.entity");

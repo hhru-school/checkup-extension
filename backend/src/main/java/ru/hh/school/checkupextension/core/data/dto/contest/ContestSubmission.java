@@ -3,7 +3,7 @@ package ru.hh.school.checkupextension.core.data.dto.contest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.hh.school.checkupextension.core.data.dto.SubmissionJsonPropertyName;
+import ru.hh.school.checkupextension.utils.constant.SubmissionJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContestSubmission {

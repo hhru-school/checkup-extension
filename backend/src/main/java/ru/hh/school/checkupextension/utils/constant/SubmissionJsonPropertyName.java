@@ -1,4 +1,4 @@
-package ru.hh.school.checkupextension.core.data.dto;
+package ru.hh.school.checkupextension.utils.constant;
 
 public class SubmissionJsonPropertyName {
     public static final String ID = "id";

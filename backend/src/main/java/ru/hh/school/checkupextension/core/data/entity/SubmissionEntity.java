@@ -1,5 +1,6 @@
 package ru.hh.school.checkupextension.core.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "submission")
@@ -97,6 +97,7 @@ public class SubmissionEntity {
         return Objects.hash(id, user, problem, solution, status);
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class UserSolution {
         @JsonProperty("html")
         private String htmlPart;
@@ -105,9 +106,14 @@ public class SubmissionEntity {
         @JsonProperty("js")
         private String jsPart;
 
-        public Optional<String> getHtmlPart() { return Optional.ofNullable(this.htmlPart); }
-        public Optional<String> getCssPart() { return Optional.ofNullable(this.cssPart); }
-        public Optional<String> getJsPart() { return Optional.ofNullable(this.jsPart); }
+        public void setHtmlPart(String htmlPart) { this.htmlPart = htmlPart; }
+        public String getHtmlPart() { return this.htmlPart; }
+
+        public void setCssPart(String cssPart) { this.cssPart = cssPart; }
+        public String getCssPart() { return this.cssPart; }
+
+        public void setJsPart(String jsPart) { this.jsPart = jsPart; }
+        public String getJsPart() { return this.jsPart; }
 
         @Override
         public boolean equals(Object obj) {
