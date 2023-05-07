@@ -8,21 +8,21 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class CheckupApiStub implements CheckupInteraction {
     private final static Logger LOGGER = getLogger(CheckupApiStub.class);
+    private final static UserInfo defaultAdmin = new UserInfo(0L, true);
+    private final static UserInfo defaultUser = new UserInfo(1L, false);
+
     @Override
     public UserInfo getUserInfo(String userToken) {
         LOGGER.info("Get info for user's token: [{}]", userToken);
-        return null;
+
+        boolean isAdmin = Boolean.getBoolean(userToken);
+        if (isAdmin) return defaultAdmin;
+        return defaultUser;
     }
 
     @Override
-    public boolean verifyUserToken(String userToken) {
-        LOGGER.info("Verify user's token: [{}]", userToken);
-        return false;
-    }
-
-    @Override
-    public long getUserId(String userToken) {
-        LOGGER.info("Get user's id for token: [{}]", userToken);
-        return 1L;
+    public boolean userHasTimeToSolveProblems(long userId) {
+        LOGGER.info("Request user's time for id: [{}]", userId);
+        return true;
     }
 }
