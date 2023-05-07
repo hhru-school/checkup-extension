@@ -2,23 +2,22 @@ package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotAuthorizedException;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.CheckupInteraction;
-import ru.hh.school.checkupextension.core.data.Problem;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
 import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionEntity;
-import ru.hh.school.checkupextension.core.data.nullobject.EmptyProblem;
 import ru.hh.school.checkupextension.core.repository.Repository;
 import ru.hh.school.checkupextension.utils.exception.ProblemNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.SubmissionNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.ProblemMapper;
+import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
 
 public class ContestService {
 
-    private final static Logger LOGGER = getLogger(ContestService.class);
     private final Repository<ProblemEntity> problemRepository;
     private final Repository<SubmissionEntity> submissionRepository;
 
@@ -40,5 +39,43 @@ public class ContestService {
 
         var problem = problemRepository.getById(problemId).orElseThrow(() -> new ProblemNotFoundException(problemId));
         return ProblemMapper.toContestProblem(problem);
+    }
+
+    @Transactional
+    public ContestSubmission createSubmission(String userToken, ContestSubmission submission) {
+        verifyUser(userToken);
+
+        var userId = checkupInteraction.getUserId(userToken);
+        var entity = SubmissionMapper.toNewEntity(userId, submission);
+        var addedEntity = submissionRepository.create(entity);
+
+        return SubmissionMapper.toContestDto(addedEntity);
+    }
+
+    @Transactional
+    public ContestSubmission getSubmission(String userToken, long submissionId) {
+        verifyUser(userToken);
+
+        var submission = getSubmissionById(submissionId);
+        return SubmissionMapper.toContestDto(submission);
+    }
+
+    @Transactional
+    public ContestSubmissionResult getSubmissionStatus(String userToken, long submissionId) {
+        verifyUser(userToken);
+
+        var submission = getSubmissionById(submissionId);
+        return SubmissionMapper.toContestStatusDto(submission);
+    }
+
+    private SubmissionEntity getSubmissionById(long submissionId) {
+         return submissionRepository
+                .getById(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
+    }
+
+    private void verifyUser(String userToken) {
+        if (checkupInteraction.verifyUserToken(userToken))
+            throw new NotAuthorizedException("");
     }
 }
