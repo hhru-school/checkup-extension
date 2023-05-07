@@ -17,7 +17,6 @@ import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKE
 
 @Path("/")
 public class ContestApiResource {
-
     private final ContestService contestService;
 
     @Inject
@@ -52,8 +51,7 @@ public class ContestApiResource {
     @GET
     @Path("/submissions/status/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ContestSubmissionResult getSubmissionStatus(@CookieParam(USER_TOKEN) String userToken,
-                                                       @PathParam("id") long submissionId) {
-        return contestService.getSubmissionStatus(userToken, submissionId);
+    public ContestSubmissionResult getSubmissionStatus(@PathParam("id") long submissionId) {
+        return contestService.getSubmissionStatus(submissionId);
     }
 }
