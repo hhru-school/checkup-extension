@@ -4,7 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.NotAuthorizedException;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.hh.school.checkupextension.core.CheckupInteraction;
+import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
