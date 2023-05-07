@@ -1,4 +1,4 @@
-package ru.hh.school.checkupextension.utils.exception;
+package ru.hh.school.checkupextension.utils.exception.core;
 
 import ru.hh.school.checkupextension.core.data.Problem;
 

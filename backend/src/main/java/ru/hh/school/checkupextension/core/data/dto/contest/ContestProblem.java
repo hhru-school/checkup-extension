@@ -3,12 +3,7 @@ package ru.hh.school.checkupextension.core.data.dto.contest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ContestProblem {
-    public final Long id;
-    public final String condition;
-    public final byte type;
-    public final byte maxAttempts;
-
+public record ContestProblem(Long id, String condition, byte type, byte maxAttempts) {
     @JsonCreator
     public ContestProblem(
             @JsonProperty("Id") Long id,

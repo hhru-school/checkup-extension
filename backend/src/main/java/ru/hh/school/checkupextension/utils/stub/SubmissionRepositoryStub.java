@@ -2,7 +2,7 @@ package ru.hh.school.checkupextension.utils.stub;
 
 import ru.hh.school.checkupextension.core.data.entity.SubmissionEntity;
 import ru.hh.school.checkupextension.core.repository.Repository;
-import ru.hh.school.checkupextension.utils.exception.SubmissionNotFoundException;
+import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;

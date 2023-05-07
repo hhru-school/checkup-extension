@@ -5,16 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestApiResource;
 import ru.hh.school.checkupextension.contest.ContestService;
-import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
-import ru.hh.school.checkupextension.utils.exception.mapper.AuthorizedExceptionMapper;
-import ru.hh.school.checkupextension.utils.exception.mapper.ProblemNotFoundExceptionMapper;
-import ru.hh.school.checkupextension.utils.exception.mapper.SubmissionNotFoundExceptionMapper;
-import ru.hh.school.checkupextension.utils.exception.mapper.VerificationNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.integration.AuthorizedExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
 import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
@@ -29,6 +27,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
         ContestService.class,
 //        AdminService.class,
 
+        // Checkup
         CheckupApiStub.class,
 
         // TODO: Debug
