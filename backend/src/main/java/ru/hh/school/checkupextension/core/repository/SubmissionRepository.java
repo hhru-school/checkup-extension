@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class SubmissionRepository extends GenericRepository<SubmissionEntity> {
-
     @Inject
     public SubmissionRepository(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -23,5 +22,30 @@ public class SubmissionRepository extends GenericRepository<SubmissionEntity> {
     @Override
     public List<SubmissionEntity> getAll() {
         return null;
+    }
+
+    public Optional<SubmissionEntity> getForUserById(long userId, long submissionId) {
+        var query= getSession().createQuery(
+                        """ 
+                              FROM SubmissionEntity s
+                              WHERE s.id = :id AND
+                                    s.user = :user_id
+                           """, SubmissionEntity.class);
+        query.setParameter("id", submissionId);
+        query.setParameter("user_id", userId);
+
+        return Optional.ofNullable(query.uniqueResult());
+    }
+
+    public long getTotalSubmissionsOfTaskForUser(long userId, long taskId) {
+        var query = getSession().createQuery("""
+                                    SELECT count(*)
+                                    FROM SubmissionEntity s
+                                    WHERE s.user = :user_id AND
+                                          s.problem.id = :problem_id
+                                    """);
+        query.setParameter("user_id", userId);
+        query.setParameter("problem_id", taskId);
+        return (long) query.uniqueResult();
     }
 }
