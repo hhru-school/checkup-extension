@@ -9,6 +9,7 @@ import ru.hh.school.checkupextension.contest.ContestApiResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
+import ru.hh.school.checkupextension.utils.exception.mapper.integration.AccessDeniedExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.integration.AuthorizedExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
@@ -40,10 +41,14 @@ public class AppConfiguration {
 
         config.register(ContestApiResource.class);
 
+        // Exceptions mappers
+        // Integration
+        config.register(AuthorizedExceptionMapper.class);
+        config.register(AccessDeniedExceptionMapper.class);
+        // Core
         config.register(VerificationNotFoundExceptionMapper.class);
         config.register(ProblemNotFoundExceptionMapper.class);
         config.register(SubmissionNotFoundExceptionMapper.class);
-        config.register(AuthorizedExceptionMapper.class);
 
         return config;
     }
