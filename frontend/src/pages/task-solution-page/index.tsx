@@ -71,48 +71,52 @@ export const Page = () => {
         </Row>
         <Row gutter={20}>
           <Col span={16}>
-            {task.type === TaskTypes.HTML && (
-              <>
-                <Space
-                  direction="vertical"
-                  size="middle"
-                  style={{ display: "flex" }}
-                >
-                  <Editor
-                    mode="html"
-                    title="HTML"
-                    onChange={handleHtmlEditorChange}
-                  />
-                  <Editor
-                    mode="css"
-                    title="CSS"
-                    onChange={handleCssEditorChange}
-                  />
-                </Space>
-              </>
-            )}
-            {task.type === TaskTypes.JS && (
-              <>
-                <Editor mode="js" title="JS" onChange={handleJsEditorChange} />
-              </>
-            )}
-          </Col>
-          <Col span={8}>
             <Space
               direction="vertical"
               size="middle"
               style={{ display: "flex" }}
             >
+              {task.type === TaskTypes.HTML && (
+                <>
+                  <Space
+                    direction="vertical"
+                    size="middle"
+                    style={{ display: "flex" }}
+                  >
+                    <Editor
+                      mode="html"
+                      title="HTML"
+                      onChange={handleHtmlEditorChange}
+                    />
+                    <Editor
+                      mode="css"
+                      title="CSS"
+                      onChange={handleCssEditorChange}
+                    />
+                  </Space>
+                </>
+              )}
+              {task.type === TaskTypes.JS && (
+                <>
+                  <Editor
+                    mode="js"
+                    title="JS"
+                    onChange={handleJsEditorChange}
+                  />
+                </>
+              )}
               <Button
                 type="primary"
                 block
                 size="large"
                 style={{ margin: "0px" }}
               >
-                {t("button.sent")}
+                {t("button.send")}
               </Button>
-              <History />
             </Space>
+          </Col>
+          <Col span={8}>
+            <History />
           </Col>
         </Row>
       </Space>

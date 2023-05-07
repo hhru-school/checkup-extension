@@ -24,6 +24,7 @@ const stepsItems = [
 ];
 
 export const TaskList: FC = () => {
+  // TODO: show only active task
   const tasks = useSelector((state: StoreType) => state.tasks.tasks);
   return (
     <div>
