@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Класс, отвечающий за определение и обработку HTTP-запросов, связанных с контестом.
  */
-@Path("/contest")
+@Path("/")
 public class ContestApiResource {
     private final ContestService contestService;
 
@@ -33,7 +33,7 @@ public class ContestApiResource {
      * @return - объект типа ContestProblem, представляющий задачу с указанным id
      */
     @GET
-    @Path("/problem/{id}")
+    @Path("task/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ContestProblem getProblem(@PathParam("id")long id) {
         return contestService.getProblem(id);
@@ -44,7 +44,7 @@ public class ContestApiResource {
      * @return - список всех задач
      */
     @GET
-    @Path("/problems")
+    @Path("tasks")
     @Produces(MediaType.APPLICATION_JSON)
     public List<ProblemEntity> getAllProblems() {
         return contestService.getAllProblems();
@@ -54,7 +54,7 @@ public class ContestApiResource {
      * Создает новую задачу на основе переданной информации в теле запроса.
      */
     @POST
-    @Path("/problem")
+    @Path("task")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ProblemEntity createProblem(ProblemEntity problem) {
@@ -65,7 +65,7 @@ public class ContestApiResource {
      * Метод обновляет задачу с указанным id на основе переданной информации в теле запроса.
      */
     @PUT
-    @Path("/problem/{id}")
+    @Path("task/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ProblemEntity updateProblem(@PathParam("id") long id, ProblemEntity problem) {
@@ -76,7 +76,7 @@ public class ContestApiResource {
      * Удаляет задачу с указанным id из базы данных.
      */
     @DELETE
-    @Path("/problem/{id}")
+    @Path("task/{id}")
     public void deleteProblem(@PathParam("id") long id) {
         contestService.deleteProblem(id);
     }
