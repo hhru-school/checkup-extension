@@ -8,20 +8,22 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResu
 
 public class SubmissionMapper {
 
-    public SubmissionEntity toEntity(long userId, ContestSubmission submission) {
-        var status = SubmissionsStatus.valueOf(submission.status).getCode();
+    public static SubmissionEntity toNewEntity(long userId, ContestSubmission submission) {
+        var status = SubmissionsStatus.CHECKED.getCode();
+        var problemId = submission.problemId;
         var solution = extractUserSolution(submission);
 
         var entity = new SubmissionEntity();
-        entity.setStatus(status);
+        entity.setProblem(new ProblemEntity());
         entity.setUser(userId);
-        entity.getProblem().setId(submission.problemId);
+        entity.getProblem().setId(problemId);
+        entity.setStatus(status);
         entity.setSolution(solution);
 
         return entity;
     }
 
-    private SubmissionEntity.UserSolution extractUserSolution(ContestSubmission submission) {
+    private static SubmissionEntity.UserSolution extractUserSolution(ContestSubmission submission) {
         var userSolution = new SubmissionEntity.UserSolution();
         userSolution.setHtmlPart(submission.htmlPart);
         userSolution.setCssPart(submission.cssPart);
