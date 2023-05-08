@@ -1,6 +1,6 @@
 package ru.hh.school.checkupextension.core.data;
 
-import ru.hh.school.checkupextension.core.data.pojo.MyJson;
+import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
 /**
  * table problem:
@@ -25,7 +25,7 @@ public interface Problem {
     void setContent(String content);
     boolean getActive();
     void setActive(boolean active);
-    MyJson getTemplate();
-    void setTemplate(MyJson template);
+    TemplatePojo getTemplate();
+    void setTemplate(TemplatePojo template);
 
 }

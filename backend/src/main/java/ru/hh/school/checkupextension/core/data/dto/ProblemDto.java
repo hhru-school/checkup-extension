@@ -1,6 +1,6 @@
 package ru.hh.school.checkupextension.core.data.dto;
 
-import ru.hh.school.checkupextension.core.data.pojo.MyJson;
+import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
 /**
  * ProblemDto - это класс, который служит для передачи информации о сущности Problem между слоями приложения.
@@ -12,13 +12,13 @@ public class ProblemDto {
   private String description;
   private String content;
   private boolean active;
-  private MyJson template;
+  private TemplatePojo template;
 
   public ProblemDto() {
   }
 
   public ProblemDto(Long id, byte type, String title, String description, String content,
-                    boolean active, MyJson template) {
+                    boolean active, TemplatePojo template) {
     this.id = id;
     this.type = type;
     this.title = title;
@@ -76,11 +76,11 @@ public class ProblemDto {
     this.active = active;
   }
 
-  public MyJson getTemplate() {
+  public TemplatePojo getTemplate() {
     return template;
   }
 
-  public void setTemplate(MyJson template) {
+  public void setTemplate(TemplatePojo template) {
     this.template = template;
   }
 }

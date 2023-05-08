@@ -2,7 +2,7 @@ package ru.hh.school.checkupextension.core.data.dto.contest;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.hh.school.checkupextension.core.data.pojo.MyJson;
+import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
 public class ContestProblem {
     public final Long id;
@@ -11,7 +11,7 @@ public class ContestProblem {
     public final String content;
     public final byte type;
     public final boolean active;
-    public final MyJson template;
+    public final TemplatePojo template;
 
     @JsonCreator
     public ContestProblem(
@@ -21,7 +21,7 @@ public class ContestProblem {
             @JsonProperty("content") String content,
             @JsonProperty("type") byte type,
             @JsonProperty("active") boolean active,
-            @JsonProperty("template") MyJson template) {
+            @JsonProperty("template") TemplatePojo template) {
         this.id = id;
         this.title = title;
         this.description = description;

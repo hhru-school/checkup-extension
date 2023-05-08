@@ -1,7 +1,7 @@
 package ru.hh.school.checkupextension.core.data.nullobject;
 
 import ru.hh.school.checkupextension.core.data.Problem;
-import ru.hh.school.checkupextension.core.data.pojo.MyJson;
+import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
 public class EmptyProblem implements Problem {
     private final static EmptyProblem instance = new EmptyProblem();
@@ -69,12 +69,12 @@ public class EmptyProblem implements Problem {
     }
 
     @Override
-    public MyJson getTemplate() {
+    public TemplatePojo getTemplate() {
         return null;
     }
 
     @Override
-    public void setTemplate(MyJson template) {
+    public void setTemplate(TemplatePojo template) {
 
     }
 

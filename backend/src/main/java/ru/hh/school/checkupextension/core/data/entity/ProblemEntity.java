@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.hh.school.checkupextension.core.data.Problem;
-import ru.hh.school.checkupextension.core.data.pojo.MyJson;
+import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
 import java.util.Objects;
 
@@ -39,7 +39,7 @@ public class ProblemEntity implements Problem {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "template", columnDefinition = "jsonb")
-    private MyJson template;
+    private TemplatePojo template;
 
     public ProblemEntity() {
     }
@@ -105,12 +105,12 @@ public class ProblemEntity implements Problem {
     }
 
     @Override
-    public MyJson getTemplate() {
+    public TemplatePojo getTemplate() {
         return template;
     }
 
     @Override
-    public void setTemplate(MyJson template) {
+    public void setTemplate(TemplatePojo template) {
         this.template = template;
     }
 
