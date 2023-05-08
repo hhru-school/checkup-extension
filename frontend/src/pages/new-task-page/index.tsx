@@ -6,33 +6,56 @@ import {
   Input,
   Select,
   Switch,
-  Space,
+  Alert,
   Tooltip,
   Button,
+  message,
 } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import styles from "./index.module.css";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
-import { TaskTypes } from "../../__data__/slices";
+import { Task, TaskTypes, taskStrings } from "../../__data__/slices/tasks";
 import { MarkdownEditor } from "../../components/md-editor";
 import { CodeEditor } from "../../components/code-editor";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../__data__/store";
+import { addNewTasks } from "../../__data__/slices/new-task";
 
-export const Page = () => {
+export const Page: FC = () => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
-  const [type, setType] = useState(TaskTypes[TaskTypes.JS]);
+  const [type, setType] = useState<TaskTypes>("JS");
   const [active, setActive] = useState(false);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [testValues, setTestValues] = useState<Array<string>>([""]);
-  const [solutionJSValue, setSolutionJSValue] = useState<string>("");
-  const [solutionHTMLValue, setSolutionHTMLValue] = useState<string>("");
-  const [solutionCSSValue, setSolutionCSSValue] = useState<string>("");
-  const [templateJSValue, setTemplateJSValue] = useState<string>("");
-  const [templateHTMLValue, setTemplateHTMLValue] = useState<string>("");
-  const [templateCSSValue, setTemplateCSSValue] = useState<string>("");
+  const [jsSolution, setJsSolution] = useState<string>("");
+  const [htmlSolution, setHtmlSolution] = useState<string>("");
+  const [cssSolution, setCssSolution] = useState<string>("");
+  const [jsTemplate, setJsTemplate] = useState<string>("");
+  const [htmlTemplate, setHtmlTemplate] = useState<string>("");
+  const [cssTemplate, setCssTemplate] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+
+  const loading = useAppSelector((store) => store.newTask.isLoading);
+  const error = useAppSelector((store) => store.newTask.error);
+  const result = useAppSelector((store) => store.newTask.result);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    if (loading) {
+      messageApi.open({
+        type: "loading",
+        content: "Action in progress..",
+        duration: 0,
+      });
+    } else {
+      messageApi.destroy();
+    }
+  }, [loading, messageApi]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -44,10 +67,26 @@ export const Page = () => {
     setDescription(event.target.value);
   };
 
-  const handleSendClick = () => {};
+  const handleSendClick = () => {
+    const task: Task = {
+      type,
+      title,
+      description,
+      content,
+      active,
+      htmlTemplate,
+      cssTemplate,
+      jsTemplate,
+    };
+    dispatch(addNewTasks(task));
+  };
 
   return (
     <>
+      {contextHolder}
+      {error && (
+        <Alert message="Error" description={result} type="error" closable />
+      )}
       <Row align="middle">
         <Col span={20}>
           <Typography.Title className={styles.title} level={1}>
@@ -89,9 +128,10 @@ export const Page = () => {
                     onChange={setType}
                     placeholder={t("type")}
                     className={styles.select}
-                    options={Object.values(TaskTypes)
-                      .filter((value) => typeof value === "string")
-                      .map((value) => ({ value: value, label: value }))}
+                    options={taskStrings.map((value) => ({
+                      value: value,
+                      label: value,
+                    }))}
                   />
                 </Col>
                 <Col span={2} className={styles.col}>
@@ -125,26 +165,26 @@ export const Page = () => {
               <Row gutter={[8, 8]} align="middle">
                 <Col span={24}>
                   <CodeEditor
-                    value={solutionJSValue}
+                    value={jsSolution}
                     language="JavaScript"
                     mode="solution"
-                    onChange={setSolutionJSValue}
+                    onChange={setJsSolution}
                   />
                 </Col>
                 <Col span={24}>
                   <CodeEditor
-                    value={solutionHTMLValue}
+                    value={htmlSolution}
                     language="HTML"
                     mode="solution"
-                    onChange={setSolutionHTMLValue}
+                    onChange={setHtmlSolution}
                   />
                 </Col>
                 <Col span={24}>
                   <CodeEditor
-                    value={solutionCSSValue}
+                    value={cssSolution}
                     language="CSS"
                     mode="solution"
-                    onChange={setSolutionCSSValue}
+                    onChange={setCssSolution}
                   />
                 </Col>
               </Row>
@@ -156,26 +196,26 @@ export const Page = () => {
               <Row gutter={[8, 8]} align="middle">
                 <Col span={24}>
                   <CodeEditor
-                    value={templateJSValue}
+                    value={jsTemplate}
                     language="JavaScript"
                     mode="template"
-                    onChange={setTemplateJSValue}
+                    onChange={setJsTemplate}
                   />
                 </Col>
                 <Col span={24}>
                   <CodeEditor
-                    value={templateHTMLValue}
+                    value={htmlTemplate}
                     language="HTML"
                     mode="template"
-                    onChange={setTemplateHTMLValue}
+                    onChange={setHtmlTemplate}
                   />
                 </Col>
                 <Col span={24}>
                   <CodeEditor
-                    value={templateCSSValue}
+                    value={cssTemplate}
                     language="CSS"
                     mode="template"
-                    onChange={setTemplateCSSValue}
+                    onChange={setCssTemplate}
                   />
                 </Col>
               </Row>

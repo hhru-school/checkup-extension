@@ -3,7 +3,7 @@ import type { ColumnsType } from "antd/es/table";
 import styles from "./index.module.css";
 import { Link } from "react-router-dom";
 import { TabHeader } from "../tab-header";
-import { Task, TaskTypes } from "../../__data__/slices";
+import { Task } from "../../__data__/slices/tasks";
 import { useSelector } from "react-redux";
 import { getTasks } from "../../__data__/selectors";
 import { useTranslation } from "react-i18next";
@@ -32,7 +32,7 @@ export const Tasks = () => {
       title: t("table.column.type"),
       dataIndex: "type",
       key: "type",
-      render: (_, { type }) => t(`task.type.${TaskTypes[type].toLowerCase()}`),
+      render: (_, { type }) => t(`task.type.${type.toLowerCase()}`),
     },
     {
       title: t("table.column.actions"),

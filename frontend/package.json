@@ -10,6 +10,7 @@
     "@uiw/react-md-editor": "^3.20.9",
     "@uiw/react-textarea-code-editor": "^2.1.1",
     "antd": "^5.3.3",
+    "axios": "^1.4.0",
     "i18next": "^22.4.14",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",

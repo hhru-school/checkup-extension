@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tasks from "../json/tasks.json";
 
-export enum TaskTypes {
-  JS = 0,
-  HTML,
-}
+export const taskStrings = ["JS", "HTML"];
+export type TaskTypes = (typeof taskStrings)[number];
 
 export enum TaskProcess {
   PROCESS = 0,
@@ -12,14 +10,27 @@ export enum TaskProcess {
 }
 
 export type Task = {
-  id: number;
+  id?: number;
   type: TaskTypes;
   title: string;
   description: string;
-  step: number;
-  status: TaskProcess;
+  // step: number;
+  // status: TaskProcess;
   content: string;
   active: boolean;
+  htmlTemplate: string;
+  cssTemplate: string;
+  jsTemplate: string;
+};
+
+export type TemplateType = {
+  type: TaskTypes;
+  content: string;
+};
+
+export type SolutionType = {
+  type: TaskTypes;
+  content: string;
 };
 
 type TasksType = {
@@ -54,7 +65,7 @@ const slice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = action.error.message as string;
         state.tasks = [];
       });
   },
