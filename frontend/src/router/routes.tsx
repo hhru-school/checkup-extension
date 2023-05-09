@@ -1,8 +1,9 @@
 import { RouteObject } from "react-router-dom";
 import * as IndexPage from "../pages/index-page";
 import * as ErrorPage from "../pages/error-page";
-import * as TaskEditPage from "../pages/task-edit-page";
+import * as TaskEditPage from "../pages/task-solution-page";
 import * as AdminPage from "../pages/index-page/admin";
+import * as NewTaskPage from "../pages/new-task-page";
 
 export const routes: RouteObject[] = [
   {
@@ -12,6 +13,10 @@ export const routes: RouteObject[] = [
   {
     path: "/admin",
     element: <AdminPage.Admin />,
+  },
+  {
+    path: "/new-task",
+    element: <NewTaskPage.Page />,
   },
   {
     path: "/:id",

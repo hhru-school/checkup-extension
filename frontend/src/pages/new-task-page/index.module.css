@@ -1,0 +1,8 @@
+.select {
+  width: 100%;
+}
+
+.col {
+  display: flex;
+  justify-content: end;
+}

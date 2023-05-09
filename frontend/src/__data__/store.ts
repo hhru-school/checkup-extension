@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
-import { reducer } from "./slices";
+import { reducer as tasksReducer } from "./slices/tasks";
+import { reducer as newTaskReducer } from "./slices/new-task";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-  tasks: reducer,
+  tasks: tasksReducer,
+  newTask: newTaskReducer,
 });
 
 const store = configureStore({
