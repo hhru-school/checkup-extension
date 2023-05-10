@@ -13,6 +13,7 @@ create table if not exists submission (
     user_id bigint,
     problem_id bigint,
     status smallint,
+    request_datetime timestamp,
     solution jsonb,
 
     CONSTRAINT fk_problem

@@ -8,6 +8,8 @@ import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
 
+import java.time.LocalDateTime;
+
 public class SubmissionMapper {
 
     public static SubmissionEntity toNewEntity(long userId, ContestSubmission submission) {
@@ -20,6 +22,7 @@ public class SubmissionMapper {
         entity.setUser(userId);
         entity.getProblem().setId(problemId);
         entity.setStatus(status);
+        entity.setRequestDateTime(LocalDateTime.now());
         entity.setSolution(solution);
 
         return entity;
@@ -42,6 +45,7 @@ public class SubmissionMapper {
                 entity.getId(),
                 entity.getProblem().getId(),
                 status,
+                entity.getRequestDateTime(),
                 solution.getHtmlPart(),
                 solution.getCssPart(),
                 solution.getJsPart()

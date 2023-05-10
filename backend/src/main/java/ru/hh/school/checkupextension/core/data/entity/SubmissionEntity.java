@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -33,6 +34,9 @@ public class SubmissionEntity {
     @JoinColumn(name = "problem_id")
     private ProblemEntity problem;
 
+    @Column(name="request_datetime")
+    private LocalDateTime requestDateTime;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "solution")
     private UserSolution solution;
@@ -46,7 +50,6 @@ public class SubmissionEntity {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -54,7 +57,6 @@ public class SubmissionEntity {
     public Long getUser() {
         return user;
     }
-
     public void setUser(Long user) {
         this.user = user;
     }
@@ -62,7 +64,6 @@ public class SubmissionEntity {
     public ProblemEntity getProblem() {
         return problem;
     }
-
     public void setProblem(ProblemEntity problem) {
         this.problem = problem;
     }
@@ -70,7 +71,6 @@ public class SubmissionEntity {
     public UserSolution getSolution() {
         return solution;
     }
-
     public void setSolution(UserSolution solution) {
         this.solution = solution;
     }
@@ -78,10 +78,12 @@ public class SubmissionEntity {
     public byte getStatus() {
         return status;
     }
-
     public void setStatus(byte status) {
         this.status = status;
     }
+
+    public LocalDateTime getRequestDateTime() { return requestDateTime; }
+    public void setRequestDateTime(LocalDateTime requestDateTime) { this.requestDateTime = requestDateTime; }
 
     @Override
     public boolean equals(Object o) {

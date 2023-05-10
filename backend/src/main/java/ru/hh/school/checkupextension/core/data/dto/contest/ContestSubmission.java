@@ -5,11 +5,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.hh.school.checkupextension.utils.constant.SubmissionJsonPropertyName;
 
+import java.time.LocalDateTime;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContestSubmission {
     public final long id;
     public final long problemId;
     public final String status;
+    public final LocalDateTime requestDate;
+
     public final String htmlPart;
     public final String cssPart;
     public final String jsPart;
@@ -19,12 +23,14 @@ public class ContestSubmission {
             @JsonProperty(SubmissionJsonPropertyName.ID) long id,
             @JsonProperty(SubmissionJsonPropertyName.TASK_ID) Long problemId,
             @JsonProperty(SubmissionJsonPropertyName.STATUS_ID) String status,
+            @JsonProperty(SubmissionJsonPropertyName.REQUEST_DATE_TIME) LocalDateTime requestDate,
             @JsonProperty(SubmissionJsonPropertyName.HTML_CONTENT) String htmlContent,
             @JsonProperty(SubmissionJsonPropertyName.CSS_CONTENT) String cssContent,
             @JsonProperty(SubmissionJsonPropertyName.JS_CONTENT) String jsContent) {
         this.id = id;
         this.problemId = problemId;
         this.status = status;
+        this.requestDate = requestDate;
         this.htmlPart = htmlContent;
         this.cssPart = cssContent;
         this.jsPart = jsContent;
