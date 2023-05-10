@@ -12,6 +12,9 @@ import jakarta.ws.rs.core.MediaType;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfo;
+
+import java.util.List;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
@@ -46,6 +49,15 @@ public class ContestApiResource {
     public ContestSubmission getSubmission(@CookieParam(USER_TOKEN) String userToken,
                                            @PathParam("id") long submissionId) {
         return contestService.getSubmission(userToken, submissionId);
+    }
+
+    @GET
+    @Path("/submissions/task/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ContestSubmissionShortInfo> getUserSubmissionsInfo(
+            @CookieParam(USER_TOKEN) String userToken,
+            @PathParam("id") long problemId) {
+        return contestService.getUserSubmissionsInfo(userToken, problemId);
     }
 
     @GET

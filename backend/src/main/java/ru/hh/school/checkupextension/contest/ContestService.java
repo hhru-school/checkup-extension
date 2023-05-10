@@ -11,6 +11,7 @@ import ru.hh.school.checkupextension.core.checker.ContestManager;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfo;
 import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.Repository;
@@ -19,6 +20,8 @@ import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundExcepti
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.ProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
+
+import java.util.List;
 
 public class ContestService {
     private static final Logger LOGGER = getLogger(ContestService.class);
@@ -75,6 +78,15 @@ public class ContestService {
                 .getForUserById(userInfo.userId(), submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
         return SubmissionMapper.toContestDto(submission);
+    }
+
+    @Transactional
+    public List<ContestSubmissionShortInfo> getUserSubmissionsInfo(String userToken, long problemId) {
+        var userInfo = checkupIntegrator.getUserInfo(userToken);
+        return submissionRepository.getUserSubmissionsShortInfo(userInfo.userId(), problemId)
+                .stream()
+                .map(SubmissionMapper::toContestSubmissionShortInfo)
+                .toList();
     }
 
     @Transactional

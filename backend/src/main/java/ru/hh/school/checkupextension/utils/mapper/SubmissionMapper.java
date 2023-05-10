@@ -1,7 +1,9 @@
 package ru.hh.school.checkupextension.utils.mapper;
 
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfo;
 import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionEntity;
+import ru.hh.school.checkupextension.core.data.entity.SubmissionShortInfoEntity;
 import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
@@ -44,6 +46,10 @@ public class SubmissionMapper {
                 solution.getCssPart(),
                 solution.getJsPart()
         );
+    }
+
+    public static ContestSubmissionShortInfo toContestSubmissionShortInfo(SubmissionShortInfoEntity info) {
+        return new ContestSubmissionShortInfo(info.submissionId(), SubmissionsStatus.getTitleBy(info.status()));
     }
 
     public static ContestSubmissionResult toContestStatusDto(SubmissionEntity submission) {
