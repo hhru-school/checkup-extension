@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import ru.hh.school.checkupextension.contest.ContestApiResource;
 import ru.hh.school.checkupextension.contest.ContestService;
+import ru.hh.school.checkupextension.core.checker.ContestManager;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
 import ru.hh.school.checkupextension.utils.exception.mapper.integration.AccessDeniedExceptionMapper;
@@ -30,6 +31,9 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
         // Checkup
         CheckupApiStub.class,
+
+        // Other
+        ContestManager.class,
 
         // TODO: Debug
         ProblemRepositoryStub.class

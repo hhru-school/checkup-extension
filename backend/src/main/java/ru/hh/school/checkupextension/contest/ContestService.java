@@ -7,6 +7,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.hh.school.checkupextension.core.checker.ContestManager;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmission;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblem;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResult;
@@ -16,7 +17,6 @@ import ru.hh.school.checkupextension.core.repository.Repository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
-import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 import ru.hh.school.checkupextension.utils.mapper.ProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
 
@@ -26,13 +26,16 @@ public class ContestService {
     private final Repository<ProblemEntity> problemRepository;
     private final SubmissionRepository submissionRepository;
 
+    private final ContestManager contestManager;
     private final CheckupInteraction checkupIntegrator;
 
     @Inject
     public ContestService(CheckupInteraction checkupIntegrator,
+                          ContestManager contestManager,
                           Repository<ProblemEntity> problemRepository,
                           SubmissionRepository submissionRepository) {
         this.checkupIntegrator = checkupIntegrator;
+        this.contestManager = contestManager;
         this.problemRepository = problemRepository;
         this.submissionRepository = submissionRepository;
     }
@@ -46,16 +49,17 @@ public class ContestService {
     @Transactional
     public ContestSubmission createSubmission(String userToken, ContestSubmission submission) {
         var userInfo = checkupIntegrator.getUserInfo(userToken);
-        var problemId= submission.problemId;
         var userId = userInfo.userId();
+
+        var problemId= submission.problemId;
         var problem = problemRepository
                 .getById(problemId)
                 .orElseThrow(() -> new ProblemNotFoundException(problemId));
+
         var totalSubmissions = submissionRepository.getTotalSubmissionsOfTaskForUser(userId, problemId);
+
         LOGGER.info("Total submissions {} [max: {}] from user {}", totalSubmissions, problem.getMaxAttempts(), userId);
-        if (totalSubmissions > problem.getMaxAttempts() ||
-            !checkupIntegrator.userHasTimeToSolveProblems(userId))
-            throw new AccessDeniedException();
+        contestManager.allowSolvingProblem(userId, totalSubmissions, problem);
 
         var entity = SubmissionMapper.toNewEntity(userId, submission);
         var addedEntity = submissionRepository.create(entity);
