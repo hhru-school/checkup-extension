@@ -22,114 +22,147 @@ import java.util.Objects;
 @Table(name = "submission")
 public class SubmissionEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "submission_id")
+  private Long id;
 
-    @Column(name = "user_id")
-    private Long user;
+  @Column(name = "user_id")
+  private Long user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "problem_id")
-    private ProblemEntity problem;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "problem_id")
+  private ProblemEntity problem;
 
-    @Column(name="request_datetime")
-    private LocalDateTime requestDateTime;
+  @Column(name = "creation_datetime")
+  private LocalDateTime creationDateTime;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "solution")
-    private UserSolution solution;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "solution")
+  private UserSolution solution;
 
-    @Column(name = "status")
-    private byte status;
+  @Column(name = "status")
+  private byte status;
 
-    public SubmissionEntity() {
+  public SubmissionEntity() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getUser() {
+    return user;
+  }
+
+  public void setUser(Long user) {
+    this.user = user;
+  }
+
+  public ProblemEntity getProblem() {
+    return problem;
+  }
+
+  public void setProblem(ProblemEntity problem) {
+    this.problem = problem;
+  }
+
+  public UserSolution getSolution() {
+    return solution;
+  }
+
+  public void setSolution(UserSolution solution) {
+    this.solution = solution;
+  }
+
+  public byte getStatus() {
+    return status;
+  }
+
+  public void setStatus(byte status) {
+    this.status = status;
+  }
+
+  public LocalDateTime getCreationDateTime() {
+    return creationDateTime;
+  }
+
+  public void setCreationDateTime(LocalDateTime creationDateTime) {
+    this.creationDateTime = creationDateTime;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+    SubmissionEntity that = (SubmissionEntity) o;
+    return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(problem, that.problem)
+        && Objects.equals(solution, that.solution) && Objects.equals(status, that.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, user, problem, solution, status);
+  }
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public static class UserSolution {
+    @JsonProperty("html")
+    private String htmlPart;
+    @JsonProperty("css")
+    private String cssPart;
+    @JsonProperty("js")
+    private String jsPart;
+
+    public void setHtmlPart(String htmlPart) {
+      this.htmlPart = htmlPart;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
+    public String getHtmlPart() {
+      return this.htmlPart;
     }
 
-    public Long getUser() {
-        return user;
-    }
-    public void setUser(Long user) {
-        this.user = user;
+    public void setCssPart(String cssPart) {
+      this.cssPart = cssPart;
     }
 
-    public ProblemEntity getProblem() {
-        return problem;
-    }
-    public void setProblem(ProblemEntity problem) {
-        this.problem = problem;
+    public String getCssPart() {
+      return this.cssPart;
     }
 
-    public UserSolution getSolution() {
-        return solution;
-    }
-    public void setSolution(UserSolution solution) {
-        this.solution = solution;
+    public void setJsPart(String jsPart) {
+      this.jsPart = jsPart;
     }
 
-    public byte getStatus() {
-        return status;
+    public String getJsPart() {
+      return this.jsPart;
     }
-    public void setStatus(byte status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getRequestDateTime() { return requestDateTime; }
-    public void setRequestDateTime(LocalDateTime requestDateTime) { this.requestDateTime = requestDateTime; }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubmissionEntity that = (SubmissionEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(problem, that.problem)
-                && Objects.equals(solution, that.solution) && Objects.equals(status, that.status);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+      var that = (UserSolution) obj;
+      return Objects.equals(this.htmlPart, that.htmlPart) &&
+          Objects.equals(this.cssPart, that.cssPart) &&
+          Objects.equals(this.jsPart, that.jsPart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, problem, solution, status);
+      return Objects.hash(this.htmlPart, this.cssPart, this.jsPart);
     }
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class UserSolution {
-        @JsonProperty("html")
-        private String htmlPart;
-        @JsonProperty("css")
-        private String cssPart;
-        @JsonProperty("js")
-        private String jsPart;
-
-        public void setHtmlPart(String htmlPart) { this.htmlPart = htmlPart; }
-        public String getHtmlPart() { return this.htmlPart; }
-
-        public void setCssPart(String cssPart) { this.cssPart = cssPart; }
-        public String getCssPart() { return this.cssPart; }
-
-        public void setJsPart(String jsPart) { this.jsPart = jsPart; }
-        public String getJsPart() { return this.jsPart; }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            var that = (UserSolution) obj;
-            return Objects.equals(this.htmlPart, that.htmlPart) &&
-                    Objects.equals(this.cssPart, that.cssPart) &&
-                    Objects.equals(this.jsPart, that.jsPart);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.htmlPart, this.cssPart, this.jsPart);
-        }
-    }
+  }
 }

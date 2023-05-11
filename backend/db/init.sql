@@ -2,23 +2,23 @@ SELECT 'CREATE DATABASE checkup_extension'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'checkup_extension')\gexec
 
 create table if not exists problem (
-    id serial primary key,
+    problem_id serial primary key,
     condition varchar(255),
     max_attempts smallint,
     type smallint
 );
 
 create table if not exists submission (
-    id serial primary key,
+    submission_id serial primary key,
     user_id bigint,
     problem_id bigint,
     status smallint,
-    request_datetime timestamp,
+    creation_datetime timestamp,
     solution jsonb,
 
-    CONSTRAINT fk_problem
+    CONSTRAINT submission_problem_fk
         FOREIGN KEY (problem_id)
-        REFERENCES problem(id)
+        REFERENCES problem(problem_id)
 );
 
 create table if not exists verification (
@@ -26,7 +26,7 @@ create table if not exists verification (
     content varchar(255),
     problem_id bigint,
 
-    CONSTRAINT fk_problem
+    CONSTRAINT verification_problem_fk
         FOREIGN KEY (problem_id)
-        REFERENCES problem(id)
+        REFERENCES problem(problem_id)
 );
