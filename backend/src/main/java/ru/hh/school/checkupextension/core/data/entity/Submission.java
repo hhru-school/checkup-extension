@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "submission")
-public class SubmissionEntity {
+public class Submission {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class SubmissionEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "problem_id")
-  private ProblemEntity problem;
+  private Problem problem;
 
   @Column(name = "creation_datetime")
   private LocalDateTime creationDateTime;
@@ -44,7 +44,7 @@ public class SubmissionEntity {
   @Column(name = "status")
   private byte status;
 
-  public SubmissionEntity() {
+  public Submission() {
   }
 
   public Long getId() {
@@ -63,11 +63,11 @@ public class SubmissionEntity {
     this.user = user;
   }
 
-  public ProblemEntity getProblem() {
+  public Problem getProblem() {
     return problem;
   }
 
-  public void setProblem(ProblemEntity problem) {
+  public void setProblem(Problem problem) {
     this.problem = problem;
   }
 
@@ -97,13 +97,13 @@ public class SubmissionEntity {
 
   @Override
   public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-          return false;
-      }
-    SubmissionEntity that = (SubmissionEntity) o;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Submission that = (Submission) o;
     return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(problem, that.problem)
         && Objects.equals(solution, that.solution) && Objects.equals(status, that.status);
   }
@@ -148,12 +148,12 @@ public class SubmissionEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
       var that = (UserSolution) obj;
       return Objects.equals(this.htmlPart, that.htmlPart) &&
           Objects.equals(this.cssPart, that.cssPart) &&
