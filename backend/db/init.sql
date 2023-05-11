@@ -23,7 +23,7 @@ create table if not exists submission (
 
 create table if not exists verification (
     id serial primary key,
-    content varchar(255),
+    content jsonb,
     problem_id bigint,
 
     CONSTRAINT verification_problem_fk

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import ru.hh.school.checkupextension.contest.ContestApiResource;
+import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
@@ -20,40 +20,40 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
-        // Repository
-        VerificationRepository.class,
+    // Repository
 //        ProblemRepository.class,
-        SubmissionRepository.class,
+    SubmissionRepository.class,
+    VerificationRepository.class,
 
-        // Services
-        ContestService.class,
-//        AdminService.class,
+    // Services
+    ContestService.class,
+//    AdminService.class,
 
-        // Checkup
-        CheckupApiStub.class,
+    // Checkup
+    CheckupApiStub.class,
 
-        // Other
-        ContestManager.class,
+    // Other
+    ContestManager.class,
 
-        // TODO: Debug
-        ProblemRepositoryStub.class
+    // TODO: Debug
+    ProblemRepositoryStub.class
 })
 public class AppConfiguration {
-    @Bean
-    public ResourceConfig jerseyConfig() {
-        var config = new ResourceConfig();
+  @Bean
+  public ResourceConfig jerseyConfig() {
+    var config = new ResourceConfig();
 
-        config.register(ContestApiResource.class);
+    config.register(ContestResource.class);
 
-        // Exceptions mappers
-        // Integration
-        config.register(AuthorizedExceptionMapper.class);
-        config.register(AccessDeniedExceptionMapper.class);
-        // Core
-        config.register(VerificationNotFoundExceptionMapper.class);
-        config.register(ProblemNotFoundExceptionMapper.class);
-        config.register(SubmissionNotFoundExceptionMapper.class);
+    // Exceptions mappers
+    // Integration
+    config.register(AuthorizedExceptionMapper.class);
+    config.register(AccessDeniedExceptionMapper.class);
+    // Core
+    config.register(VerificationNotFoundExceptionMapper.class);
+    config.register(ProblemNotFoundExceptionMapper.class);
+    config.register(SubmissionNotFoundExceptionMapper.class);
 
-        return config;
-    }
+    return config;
+  }
 }

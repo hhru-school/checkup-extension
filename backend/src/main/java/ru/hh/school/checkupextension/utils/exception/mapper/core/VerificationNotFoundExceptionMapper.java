@@ -7,11 +7,10 @@ import ru.hh.school.checkupextension.utils.exception.core.VerificationNotFoundEx
 
 @Provider
 public class VerificationNotFoundExceptionMapper implements ExceptionMapper<VerificationNotFoundException> {
-
-    @Override
-    public Response toResponse(VerificationNotFoundException exception) {
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity(exception.getMessage())
-                .build();
-    }
+  @Override
+  public Response toResponse(VerificationNotFoundException exception) {
+    return Response.status(Response.Status.NOT_FOUND)
+        .entity(exception.getMessage())
+        .build();
+  }
 }

@@ -1,44 +1,44 @@
 package ru.hh.school.checkupextension.utils.stub;
 
-import ru.hh.school.checkupextension.core.data.entity.ProblemEntity;
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ProblemRepositoryStub implements Repository<ProblemEntity> {
-    @Override
-    public Optional<ProblemEntity> getById(Long id) {
-        var problem = new ProblemEntity();
-        problem.setId(1L);
-        problem.setCondition("""
-                {
-                    Statement: "markdown",
-                    Screenshot: "url"
-                }
-                """);
-        problem.setType((byte) 1);
-        problem.setMaxAttempts((short)15);
-        return Optional.of(problem);
-    }
+public class ProblemRepositoryStub implements Repository<Problem> {
+  @Override
+  public Optional<Problem> getById(Long id) {
+    var problem = new Problem();
+    problem.setId(1L);
+    problem.setCondition("""
+        {
+            Statement: "markdown",
+            Screenshot: "url"
+        }
+        """);
+    problem.setType((byte) 1);
+    problem.setMaxAttempts((short) 15);
+    return Optional.of(problem);
+  }
 
-    @Override
-    public ProblemEntity create(ProblemEntity problem) {
-        return null;
-    }
+  @Override
+  public Problem create(Problem problem) {
+    return null;
+  }
 
-    @Override
-    public ProblemEntity update(ProblemEntity problem) {
-        return null;
-    }
+  @Override
+  public Problem update(Problem problem) {
+    return null;
+  }
 
-    @Override
-    public void delete(Long id) {
+  @Override
+  public void delete(Long id) {
 
-    }
+  }
 
-    @Override
-    public List<ProblemEntity> getAll() {
-        return null;
-    }
+  @Override
+  public List<Problem> getAll() {
+    return null;
+  }
 }

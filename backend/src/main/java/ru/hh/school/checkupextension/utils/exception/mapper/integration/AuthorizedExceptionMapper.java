@@ -8,8 +8,8 @@ import ru.hh.school.checkupextension.utils.exception.integration.AuthorizedExcep
 
 @Provider
 public class AuthorizedExceptionMapper implements ExceptionMapper<AuthorizedException> {
-    @Override
-    public Response toResponse(AuthorizedException exception) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
+  @Override
+  public Response toResponse(AuthorizedException exception) {
+    return Response.status(Response.Status.UNAUTHORIZED).build();
+  }
 }

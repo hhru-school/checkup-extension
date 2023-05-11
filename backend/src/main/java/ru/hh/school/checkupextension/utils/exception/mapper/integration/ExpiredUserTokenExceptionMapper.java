@@ -7,8 +7,8 @@ import ru.hh.school.checkupextension.utils.exception.integration.ExpiredUserToke
 
 @Provider
 public class ExpiredUserTokenExceptionMapper implements ExceptionMapper<ExpiredUserTokenException> {
-    @Override
-    public Response toResponse(ExpiredUserTokenException exception) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
+  @Override
+  public Response toResponse(ExpiredUserTokenException exception) {
+    return Response.status(Response.Status.UNAUTHORIZED).build();
+  }
 }

@@ -7,5 +7,5 @@ public class SubmissionJsonPropertyName {
     public static final String HTML_CONTENT = "htmlContent";
     public static final String CSS_CONTENT = "cssContent";
     public static final String JS_CONTENT = "jsContent";
-    public static final String REQUEST_DATE_TIME = "date";
+    public static final String CREATION_DATE_TIME = "date";
 }

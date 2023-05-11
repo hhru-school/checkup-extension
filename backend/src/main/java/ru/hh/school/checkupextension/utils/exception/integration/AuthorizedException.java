@@ -1,4 +1,3 @@
 package ru.hh.school.checkupextension.utils.exception.integration;
 
-public class AuthorizedException extends RuntimeException {
-}
+public class AuthorizedException extends RuntimeException { }

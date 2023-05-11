@@ -7,8 +7,8 @@ import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedExc
 
 @Provider
 public class AccessDeniedExceptionMapper implements ExceptionMapper<AccessDeniedException> {
-    @Override
-    public Response toResponse(AccessDeniedException exception) {
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
+  @Override
+  public Response toResponse(AccessDeniedException exception) {
+    return Response.status(Response.Status.NOT_FOUND).build();
+  }
 }
