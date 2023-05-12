@@ -39,7 +39,7 @@ public class SubmissionRepository extends GenericRepository<Submission> {
     return getSession().createQuery("""
              SELECT
               new ru.hh.school.checkupextension.core.data.entity.SubmissionShortInfo(s.id, s.status)
-             FROM SubmissionEntity s
+             FROM Submission s
              WHERE s.user = :user_id AND
                    s.problem.id = :problem_id
         """, SubmissionShortInfo.class).setParameter("user_id", userId).setParameter("problem_id", problemId).list();
