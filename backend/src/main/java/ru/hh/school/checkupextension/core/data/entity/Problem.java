@@ -65,8 +65,12 @@ public class Problem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
     Problem that = (Problem) o;
     return Objects.equals(id, that.id) && Objects.equals(condition, that.condition) && Objects.equals(type, that.type)
         && Objects.equals(maxAttempts, that.maxAttempts);

@@ -57,8 +57,12 @@ public class Verification {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
     Verification that = (Verification) o;
     return Objects.equals(id, that.id) && Objects.equals(problem, that.problem)
         && Objects.equals(content, that.content);

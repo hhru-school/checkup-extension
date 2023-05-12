@@ -5,7 +5,6 @@ services:
     volumes:
       - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-    ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
@@ -32,5 +31,3 @@ services:
       - "8080:8080"
     depends_on:
       - backend
-
-

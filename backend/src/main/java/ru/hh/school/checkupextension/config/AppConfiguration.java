@@ -5,48 +5,54 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import ru.hh.school.checkupextension.core.data.controller.ProblemResource;
-import ru.hh.school.checkupextension.core.data.controller.SubmissionResource;
-import ru.hh.school.checkupextension.core.data.controller.VerificationResource;
-import ru.hh.school.checkupextension.core.data.daoimpl.ProblemDaoImpl;
-import ru.hh.school.checkupextension.core.data.daoimpl.SubmissionDaoImpl;
-import ru.hh.school.checkupextension.core.data.daoimpl.VerificationDaoImpl;
-import ru.hh.school.checkupextension.core.data.service.ProblemService;
-import ru.hh.school.checkupextension.core.data.service.SubmissionService;
-import ru.hh.school.checkupextension.core.data.service.VerificationService;
-import ru.hh.school.checkupextension.utils.exception.mapper.AuthorizedExceptionMapper;
-import ru.hh.school.checkupextension.contest.ContestApiResource;
+import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
-import ru.hh.school.checkupextension.utils.exception.mapper.ProblemNotFoundExceptionMapper;
-import ru.hh.school.checkupextension.utils.exception.mapper.SubmissionNotFoundExceptionMapper;
-import ru.hh.school.checkupextension.utils.exception.mapper.VerificationNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
+import ru.hh.school.checkupextension.core.repository.VerificationRepository;
+import ru.hh.school.checkupextension.utils.exception.mapper.integration.AccessDeniedExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.integration.AuthorizedExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.core.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
+import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
-    VerificationDaoImpl.class,
-    VerificationService.class,
-    ProblemDaoImpl.class,
-    ProblemService.class,
-    SubmissionDaoImpl.class,
-    SubmissionService.class,
+    // Repository
+//        ProblemRepository.class,
+    SubmissionRepository.class,
+    VerificationRepository.class,
+
+    // Services
     ContestService.class,
+//    AdminService.class,
+
+    // Checkup
     CheckupApiStub.class,
+
+    // Other
+    ContestManager.class,
+
+    // TODO: Debug
+    ProblemRepositoryStub.class
 })
 public class AppConfiguration {
   @Bean
   public ResourceConfig jerseyConfig() {
     var config = new ResourceConfig();
 
-    config.register(VerificationResource.class);
-    config.register(ProblemResource.class);
-    config.register(SubmissionResource.class);
-    config.register(ContestApiResource.class);
+    config.register(ContestResource.class);
 
+    // Exceptions mappers
+    // Integration
+    config.register(AuthorizedExceptionMapper.class);
+    config.register(AccessDeniedExceptionMapper.class);
+    // Core
     config.register(VerificationNotFoundExceptionMapper.class);
     config.register(ProblemNotFoundExceptionMapper.class);
     config.register(SubmissionNotFoundExceptionMapper.class);
-    config.register(AuthorizedExceptionMapper.class);
 
     return config;
   }
