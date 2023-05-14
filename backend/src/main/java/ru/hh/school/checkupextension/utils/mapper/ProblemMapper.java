@@ -6,12 +6,16 @@ import ru.hh.school.checkupextension.core.data.entity.Problem;
 public class ProblemMapper {
   public static ContestProblemDto toContestProblem(Problem problem) {
     var res = new ContestProblemDto(
-        problem.getId(),
-        problem.getCondition(),
-        problem.getType(),
-        problem.getType()
+            problem.getId(),
+            problem.getTitle(),
+            problem.getDescription(),
+            problem.getContent(),
+            problem.getType(),
+            problem.getMaxAttempts(),
+            problem.getActive(),
+            problem.getTemplate()
     );
-
     return res;
   }
+
 }

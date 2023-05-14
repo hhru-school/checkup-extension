@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
 import ru.hh.school.checkupextension.utils.exception.mapper.integration.AccessDeniedExceptionMapper;
@@ -21,7 +22,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 @Configuration
 @Import({
     // Repository
-//        ProblemRepository.class,
+    ProblemRepository.class,
     SubmissionRepository.class,
     VerificationRepository.class,
 
@@ -36,7 +37,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
     ContestManager.class,
 
     // TODO: Debug
-    ProblemRepositoryStub.class
+//    ProblemRepositoryStub.class
 })
 public class AppConfiguration {
   @Bean

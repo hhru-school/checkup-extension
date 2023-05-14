@@ -23,6 +23,10 @@ import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
 
 import java.util.List;
 
+/**
+ * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,
+ * связанных с контестом.
+ */
 public class ContestService {
   private static final Logger LOGGER = getLogger(ContestService.class);
 
@@ -49,6 +53,27 @@ public class ContestService {
   public ContestProblemDto getProblem(Long problemId) {
     var problem = problemRepository.getById(problemId).orElseThrow(() -> new ProblemNotFoundException(problemId));
     return ProblemMapper.toContestProblem(problem);
+  }
+
+  @Transactional
+  public List<Problem> getAllProblems() {
+    return problemRepository.getAll();
+  }
+
+  @Transactional
+  public ContestProblemDto createProblem(Problem problem) {
+    return ProblemMapper.toContestProblem(problemRepository.create(problem));
+  }
+
+  @Transactional
+  public ContestProblemDto updateProblem(long id, Problem problem) {
+    problem.setId(id);
+    return ProblemMapper.toContestProblem(problemRepository.update(problem));
+  }
+
+  @Transactional
+  public void deleteProblem(long id) {
+    problemRepository.delete(id);
   }
 
   @Transactional

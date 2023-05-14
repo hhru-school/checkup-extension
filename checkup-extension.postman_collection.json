@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "88a77b7f-67f1-4141-970c-4c24f3e41327",
+		"name": "checkup-extension",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "task request",
+			"item": [
+				{
+					"name": "create new task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/task",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get task by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/task/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/tasks",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/task/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "запросы для сущности Проблем/Таск\nпротестированы, работают\nтребуют параметризации"
+		},
+		{
+			"name": "submission request",
+			"item": [
+				{
+					"name": "send submission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": 1,\r\n  \"problem_id\": 1,\r\n  \"request_datetime\": 1,\r\n  \"status\": 1,\r\n  \"solution\": {\r\n    \"value\": \"value1\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/submissions",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"submissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get submission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/submissions/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"submissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user submission info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/submissions/task/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"submissions",
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get submission status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/submissions/task/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"submissions",
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "запросы для сущности Сабмишен/Решение\nнепротестированы\nтребуют параметризации"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8081",
+			"type": "default"
+		}
+	]
+}
