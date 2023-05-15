@@ -20,7 +20,8 @@ public class ProblemRepository extends GenericRepository<Problem> {
 
   @Override
   public List<Problem> getAll() {
-    return getSession().createQuery("SELECT p FROM Problem p", Problem.class).getResultList();
+    return getSession().createQuery("SELECT p FROM ru.hh.school.checkupextension.core.data.entity.Problem p",
+            Problem.class).getResultList();
   }
 
   @Override

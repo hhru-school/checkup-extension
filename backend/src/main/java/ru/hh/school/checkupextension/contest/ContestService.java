@@ -14,7 +14,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResu
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
-import ru.hh.school.checkupextension.core.repository.Repository;
+import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
@@ -30,7 +30,7 @@ import java.util.List;
 public class ContestService {
   private static final Logger LOGGER = getLogger(ContestService.class);
 
-  private final Repository<Problem> problemRepository;
+  private final ProblemRepository problemRepository;
   private final SubmissionRepository submissionRepository;
 
   private final ContestManager contestManager;
@@ -40,7 +40,7 @@ public class ContestService {
   public ContestService(
       CheckupInteraction checkupIntegrator,
       ContestManager contestManager,
-      Repository<Problem> problemRepository,
+      ProblemRepository problemRepository,
       SubmissionRepository submissionRepository
   ) {
     this.checkupIntegrator = checkupIntegrator;

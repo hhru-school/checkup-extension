@@ -1,6 +1,7 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.DELETE;
@@ -39,9 +40,9 @@ public class ContestResource {
    * @return - объект типа ContestProblem, представляющий задачу с указанным id
    */
   @GET
-  @Path("task/{id}")
+  @Path("task/{problem_id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto getProblem(@PathParam("id")long id) {
+  public ContestProblemDto getProblem(@PathParam("problem_id")long id) {
     return contestService.getProblem(id);
   }
 
@@ -63,7 +64,7 @@ public class ContestResource {
   @Path("task")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto createProblem(Problem problem) {
+  public ContestProblemDto createProblem(@Valid Problem problem) {
     return contestService.createProblem(problem);
   }
 

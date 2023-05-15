@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"type\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"type\": 2,\r\n  \"max_attempts\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -51,7 +51,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "19"
 								}
 							]
 						}
