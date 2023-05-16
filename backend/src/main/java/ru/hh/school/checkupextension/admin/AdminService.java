@@ -1,7 +1,6 @@
 package ru.hh.school.checkupextension.admin;
 
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableTaskDto;
-import ru.hh.school.checkupextension.core.data.dto.admin.ShortEditableTaskInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
@@ -16,12 +15,12 @@ public class AdminService {
     this.problemRepository = problemRepository;
   }
 
-  public ShortEditableTaskInfoDto createNewTask(String userToken, EditableTaskDto taskDto) {
+  public EditableTaskDto createNewTask(String userToken, EditableTaskDto taskDto) {
     checkPermission(userToken);
 
     var task = EditableTaskMapper.toEntity(taskDto);
     var addedTask = problemRepository.create(task);
-    return EditableTaskMapper.toShortEditableTaskInfoDto(addedTask);
+    return EditableTaskMapper.toEditableTaskDto(addedTask);
   }
 
   public void checkPermission(String userToken) {

@@ -8,7 +8,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableTaskDto;
-import ru.hh.school.checkupextension.core.data.dto.admin.ShortEditableTaskInfoDto;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
@@ -25,7 +24,7 @@ public class AdminResource {
   @Path("/tasks")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ShortEditableTaskInfoDto createNewTask(
+  public EditableTaskDto createNewTask(
       @CookieParam(USER_TOKEN) String userToken,
       EditableTaskDto taskDto) {
     return adminService.createNewTask(userToken, taskDto);
