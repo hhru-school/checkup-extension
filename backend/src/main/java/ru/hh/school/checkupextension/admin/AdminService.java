@@ -19,6 +19,7 @@ public class AdminService {
     checkPermission(userToken);
 
     var task = EditableTaskMapper.toEntity(taskDto);
+    // TODO: Add cascade for the entity
     var addedTask = problemRepository.create(task);
     return EditableTaskMapper.toEditableTaskDto(addedTask);
   }
