@@ -1,14 +1,20 @@
 package ru.hh.school.checkupextension.admin;
 
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.integration.UserInfo;
+import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 
 public class AdminApiTest {
@@ -18,13 +24,22 @@ public class AdminApiTest {
 
   @BeforeAll
   static void init() {
-    CheckupInteraction checkupInteraction = Mockito.mock(CheckupInteraction.class);
-    Mockito.when(checkupInteraction.getUserInfo(ADMIN_TOKEN))
+    var checkupInteraction = mock(CheckupInteraction.class);
+    when(checkupInteraction.getUserInfo(ADMIN_TOKEN))
         .thenReturn(new UserInfo(0, true));
-    Mockito.when(checkupInteraction.getUserInfo(NOT_ADMIN_TOKEN))
+    when(checkupInteraction.getUserInfo(NOT_ADMIN_TOKEN))
         .thenReturn(new UserInfo(1, false));
 
-    adminService = new AdminService(checkupInteraction);
+    var problemRepository = Mockito.mock(ProblemRepository.class);
+    when(problemRepository.create(any(Problem.class)))
+        .thenAnswer(i ->
+        {
+          var problem = (Problem)i.getArgument(0);
+          problem.setId(1L);
+          return problem;
+        });
+
+    adminService = new AdminService(checkupInteraction, problemRepository);
   }
 
   @Test
