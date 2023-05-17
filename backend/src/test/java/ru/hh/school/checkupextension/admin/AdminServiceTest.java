@@ -17,7 +17,7 @@ import ru.hh.school.checkupextension.core.integration.UserInfo;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 
-public class AdminApiTest {
+public class AdminServiceTest {
   private final static String NOT_ADMIN_TOKEN = "not admin";
   private final static String ADMIN_TOKEN = "admin";
   private static AdminService adminService;
