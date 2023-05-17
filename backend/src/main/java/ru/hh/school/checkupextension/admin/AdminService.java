@@ -1,10 +1,10 @@
 package ru.hh.school.checkupextension.admin;
 
-import ru.hh.school.checkupextension.core.data.dto.admin.EditableTaskDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
-import ru.hh.school.checkupextension.utils.mapper.admin.EditableTaskMapper;
+import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
 public class AdminService {
   private final CheckupInteraction checkupInteraction;
@@ -15,19 +15,20 @@ public class AdminService {
     this.problemRepository = problemRepository;
   }
 
-  public EditableTaskDto createNewTask(String userToken, EditableTaskDto taskDto) {
+  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
     checkPermission(userToken);
 
-    var task = EditableTaskMapper.toEntity(taskDto);
+    var problem = EditableProblemMapper.toEntity(problemDto);
     // TODO: Add cascade for the entity
-    var addedTask = problemRepository.create(task);
-    return EditableTaskMapper.toEditableTaskDto(addedTask);
+    var addedProblem = problemRepository.create(problem);
+    return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }
 
   public void checkPermission(String userToken) {
     var user = checkupInteraction.getUserInfo(userToken);
 
-    if (!user.isAdmin())
+    if (!user.isAdmin()) {
       throw new AccessDeniedException();
+    }
   }
 }

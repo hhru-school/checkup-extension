@@ -7,7 +7,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import ru.hh.school.checkupextension.core.data.dto.admin.EditableTaskDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
@@ -21,12 +21,12 @@ public class AdminResource {
   }
 
   @POST
-  @Path("/tasks")
+  @Path("/problem")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public EditableTaskDto createNewTask(
+  public EditableProblemDto createNewProblem(
       @CookieParam(USER_TOKEN) String userToken,
-      EditableTaskDto taskDto) {
-    return adminService.createNewTask(userToken, taskDto);
+      EditableProblemDto problemDto) {
+    return adminService.createNewProblem(userToken, problemDto);
   }
 }

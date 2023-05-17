@@ -7,7 +7,7 @@ import java.util.List;
 import ru.hh.school.checkupextension.utils.constant.TaskDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EditableTaskDto {
+public class EditableProblemDto {
   public final long Id;
   public final String type;
   public final String title;
@@ -22,7 +22,7 @@ public class EditableTaskDto {
   public final List<EditableVerificationDto> test;
 
   @JsonCreator
-  public EditableTaskDto(
+  public EditableProblemDto(
       @JsonProperty(TaskDtoJsonPropertyName.ID) long taskId,
       @JsonProperty(TaskDtoJsonPropertyName.TYPE_ID) String type,
       @JsonProperty(TaskDtoJsonPropertyName.TITLE) String title,
