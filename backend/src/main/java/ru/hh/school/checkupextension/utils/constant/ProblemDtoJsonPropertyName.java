@@ -3,7 +3,7 @@ package ru.hh.school.checkupextension.utils.constant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TaskDtoJsonPropertyName {
+public class ProblemDtoJsonPropertyName {
   public static final String ID = "id";
   public static final String TYPE_ID = "typeId";
   public static final String TITLE = "title";

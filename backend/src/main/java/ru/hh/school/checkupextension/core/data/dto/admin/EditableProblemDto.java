@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import ru.hh.school.checkupextension.utils.constant.TaskDtoJsonPropertyName;
+import ru.hh.school.checkupextension.utils.constant.ProblemDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EditableProblemDto {
@@ -23,19 +23,19 @@ public class EditableProblemDto {
 
   @JsonCreator
   public EditableProblemDto(
-      @JsonProperty(TaskDtoJsonPropertyName.ID) long taskId,
-      @JsonProperty(TaskDtoJsonPropertyName.TYPE_ID) String type,
-      @JsonProperty(TaskDtoJsonPropertyName.TITLE) String title,
-      @JsonProperty(TaskDtoJsonPropertyName.DESCRIPTION) String description,
-      @JsonProperty(TaskDtoJsonPropertyName.HTML_PART) String htmlPart,
-      @JsonProperty(TaskDtoJsonPropertyName.CSS_PART) String cssPart,
-      @JsonProperty(TaskDtoJsonPropertyName.JS_PART) String jsPart,
-      @JsonProperty(TaskDtoJsonPropertyName.HTML_TEMPLATE) String htmlTemplate,
-      @JsonProperty(TaskDtoJsonPropertyName.CSS_TEMPLATE) String cssTemplate,
-      @JsonProperty(TaskDtoJsonPropertyName.JS_TEMPLATE) String jsTemplate,
-      @JsonProperty(TaskDtoJsonPropertyName.TEST) List<EditableVerificationDto> test
+      @JsonProperty(ProblemDtoJsonPropertyName.ID) long problemId,
+      @JsonProperty(ProblemDtoJsonPropertyName.TYPE_ID) String type,
+      @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
+      @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
+      @JsonProperty(ProblemDtoJsonPropertyName.HTML_PART) String htmlPart,
+      @JsonProperty(ProblemDtoJsonPropertyName.CSS_PART) String cssPart,
+      @JsonProperty(ProblemDtoJsonPropertyName.JS_PART) String jsPart,
+      @JsonProperty(ProblemDtoJsonPropertyName.HTML_TEMPLATE) String htmlTemplate,
+      @JsonProperty(ProblemDtoJsonPropertyName.CSS_TEMPLATE) String cssTemplate,
+      @JsonProperty(ProblemDtoJsonPropertyName.JS_TEMPLATE) String jsTemplate,
+      @JsonProperty(ProblemDtoJsonPropertyName.TEST) List<EditableVerificationDto> test
   ) {
-    this.Id = taskId;
+    this.Id = problemId;
     this.type = type;
     this.title = title;
     this.description = description;
