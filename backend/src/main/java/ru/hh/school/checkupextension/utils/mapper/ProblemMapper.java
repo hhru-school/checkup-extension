@@ -5,7 +5,8 @@ import ru.hh.school.checkupextension.core.data.entity.Problem;
 
 public class ProblemMapper {
   public static ContestProblemDto toContestProblem(Problem problem) {
-    var res = new ContestProblemDto(
+    var template = problem.getTemplate();
+    return new ContestProblemDto(
             problem.getId(),
             problem.getTitle(),
             problem.getDescription(),
@@ -13,9 +14,18 @@ public class ProblemMapper {
             problem.getType(),
             problem.getMaxAttempts(),
             problem.getActive(),
-            problem.getTemplate()
+            template.getHtmlTemplate(),
+            template.getCssTemplate(),
+            template.getJsTemplate()
     );
-    return res;
+  }
+
+  private static Problem.Template extractTemplate(ContestProblemDto problem) {
+    var template = new Problem.Template();
+    template.setHtmlTemplate(problem.htmlPart);
+    template.setCssTemplate(problem.cssPart);
+    template.setJsTemplate(problem.jsPart);
+    return template;
   }
 
 }

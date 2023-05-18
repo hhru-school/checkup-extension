@@ -1,5 +1,7 @@
 package ru.hh.school.checkupextension.core.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import ru.hh.school.checkupextension.core.data.pojo.TemplatePojo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
@@ -19,7 +21,7 @@ public class Problem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "problem_id")
-  private Long id;
+  private long id;
 
   @Column(name = "type")
   private byte type;
@@ -41,7 +43,7 @@ public class Problem {
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "template", columnDefinition = "jsonb")
-  private TemplatePojo template;
+  private Template template;
 
   public Problem() {
   }
@@ -94,11 +96,11 @@ public class Problem {
     this.active = active;
   }
 
-  public TemplatePojo getTemplate() {
+  public Template getTemplate() {
     return template;
   }
 
-  public void setTemplate(TemplatePojo template) {
+  public void setTemplate(Template template) {
     this.template = template;
   }
 
@@ -124,5 +126,40 @@ public class Problem {
   @Override
   public int hashCode() {
     return Objects.hash(id, type, maxAttempts, title, description, content, active, template);
+  }
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  public static class Template implements Serializable {
+
+    @JsonProperty("html")
+    private String htmlTemplate;
+    @JsonProperty("css")
+    private String cssTemplate;
+    @JsonProperty("js")
+    private String jsTemplate;
+
+    public void setHtmlTemplate(String htmlTemplate) { this.htmlTemplate = htmlTemplate; }
+    public String getHtmlTemplate() { return this.htmlTemplate; }
+
+    public void setCssTemplate(String cssTemplate) { this.cssTemplate = cssTemplate; }
+    public String getCssTemplate() { return this.cssTemplate; }
+
+    public void setJsTemplate(String jsTemplate) { this.jsTemplate = jsTemplate; }
+    public String getJsTemplate() { return this.jsTemplate; }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (obj == null || getClass() != obj.getClass()) return false;
+      var that = (Template) obj;
+      return Objects.equals(this.htmlTemplate, that.htmlTemplate) &&
+              Objects.equals(this.cssTemplate, that.cssTemplate) &&
+              Objects.equals(this.jsTemplate, that.jsTemplate);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(this.htmlTemplate, this.cssTemplate, this.jsTemplate);
+    }
   }
 }
