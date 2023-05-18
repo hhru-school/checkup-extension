@@ -1,6 +1,8 @@
 SELECT 'CREATE DATABASE checkup_extension'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'checkup_extension')\gexec
 
+\c checkup_extension;
+
 create table if not exists problem (
     problem_id serial primary key,
     condition varchar(255),
