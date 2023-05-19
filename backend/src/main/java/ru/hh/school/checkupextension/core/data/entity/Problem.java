@@ -2,16 +2,19 @@ package ru.hh.school.checkupextension.core.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -20,7 +23,7 @@ import java.util.Objects;
 public class Problem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "problem_id")
+  @Column(name = "id")
   private long id;
 
   @Column(name = "type")
@@ -45,7 +48,11 @@ public class Problem {
   @Column(name = "template", columnDefinition = "jsonb")
   private Template template;
 
+  @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Verification> verifications;
+
   public Problem() {
+    this.verifications = new ArrayList<>();
   }
 
   public Long getId() {
@@ -112,6 +119,24 @@ public class Problem {
     this.maxAttempts = maxAttempts;
   }
 
+  public List<Verification> getVerifications() {
+    return verifications;
+  }
+
+  public void setVerifications(List<Verification> verifications) {
+    this.verifications = verifications;
+  }
+
+  public void addVerification(Verification verification) {
+    verifications.add(verification);
+    verification.setProblem(this);
+  }
+
+  public void removeVerification(Verification verification) {
+    verifications.remove(verification);
+    verification.setProblem(null);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -129,7 +154,7 @@ public class Problem {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  public static class Template implements Serializable {
+  public static class Template {
 
     @JsonProperty("html")
     private String htmlTemplate;

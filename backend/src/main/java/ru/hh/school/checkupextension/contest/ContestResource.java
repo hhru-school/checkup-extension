@@ -40,28 +40,17 @@ public class ContestResource {
    * @return - объект типа ContestProblem, представляющий задачу с указанным id
    */
   @GET
-  @Path("task/{problem_id}")
+  @Path("problem/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto getProblem(@PathParam("problem_id")long id) {
+  public ContestProblemDto getProblem(@PathParam("id")long id) {
     return contestService.getProblem(id);
-  }
-
-  /**
-   * Метод для получения списка всех задач.
-   * @return - список всех задач
-   */
-  @GET
-  @Path("tasks")
-  @Produces(MediaType.APPLICATION_JSON)
-  public List<Problem> getAllProblems() {
-    return contestService.getAllProblems();
   }
 
   /**
    * Создает новую задачу на основе переданной информации в теле запроса.
    */
   @POST
-  @Path("task")
+  @Path("problem")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ContestProblemDto createProblem(@Valid Problem problem) {
@@ -72,20 +61,11 @@ public class ContestResource {
    * Метод обновляет задачу с указанным id на основе переданной информации в теле запроса.
    */
   @PUT
-  @Path("task/{id}")
+  @Path("problem/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ContestProblemDto updateProblem(@PathParam("id") long id, Problem problem) {
     return contestService.updateProblem(id, problem);
-  }
-
-  /**
-   * Удаляет задачу с указанным id из базы данных.
-   */
-  @DELETE
-  @Path("task/{id}")
-  public void deleteProblem(@PathParam("id") long id) {
-    contestService.deleteProblem(id);
   }
 
   @POST

@@ -4,7 +4,7 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'checkup_extension')\g
 \c checkup_extension;
 
 create table if not exists problem (
-    problem_id serial primary key,
+    id serial primary key,
     type smallint,
     max_attempts smallint,
     title varchar(255),
@@ -24,7 +24,7 @@ create table if not exists submission (
 
     CONSTRAINT submission_problem_fk
         FOREIGN KEY (problem_id)
-        REFERENCES problem(problem_id)
+        REFERENCES problem(id)
 );
 
 create table if not exists verification (
@@ -34,5 +34,5 @@ create table if not exists verification (
 
     CONSTRAINT verification_problem_fk
         FOREIGN KEY (problem_id)
-        REFERENCES problem(problem_id)
+        REFERENCES problem(id)
 );

@@ -59,23 +59,6 @@
 					"response": []
 				},
 				{
-					"name": "get all tasks",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-url}}/tasks",
-							"host": [
-								"{{base-url}}"
-							],
-							"path": [
-								"tasks"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "put task",
 					"request": {
 						"method": "PUT",
@@ -216,6 +199,28 @@
 				}
 			],
 			"description": "запросы для сущности Сабмишен/Решение\nнепротестированы\nтребуют параметризации"
+		},
+		{
+			"name": "templates",
+			"item": [
+				{
+					"name": "get all tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/tasks",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

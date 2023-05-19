@@ -56,11 +56,6 @@ public class ContestService {
   }
 
   @Transactional
-  public List<Problem> getAllProblems() {
-    return problemRepository.getAll();
-  }
-
-  @Transactional
   public ContestProblemDto createProblem(Problem problem) {
     return ProblemMapper.toContestProblem(problemRepository.create(problem));
   }
@@ -69,11 +64,6 @@ public class ContestService {
   public ContestProblemDto updateProblem(long id, Problem problem) {
     problem.setId(id);
     return ProblemMapper.toContestProblem(problemRepository.update(problem));
-  }
-
-  @Transactional
-  public void deleteProblem(long id) {
-    problemRepository.delete(id);
   }
 
   @Transactional
