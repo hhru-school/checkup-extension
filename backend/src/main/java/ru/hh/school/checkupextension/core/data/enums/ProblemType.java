@@ -5,17 +5,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum ProblemType {
-    CHECKED((byte) 0),
-    ACCEPTED((byte) 1),
-    REFUSED((byte) 2);
+    JS((byte) 0),
+    HTML((byte) 1);
 
     private static final Map<Byte, String> types;
 
     static {
         types = new HashMap<>();
-        types.put((byte) 0, "checked");
-        types.put((byte) 1, "success");
-        types.put((byte) 2, "fault");
+        types.put((byte) 0, "JS");
+        types.put((byte) 1, "HTML");
     }
 
     public static String getTitleBy(byte code) {

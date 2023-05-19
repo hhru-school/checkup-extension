@@ -36,9 +36,9 @@ public class ContestResource {
    * @return - объект типа ContestProblem, представляющий задачу с указанным id
    */
   @GET
-  @Path("problem/{id}")
+  @Path("problem/{problem_id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto getProblem(@PathParam("id")long id) {
+  public ContestProblemDto getProblem(@PathParam("problem_id")long id) {
     return contestService.getProblem(id);
   }
 

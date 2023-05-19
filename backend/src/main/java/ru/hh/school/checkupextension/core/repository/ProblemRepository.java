@@ -22,10 +22,4 @@ public class ProblemRepository extends GenericRepository<Problem> {
   public List<Problem> getAll() {
     return getSession().createQuery("SELECT p FROM Problem p", Problem.class).getResultList();
   }
-
-  @Override
-  public Problem create(Problem problem) {
-    getSession().save(problem);
-    return problem;
-  }
 }
