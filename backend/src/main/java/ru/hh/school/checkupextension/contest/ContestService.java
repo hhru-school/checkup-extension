@@ -12,7 +12,6 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
@@ -53,17 +52,6 @@ public class ContestService {
   public ContestProblemDto getProblem(Long problemId) {
     var problem = problemRepository.getById(problemId).orElseThrow(() -> new ProblemNotFoundException(problemId));
     return ProblemMapper.toContestProblem(problem);
-  }
-
-  @Transactional
-  public ContestProblemDto createProblem(Problem problem) {
-    return ProblemMapper.toContestProblem(problemRepository.create(problem));
-  }
-
-  @Transactional
-  public ContestProblemDto updateProblem(long id, Problem problem) {
-    problem.setId(id);
-    return ProblemMapper.toContestProblem(problemRepository.update(problem));
   }
 
   @Transactional

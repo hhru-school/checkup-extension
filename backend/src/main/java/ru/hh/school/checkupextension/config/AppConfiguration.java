@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import ru.hh.school.checkupextension.admin.AdminResource;
+import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
@@ -17,7 +19,6 @@ import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFound
 import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
-import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
@@ -28,7 +29,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
     // Services
     ContestService.class,
-//    AdminService.class,
+    AdminService.class,
 
     // Checkup
     CheckupApiStub.class,
@@ -45,6 +46,7 @@ public class AppConfiguration {
     var config = new ResourceConfig();
 
     config.register(ContestResource.class);
+    config.register(AdminResource.class);
 
     // Exceptions mappers
     // Integration
