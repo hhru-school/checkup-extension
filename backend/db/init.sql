@@ -5,9 +5,13 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'checkup_extension')\g
 
 create table if not exists problem (
     problem_id serial primary key,
-    condition varchar(255),
+    type smallint,
     max_attempts smallint,
-    type smallint
+    title varchar(255),
+    description varchar(255),
+    content varchar(255),
+    active boolean,
+    template jsonb
 );
 
 create table if not exists submission (

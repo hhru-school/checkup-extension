@@ -7,7 +7,7 @@ import java.util.Optional;
 public enum SubmissionsStatus {
   CHECKED((byte) 0),
   ACCEPTED((byte) 1),
-  REFUSIED((byte) 2);
+  REFUSED((byte) 2);
 
   private static final Map<Byte, String> statuses;
 

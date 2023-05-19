@@ -13,20 +13,20 @@ import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKE
 
 @Path("/admin")
 public class AdminResource {
-  private final AdminService adminService;
+    private final AdminService adminService;
 
-  @Inject
-  public AdminResource(AdminService adminService) {
-    this.adminService = adminService;
-  }
+    @Inject
+    public AdminResource(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
-  @POST
-  @Path("/problem")
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public EditableProblemDto createNewProblem(
-      @CookieParam(USER_TOKEN) String userToken,
-      EditableProblemDto problemDto) {
-    return adminService.createNewProblem(userToken, problemDto);
-  }
+    @POST
+    @Path("/problem")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public EditableProblemDto createNewProblem(
+            @CookieParam(USER_TOKEN) String userToken,
+            EditableProblemDto problemDto) {
+        return adminService.createNewProblem(userToken, problemDto);
+    }
 }

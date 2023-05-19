@@ -11,14 +11,13 @@ public class ProblemRepositoryStub implements Repository<Problem> {
   public Optional<Problem> getById(Long id) {
     var problem = new Problem();
     problem.setId(1L);
-    problem.setCondition("""
-        {
-            Statement: "markdown",
-            Screenshot: "url"
-        }
-        """);
     problem.setType((byte) 1);
-    problem.setMaxAttempts((short) 15);
+    problem.setTitle("title");
+    problem.setActive(true);
+    problem.setDescription("description");
+    problem.setContent("content");
+    problem.setType((byte) 1);
+    problem.setMaxAttempts((byte) 15);
     return Optional.of(problem);
   }
 

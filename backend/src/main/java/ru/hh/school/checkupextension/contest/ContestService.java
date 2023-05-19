@@ -12,9 +12,8 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
-import ru.hh.school.checkupextension.core.repository.Repository;
+import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
@@ -23,10 +22,14 @@ import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
 
 import java.util.List;
 
+/**
+ * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,
+ * связанных с контестом.
+ */
 public class ContestService {
   private static final Logger LOGGER = getLogger(ContestService.class);
 
-  private final Repository<Problem> problemRepository;
+  private final ProblemRepository problemRepository;
   private final SubmissionRepository submissionRepository;
 
   private final ContestManager contestManager;
@@ -36,7 +39,7 @@ public class ContestService {
   public ContestService(
       CheckupInteraction checkupIntegrator,
       ContestManager contestManager,
-      Repository<Problem> problemRepository,
+      ProblemRepository problemRepository,
       SubmissionRepository submissionRepository
   ) {
     this.checkupIntegrator = checkupIntegrator;

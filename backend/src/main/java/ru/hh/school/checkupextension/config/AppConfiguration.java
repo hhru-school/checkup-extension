@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import ru.hh.school.checkupextension.admin.AdminResource;
+import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
 import ru.hh.school.checkupextension.utils.exception.mapper.integration.AccessDeniedExceptionMapper;
@@ -16,18 +19,17 @@ import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFound
 import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.VerificationNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
-import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
 
 @Configuration
 @Import({
     // Repository
-//        ProblemRepository.class,
+    ProblemRepository.class,
     SubmissionRepository.class,
     VerificationRepository.class,
 
     // Services
     ContestService.class,
-//    AdminService.class,
+    AdminService.class,
 
     // Checkup
     CheckupApiStub.class,
@@ -36,7 +38,7 @@ import ru.hh.school.checkupextension.utils.stub.ProblemRepositoryStub;
     ContestManager.class,
 
     // TODO: Debug
-    ProblemRepositoryStub.class
+//    ProblemRepositoryStub.class
 })
 public class AppConfiguration {
   @Bean
@@ -44,6 +46,7 @@ public class AppConfiguration {
     var config = new ResourceConfig();
 
     config.register(ContestResource.class);
+    config.register(AdminResource.class);
 
     // Exceptions mappers
     // Integration

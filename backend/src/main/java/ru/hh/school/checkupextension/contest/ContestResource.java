@@ -18,6 +18,9 @@ import java.util.List;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
+/**
+ * Класс, отвечающий за определение и обработку HTTP-запросов, связанных с контестом.
+ */
 @Path("/")
 public class ContestResource {
   private final ContestService contestService;
@@ -27,10 +30,15 @@ public class ContestResource {
     this.contestService = contestService;
   }
 
+  /**
+   * Метод для получения информации о задаче по ее идентификатору.
+   * @param id - id задачи
+   * @return - объект типа ContestProblem, представляющий задачу с указанным id
+   */
   @GET
-  @Path("/problem/{id}")
+  @Path("problem/{problem_id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto getProblem(@PathParam("id") long id) {
+  public ContestProblemDto getProblem(@PathParam("problem_id")long id) {
     return contestService.getProblem(id);
   }
 
