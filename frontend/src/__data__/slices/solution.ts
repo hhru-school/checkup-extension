@@ -1,42 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Task } from "../../types";
+import { SolutionToSend } from "../../types";
 
-type NewTasksType = {
+type ResponseType = {
   isLoading: boolean;
   error: string | null;
   result: string;
 };
 
-const initialState: NewTasksType = {
+const initialState: ResponseType = {
   isLoading: false,
   error: null,
   result: "OK",
 };
 
-export const addNewTasks = createAsyncThunk(
-  "tasks/create",
-  async (task: Task) => {
-    await axios.post("/tasks/create", task);
+export const sendSolution = createAsyncThunk(
+  "solution/send",
+  async ({
+    solution,
+    taskId,
+  }: {
+    solution: SolutionToSend;
+    taskId: number;
+  }) => {
+    await axios.post(`http://localhost:8081/solutions`, solution);
     return "OK";
   }
 );
 
 const slice = createSlice({
-  name: "newTask",
+  name: "solution",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addNewTasks.pending, (state, action) => {
+      .addCase(sendSolution.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(addNewTasks.fulfilled, (state, action) => {
+      .addCase(sendSolution.fulfilled, (state, action) => {
         state.isLoading = false;
         state.result = action.payload;
         state.error = null;
       })
-      .addCase(addNewTasks.rejected, (state, action) => {
+      .addCase(sendSolution.rejected, (state, action) => {
         console.log(action);
         state.isLoading = false;
         state.error = action.error.message as string;

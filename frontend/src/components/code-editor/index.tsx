@@ -47,6 +47,9 @@ export const CodeEditor: FC<PropsType> = ({
             }
             onChange={handleChange}
             className={styles.editor}
+            style={{
+              fontSize: "1rem",
+            }}
             minHeight={200}
           />
         </div>

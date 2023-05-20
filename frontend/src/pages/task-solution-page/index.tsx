@@ -1,26 +1,49 @@
-import { Typography, Row, Col, Collapse, Space, Button } from "antd";
+import { Typography, Row, Col, Collapse, Space, Button, Alert } from "antd";
 import styles from "./index.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { StoreType } from "../../__data__/store";
+import {
+  StoreType,
+  useAppDispatch,
+  useAppSelector,
+} from "../../__data__/store";
 import { Link, useParams } from "react-router-dom";
-import { Editor } from "../../components/editor";
 import { History } from "../../components/history";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { LeftOutlined } from "@ant-design/icons";
+import { CodeEditor } from "../../components/code-editor";
+import { FC, useState } from "react";
+import { sendSolution } from "../../__data__/slices/solution";
+import { SolutionToSend } from "../../types";
 
-export const Page = () => {
+export const Page: FC = () => {
+  const [htmlContent, setHtmlContent] = useState("");
+  const [cssContent, setCssContent] = useState("");
+  const [jsContent, setJsContent] = useState("");
   const { t } = useTranslation();
-  const { id } = useParams();
+  const { id: taskId } = useParams();
+
+  const dispatch = useAppDispatch();
+
+  const loading = useAppSelector((store) => store.solution.isLoading);
+  const error = useAppSelector((store) => store.solution.error);
+  const result = useAppSelector((store) => store.solution.result);
+
   const task = useSelector((state: StoreType) =>
-    state.tasks.tasks.find((item) => item.id === Number(id))
+    state.tasks.tasks.find((item) => item.id === Number(taskId))
   );
 
-  const handleHtmlEditorChange = (value: string) => {};
-  const handleCssEditorChange = (value: string) => {};
-  const handleJsEditorChange = (value: string) => {};
+  const handleSendButtonClick = () => {
+    const solution: SolutionToSend = {
+      problemId: Number(taskId),
+      htmlContent,
+      cssContent,
+      jsContent,
+    };
+    dispatch(sendSolution({ solution, taskId: Number(taskId) }));
+  };
 
   if (!task) {
     return null;
@@ -29,13 +52,18 @@ export const Page = () => {
   return (
     <>
       <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+        {error && (
+          <Alert message="Error" description={result} type="error" closable />
+        )}
         <Row align="middle">
           <Col span={20}>
             <Typography.Title level={1}>{task.title}</Typography.Title>
           </Col>
-          <Col span={4}>
+          <Col span={4} className={styles.col}>
             <Link to={"/"}>
-              <Button icon={<LeftOutlined />}>{t("button.back")}</Button>
+              <Button disabled={loading} icon={<LeftOutlined />}>
+                {t("button.back")}
+              </Button>
             </Link>
           </Col>
         </Row>
@@ -82,31 +110,36 @@ export const Page = () => {
                     size="middle"
                     style={{ display: "flex" }}
                   >
-                    <Editor
-                      mode="html"
-                      title="HTML"
-                      onChange={handleHtmlEditorChange}
+                    <CodeEditor
+                      value={htmlContent}
+                      mode="solution"
+                      language="HTML"
+                      onChange={setHtmlContent}
                     />
-                    <Editor
-                      mode="css"
-                      title="CSS"
-                      onChange={handleCssEditorChange}
+                    <CodeEditor
+                      value={cssContent}
+                      mode="solution"
+                      language="CSS"
+                      onChange={setCssContent}
                     />
                   </Space>
                 </>
               )}
               {task.type === "JS" && (
                 <>
-                  <Editor
-                    mode="js"
-                    title="JS"
-                    onChange={handleJsEditorChange}
+                  <CodeEditor
+                    value={jsContent}
+                    mode="solution"
+                    language="JavaScript"
+                    onChange={setJsContent}
                   />
                 </>
               )}
               <Button
                 type="primary"
+                onClick={handleSendButtonClick}
                 block
+                loading={loading}
                 size="large"
                 style={{ margin: "0px" }}
               >
