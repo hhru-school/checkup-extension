@@ -55,6 +55,7 @@ public class Problem {
   @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Verification> verifications;
 
+  @Deprecated
   public Problem() {
     this.verifications = new ArrayList<>();
   }
@@ -222,6 +223,9 @@ public class Problem {
     private String cssTemplate;
     @JsonProperty("js")
     private String jsTemplate;
+
+    @Deprecated
+    public Template() {}
 
     public void setHtmlTemplate(String htmlTemplate) { this.htmlTemplate = htmlTemplate; }
     public String getHtmlTemplate() { return this.htmlTemplate; }
