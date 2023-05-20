@@ -9,8 +9,9 @@ create table if not exists problem (
     max_attempts smallint,
     title varchar(255),
     description varchar(255),
-    content varchar(255),
+    content text,
     active boolean,
+    solution jsonb,
     template jsonb
 );
 
