@@ -1,47 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tasks from "../json/tasks.json";
+import { Task } from "../../types";
 
-export const taskStrings = ["JS", "HTML"];
-export type TaskTypes = (typeof taskStrings)[number];
-
-export enum TaskProcess {
-  PROCESS = 0,
-  ERROR,
-}
-
-export type Task = {
-  id?: number;
-  type: TaskTypes;
-  title: string;
-  description: string;
-  // step: number;
-  // status: TaskProcess;
-  content: string;
-  active: boolean;
-  htmlTemplate: string;
-  cssTemplate: string;
-  jsTemplate: string;
-};
-
-export type TemplateType = {
-  type: TaskTypes;
-  content: string;
-};
-
-export type SolutionType = {
-  type: TaskTypes;
-  content: string;
-};
-
-type TasksType = {
+type ResponseType = {
   isLoading: boolean;
   error: string | null;
   tasks: Array<Task>;
 };
 
-const initialState: TasksType = tasks as TasksType;
+const initialState: ResponseType = tasks as ResponseType;
 
-// TODO: implement fetch from back, or use RTK?
 export const fetchTasks = createAsyncThunk<Array<Task>>(
   "tasks/fetchTasks",
   async () => {

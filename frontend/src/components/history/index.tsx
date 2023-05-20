@@ -1,47 +1,50 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./index.module.css";
-import { Button, List, Typography } from "antd";
+import { Button, Col, List, Row, Skeleton, Space, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-
-const data = [
-  {
-    id: 5,
-    title: "Текущее решение",
-    date: "2023-04-09 15:22",
-  },
-  {
-    id: 4,
-    title: "Попытка №5",
-    date: "2023-04-09 15:22",
-  },
-  {
-    id: 3,
-    title: "Попытка №4",
-    date: "2023-04-09 15:22",
-  },
-  {
-    id: 2,
-    title: "Попытка №3",
-    date: "2023-04-09 15:22",
-  },
-  {
-    id: 1,
-    title: "Попытка №2",
-    date: "2023-04-09 15:22",
-  },
-  {
-    id: 0,
-    title: "Попытка №1",
-    date: "2023-04-09 15:22",
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../__data__/store";
+import { fetchHistory } from "../../__data__/slices/history";
+import { useParams } from "react-router-dom";
 
 export const History: FC = () => {
   const { t } = useTranslation();
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((store) => store.history.isLoading);
+  const error = useAppSelector((store) => store.history.error);
+  const solutions = useAppSelector((store) => store.history.solutions);
+
+  useEffect(() => {
+    dispatch(fetchHistory(Number(id)));
+  }, [dispatch, id]);
 
   const handleShowButtonClick = (id: number) => {
     // TODO: update store
   };
+
+  if (true) {
+    return (
+      <>
+        <Row gutter={8}>
+          <Col span={18}>
+            <Skeleton.Input active size="large" block={true} />
+          </Col>
+          <Col span={4}>
+            <Skeleton.Button
+              active
+              size="large"
+              shape="default"
+              block={false}
+            />
+          </Col>
+        </Row>
+      </>
+    );
+  }
+
+  if (error) {
+    return null;
+  }
 
   return (
     <>
@@ -51,7 +54,7 @@ export const History: FC = () => {
         }
         size="small"
         bordered
-        dataSource={data}
+        dataSource={solutions}
         renderItem={(item) => (
           <List.Item
             className={styles.item}
