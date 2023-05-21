@@ -15,10 +15,11 @@ public class CheckupApiStub implements CheckupInteraction {
   public UserInfo getUserInfo(String userToken) {
     LOGGER.info("Get info for user's token: [{}]", userToken);
 
-    boolean isAdmin = Boolean.getBoolean(userToken);
-      if (isAdmin) {
-          return defaultAdmin;
-      }
+    boolean isAdmin = userToken.equalsIgnoreCase("'true'");
+    LOGGER.info("User token was converted to [{}]", isAdmin);
+    if (isAdmin) {
+      return defaultAdmin;
+    }
     return defaultUser;
   }
 
