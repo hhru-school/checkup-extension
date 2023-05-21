@@ -1,5 +1,6 @@
 package ru.hh.school.checkupextension.admin;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
@@ -15,6 +16,7 @@ public class AdminService {
     this.problemRepository = problemRepository;
   }
 
+  @Transactional
   public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
     checkPermission(userToken);
 
