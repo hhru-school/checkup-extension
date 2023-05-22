@@ -7,38 +7,44 @@ import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 import ru.hh.school.checkupextension.core.data.enums.ProblemType;
 import ru.hh.school.checkupextension.utils.builder.ProblemBuilder;
-import ru.hh.school.checkupextension.utils.builder.ProblemDtoBuilder;
 import ru.hh.school.checkupextension.utils.builder.TemplateBuilder;
 import ru.hh.school.checkupextension.utils.builder.VerificationBuilder;
-import ru.hh.school.checkupextension.utils.builder.VerificationDtoBuilder;
 
 public class EditableProblemMapper {
   public static Problem toEntity(EditableProblemDto problemDto) {
+    var solution = extractSolution(problemDto);
     var template = extractTemplate(problemDto);
     var verifications = extractVerifications(problemDto);
-    var type = ProblemType.valueOf(problemDto.type).getCode();
-    // TODO: after completion #33
+    var type = ProblemType.getCodeBy(problemDto.type);
+
     return ProblemBuilder.buildProblem(
-        problemDto.Id,
+        problemDto.id,
         problemDto.title,
         problemDto.description,
-        "", //problemDto.conent,
-        true, //problemDto.active,
-        (byte)10,//problemDto.maxAttempts,
+        problemDto.content,
+        problemDto.active,
+        problemDto.maxAttempts,
         type,
         template,
+        solution,
         verifications);
+  }
+
+  private static Problem.ReferenceSolution extractSolution(EditableProblemDto problemDto) {
+    var solution = new Problem.ReferenceSolution();
+    solution.setHtmlPart(problemDto.htmlPartSolution);
+    solution.setCssPart(problemDto.cssPartSolution);
+    solution.setJsPart(problemDto.jsPartSolution);
+    return solution;
   }
 
   public static EditableProblemDto toEditableProblemDto(Problem problem) {
     var type = ProblemType.getTitleBy(problem.getType());
-    var verificationDto = formatVerificationDto(problem);
-    // TODO: after completion #33
-//    var solution = problem.getSolution();
+    var solution = problem.getSolution();
     var template = problem.getTemplate();
+    var verificationDto = formatVerificationDto(problem);
 
-    // TODO: after completion #33
-    return ProblemDtoBuilder.buildProblemDto(
+    return new EditableProblemDto(
         problem.getId(),
         type,
         problem.getTitle(),
@@ -46,9 +52,9 @@ public class EditableProblemMapper {
         problem.getContent(),
         problem.getMaxAttempts(),
         problem.getActive(),
-        "", // solution.getHtmlPart(),
-        "", //solution.getCssPart(),
-        "", //solution.getJsPart(),
+        solution.getHtmlPart(),
+        solution.getCssPart(),
+        solution.getJsPart(),
         template.getHtmlTemplate(),
         template.getCssTemplate(),
         template.getJsTemplate(),
@@ -59,7 +65,7 @@ public class EditableProblemMapper {
   private static List<EditableVerificationDto> formatVerificationDto(Problem problem) {
     var verifications = problem.getVerifications();
     return verifications.stream()
-        .map(v -> VerificationDtoBuilder.buildEditableVerificationDto(v.getId(), v.getContent()))
+        .map(v -> new EditableVerificationDto(v.getId(), v.getContent()))
         .toList();
   }
 
@@ -72,7 +78,7 @@ public class EditableProblemMapper {
 
   private static List<Verification> extractVerifications(EditableProblemDto problemDto) {
     return problemDto.test.stream()
-        .map(dto -> extractVerification(problemDto.Id, dto))
+        .map(dto -> extractVerification(problemDto.id, dto))
         .toList();
   }
 
