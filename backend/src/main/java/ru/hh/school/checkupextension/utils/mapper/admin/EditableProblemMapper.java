@@ -4,10 +4,10 @@ import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableVerificationDto;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
+import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 import ru.hh.school.checkupextension.core.data.enums.ProblemType;
 import ru.hh.school.checkupextension.utils.builder.ProblemBuilder;
-import ru.hh.school.checkupextension.utils.builder.TemplateBuilder;
 import ru.hh.school.checkupextension.utils.builder.VerificationBuilder;
 
 public class EditableProblemMapper {
@@ -30,17 +30,16 @@ public class EditableProblemMapper {
         verifications);
   }
 
-  private static Problem.ReferenceSolution extractSolution(EditableProblemDto problemDto) {
-    var solution = new Problem.ReferenceSolution();
-    solution.setHtmlPart(problemDto.htmlPartSolution);
-    solution.setCssPart(problemDto.cssPartSolution);
-    solution.setJsPart(problemDto.jsPartSolution);
-    return solution;
+  private static JsonContainer extractSolution(EditableProblemDto problemDto) {
+    return JsonContainer.fill(
+      problemDto.htmlPartSolution,
+      problemDto.cssPartSolution,
+      problemDto.jsPartSolution);
   }
 
   public static EditableProblemDto toEditableProblemDto(Problem problem) {
     var type = ProblemType.getTitleBy(problem.getType());
-    var solution = problem.getSolution();
+    var solution = problem.getReferenceSolution();
     var template = problem.getTemplate();
     var verificationDto = formatVerificationDto(problem);
 
@@ -55,9 +54,9 @@ public class EditableProblemMapper {
         solution.getHtmlPart(),
         solution.getCssPart(),
         solution.getJsPart(),
-        template.getHtmlTemplate(),
-        template.getCssTemplate(),
-        template.getJsTemplate(),
+        template.getHtmlPart(),
+        template.getCssPart(),
+        template.getJsPart(),
         verificationDto
     );
   }
@@ -69,8 +68,8 @@ public class EditableProblemMapper {
         .toList();
   }
 
-  private static Problem.Template extractTemplate(EditableProblemDto problemDto) {
-    return TemplateBuilder.buildTemplate(
+  private static JsonContainer extractTemplate(EditableProblemDto problemDto) {
+    return JsonContainer.fill(
         problemDto.htmlTemplate,
         problemDto.cssTemplate,
         problemDto.jsTemplate);

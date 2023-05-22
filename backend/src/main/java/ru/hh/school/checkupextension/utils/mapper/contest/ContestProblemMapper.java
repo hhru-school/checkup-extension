@@ -17,9 +17,9 @@ public class ContestProblemMapper {
             type, // Используем строковое представление типа задачи
             problem.getMaxAttempts(),
             problem.getActive(),
-            template.getHtmlTemplate(),
-            template.getCssTemplate(),
-            template.getJsTemplate()
+            template.getHtmlPart(),
+            template.getCssPart(),
+            template.getJsPart()
     );
   }
 }
