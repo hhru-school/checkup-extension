@@ -1,31 +1,22 @@
-package ru.hh.school.checkupextension.utils.mapper;
+package ru.hh.school.checkupextension.utils.mapper.contest;
 
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionShortInfo;
 import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 
-import java.time.LocalDateTime;
+import ru.hh.school.checkupextension.utils.builder.SubmissionBuilder;
 
-public class SubmissionMapper {
+public class ContestSubmissionMapper {
 
   public static Submission toNewEntity(long userId, ContestSubmissionDto submission) {
     var status = SubmissionsStatus.CHECKED.getCode();
     var problemId = submission.problemId;
     var solution = extractUserSolution(submission);
 
-    var entity = new Submission();
-    entity.setProblem(new Problem());
-    entity.setUser(userId);
-    entity.getProblem().setId(problemId);
-    entity.setStatus(status);
-    entity.setCreationDateTime(LocalDateTime.now());
-    entity.setSolution(solution);
-
-    return entity;
+    return SubmissionBuilder.buildSubmission(userId, problemId, status, solution);
   }
 
   private static Submission.UserSolution extractUserSolution(ContestSubmissionDto submission) {
