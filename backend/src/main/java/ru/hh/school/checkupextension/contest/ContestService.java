@@ -17,8 +17,8 @@ import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
-import ru.hh.school.checkupextension.utils.mapper.ProblemMapper;
-import ru.hh.school.checkupextension.utils.mapper.SubmissionMapper;
+import ru.hh.school.checkupextension.utils.mapper.contest.ContestProblemMapper;
+import ru.hh.school.checkupextension.utils.mapper.contest.ContestSubmissionMapper;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class ContestService {
   @Transactional
   public ContestProblemDto getProblem(Long problemId) {
     var problem = problemRepository.getById(problemId).orElseThrow(() -> new ProblemNotFoundException(problemId));
-    return ProblemMapper.toContestProblem(problem);
+    return ContestProblemMapper.toContestProblem(problem);
   }
 
   @Transactional
@@ -69,10 +69,10 @@ public class ContestService {
     LOGGER.info("Total submissions {} [max: {}] from user {}", totalSubmissions, problem.getMaxAttempts(), userId);
     contestManager.allowSolvingProblem(userId, totalSubmissions, problem);
 
-    var entity = SubmissionMapper.toNewEntity(userId, submission);
+    var entity = ContestSubmissionMapper.toNewEntity(userId, submission);
     var addedEntity = submissionRepository.create(entity);
 
-    return SubmissionMapper.toContestDto(addedEntity);
+    return ContestSubmissionMapper.toContestDto(addedEntity);
   }
 
   @Transactional
@@ -82,7 +82,7 @@ public class ContestService {
     var submission = submissionRepository
         .getForUserById(userInfo.userId(), submissionId)
         .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
-    return SubmissionMapper.toContestDto(submission);
+    return ContestSubmissionMapper.toContestDto(submission);
   }
 
   @Transactional
@@ -90,7 +90,7 @@ public class ContestService {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
     return submissionRepository.getUserSubmissionsShortInfo(userInfo.userId(), problemId)
         .stream()
-        .map(SubmissionMapper::toContestSubmissionShortInfo)
+        .map(ContestSubmissionMapper::toContestSubmissionShortInfo)
         .toList();
   }
 
@@ -99,6 +99,6 @@ public class ContestService {
     var submission = submissionRepository
         .getById(submissionId)
         .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
-    return SubmissionMapper.toContestStatusDto(submission);
+    return ContestSubmissionMapper.toContestStatusDto(submission);
   }
 }
