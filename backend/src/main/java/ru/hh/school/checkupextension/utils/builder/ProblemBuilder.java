@@ -14,6 +14,7 @@ public class ProblemBuilder {
       byte maxAttempts,
       byte type,
       Problem.Template template,
+      Problem.ReferenceSolution solution,
       List<Verification> verifications
   ) {
     var problem = new Problem();
@@ -24,6 +25,7 @@ public class ProblemBuilder {
     problem.setActive(active);
     problem.setMaxAttempts(maxAttempts);
     problem.setType(type);
+    problem.setSolution(solution);
     problem.setTemplate(template);
     problem.setVerifications(verifications);
     return problem;
