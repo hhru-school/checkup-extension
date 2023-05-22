@@ -1,7 +1,15 @@
-import { Typography, Row, Col, Collapse, Space, Button, Alert } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Collapse,
+  Space,
+  Button,
+  Alert,
+  message,
+} from "antd";
 import styles from "./index.module.css";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import {
   StoreType,
   useAppDispatch,
@@ -14,10 +22,14 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { LeftOutlined } from "@ant-design/icons";
 import { CodeEditor } from "../../components/code-editor";
-import { FC, useState } from "react";
-import { sendSolution } from "../../__data__/slices/solution";
+import { FC, useEffect, useState } from "react";
+import { getSolution, sendSolution } from "../../__data__/slices/solution";
 import { SolutionToSend } from "../../types";
 
+// TODO: выбор решения из истории
+// TODO: в список решений добавить текущее решение, не отправленное
+// TODO: текущее, не отправленное решение, сохранять в LS
+// TODO:
 export const Page: FC = () => {
   const [htmlContent, setHtmlContent] = useState("");
   const [cssContent, setCssContent] = useState("");
@@ -30,10 +42,47 @@ export const Page: FC = () => {
   const loading = useAppSelector((store) => store.solution.isLoading);
   const error = useAppSelector((store) => store.solution.error);
   const result = useAppSelector((store) => store.solution.result);
-
-  const task = useSelector((state: StoreType) =>
-    state.tasks.tasks.find((item) => item.id === Number(taskId))
+  const currentSolutionId = useAppSelector(
+    (store) => store.history.currentSolutionId
   );
+  const solution = useAppSelector((store) => store.solution.solution);
+  const task = useAppSelector((store: StoreType) =>
+    store.tasks.tasks.find((item) => item.id === Number(taskId))
+  );
+
+  useEffect(() => {
+    if (currentSolutionId > 0) {
+      dispatch(getSolution(currentSolutionId));
+    }
+  }, [currentSolutionId, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      window.scroll({ top: 0, behavior: "smooth" });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (solution) {
+      setHtmlContent(solution.htmlContent);
+      setCssContent(solution.cssContent);
+      setJsContent(solution.jsContent);
+    }
+  }, [solution]);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    if (loading) {
+      messageApi.open({
+        type: "loading",
+        content: t("message.loading"),
+        duration: 0,
+      });
+    } else {
+      messageApi.destroy();
+    }
+  }, [loading, messageApi, t]);
 
   const handleSendButtonClick = () => {
     const solution: SolutionToSend = {
@@ -51,6 +100,7 @@ export const Page: FC = () => {
 
   return (
     <>
+      {contextHolder}
       <Space direction="vertical" size="middle" style={{ display: "flex" }}>
         {error && (
           <Alert message="Error" description={result} type="error" closable />
@@ -111,12 +161,14 @@ export const Page: FC = () => {
                     style={{ display: "flex" }}
                   >
                     <CodeEditor
+                      disabled={currentSolutionId > 0}
                       value={htmlContent}
                       mode="solution"
                       language="HTML"
                       onChange={setHtmlContent}
                     />
                     <CodeEditor
+                      disabled={currentSolutionId > 0}
                       value={cssContent}
                       mode="solution"
                       language="CSS"
@@ -128,6 +180,7 @@ export const Page: FC = () => {
               {task.type === "JS" && (
                 <>
                   <CodeEditor
+                    disabled={currentSolutionId > 0}
                     value={jsContent}
                     mode="solution"
                     language="JavaScript"
@@ -137,6 +190,7 @@ export const Page: FC = () => {
               )}
               <Button
                 type="primary"
+                disabled={currentSolutionId > 0}
                 onClick={handleSendButtonClick}
                 block
                 loading={loading}
@@ -148,7 +202,7 @@ export const Page: FC = () => {
             </Space>
           </Col>
           <Col span={8}>
-            <History />
+            <History task={Number(taskId)} />
           </Col>
         </Row>
       </Space>

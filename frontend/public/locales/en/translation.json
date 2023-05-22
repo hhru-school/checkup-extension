@@ -7,9 +7,13 @@
     "button.back": "Back",
     "button.show": "Show",
     "button.add": "Add",
+    "button.reload": "Update",
     "link.preview": "Preview",
     "link.edit": "Edit",
     "history.title": "List of decisions",
+    "history.error.title": "List of decisions not loaded",
+    "history.no.data": "No solutions yet",
+    "history.solution.current.title": "Current solution",
     "main.title": "Checking knowledge of the front-end from the school of programmers HH",
     "main.description": "We invite beginners and front-end developers with little experience who want to learn new things from practitioners who develop services with a multi-million audience.\n\nThere is no age limit. To enter the school, you need to know HTML, CSS and JavaScript and have experience in interface development - at least a little.",
     "challenges.title": "Challenges",
@@ -42,5 +46,7 @@
     "code.editor.title": "The solution of the task",
     "code.editor.title_template": "Task template in {{language}}",
     "code.editor.title_solution": "Task solving in {{language}}",
-    "code.editor.title_test": "Test case №{{index}}"
+    "code.editor.title_test": "Test case №{{index}}",
+    "error.loading": "There was an error loading the data, try refreshing the page",
+    "message.loading": "Loading, please wait..."
 }

@@ -49,13 +49,13 @@ export const Page: FC = () => {
     if (loading) {
       messageApi.open({
         type: "loading",
-        content: "Action in progress..",
+        content: t("message.loading"),
         duration: 0,
       });
     } else {
       messageApi.destroy();
     }
-  }, [loading, messageApi]);
+  }, [loading, messageApi, t]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);

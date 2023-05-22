@@ -1,23 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Solution } from "../../types";
+import { SolutionShort } from "../../types";
 import axios from "axios";
+import { endpoints } from "../constants/endpoints";
 
 type ResponseType = {
   isLoading: boolean;
   error: string | null;
-  solutions: Array<Solution>;
+  solutions: Array<SolutionShort>;
+  currentSolutionId: number;
 };
 
 const initialState: ResponseType = {
   isLoading: false,
   error: null,
   solutions: [
-    {
-      id: 5,
-      status: "check",
-      title: "Текущее решение",
-      date: "2023-04-09 15:22",
-    },
     {
       id: 4,
       status: "success",
@@ -49,12 +45,13 @@ const initialState: ResponseType = {
       date: "2023-04-09 15:22",
     },
   ],
+  currentSolutionId: -1,
 };
 
 export const fetchHistory = createAsyncThunk(
   "history/fetch",
   async (problemId: number) => {
-    const response = await axios.get(`/solutions/${problemId}`);
+    const response = await axios.get(endpoints.history(problemId));
     return response.data;
   }
 );
@@ -62,7 +59,11 @@ export const fetchHistory = createAsyncThunk(
 const slice = createSlice({
   name: "history",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentSolution: (state, action) => {
+      state.currentSolutionId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchHistory.pending, (state, action) => {
@@ -75,8 +76,8 @@ const slice = createSlice({
       })
       .addCase(fetchHistory.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message as string;
-        state.solutions = [];
+        // state.error = action.error.message as string;
+        // state.solutions = [];
       });
   },
 });

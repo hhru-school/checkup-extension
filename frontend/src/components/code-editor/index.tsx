@@ -10,6 +10,7 @@ type PropsType = {
   mode: "template" | "solution" | "test";
   onChange: (value: string, index?: number) => void;
   index?: number;
+  disabled?: boolean;
 };
 
 export const CodeEditor: FC<PropsType> = ({
@@ -18,6 +19,7 @@ export const CodeEditor: FC<PropsType> = ({
   onChange,
   mode,
   index = 0,
+  disabled = false,
 }) => {
   const { t } = useTranslation();
 
@@ -37,6 +39,7 @@ export const CodeEditor: FC<PropsType> = ({
       >
         <div className={styles.wrapper}>
           <ReactCodeEditor
+            disabled={disabled}
             value={value}
             language={language.toLowerCase()}
             placeholder={

@@ -7,9 +7,13 @@
     "button.back": "Назад",
     "button.show": "Показать",
     "button.add": "Добавить",
+    "button.reload": "Обновить",
     "link.preview": "Просмотр",
     "link.edit": "Редактирование",
     "history.title": "Список решений",
+    "history.error.title": "Список решений не загрузился",
+    "history.no.data": "Решений пока нет",
+    "history.solution.current.title": "Текущее решение",
     "main.title": "Проверка знаний фронтендера от школы программистов HH",
     "main.description": "Мы приглашаем начинающих и имеющих небольшой опыт фронтенд-разработчиков, которые хотят учиться новому у практиков, разрабатывающих сервисы с многомиллионной аудиторией.\n\nОграничений по возрасту нет. Для поступления в школу нужно знать HTML, CSS и JavaScript и иметь опыт разработки интерфейсов — хотя бы небольшой.",
     "challenges.title": "Испытания",
@@ -42,5 +46,7 @@
     "code.editor.title": "Решение задачи",
     "code.editor.title_template": "Шаблон к задаче на {{language}}",
     "code.editor.title_solution": "Решение задачи на {{language}}",
-    "code.editor.title_test": "Тестовый кейс №{{index}}"
+    "code.editor.title_test": "Тестовый кейс №{{index}}",
+    "error.loading": "При загрузке данных произошла ошибка, попробуйте обновить страницу",
+    "message.loading": "Идет загрузка, подождите..."
 }

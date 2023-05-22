@@ -27,9 +27,19 @@ export type SolutionToSend = {
   jsContent: string;
 };
 
-export type Solution = {
+export type SolutionShort = {
   id: number;
   status: string;
   title: string;
   date: string;
+};
+
+export type SolutionFull = {
+  id: number;
+  status: string;
+  title: string;
+  date: string;
+  htmlContent: string;
+  cssContent: string;
+  jsContent: string;
 };
