@@ -11,9 +11,9 @@ public class ProblemDtoJsonPropertyName {
   public static final String MAX_ATTEMPTS = "max_attempts";
   public static final String ACTIVE = "active";
   public static final String DESCRIPTION = "description";
-  public static final String HTML_PART = "htmlSolution";
-  public static final String CSS_PART = "cssSolution";
-  public static final String JS_PART = "jsSolution";
+  public static final String HTML_SOLUTION = "htmlSolution";
+  public static final String CSS_SOLUTION = "cssSolution";
+  public static final String JS_SOLUTION = "jsSolution";
   public static final String HTML_TEMPLATE = "htmlTemplate";
   public static final String CSS_TEMPLATE = "cssTemplate";
   public static final String JS_TEMPLATE = "jsTemplate";

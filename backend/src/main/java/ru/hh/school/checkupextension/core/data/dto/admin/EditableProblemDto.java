@@ -16,12 +16,10 @@ public class EditableProblemDto {
     public final String description;
     public final String content;
     public final byte maxAttempts;
-    public final String htmlPart;
-    public final String cssPart;
-    public final String jsPart;
-    public final String htmlSolution;
-    public final String cssSolution;
-    public final String jsSolution;
+    public final boolean active;
+    public final String htmlPartSolution;
+    public final String cssPartSolution;
+    public final String jsPartSolution;
     public final String htmlTemplate;
     public final String cssTemplate;
     public final String jsTemplate;
@@ -35,12 +33,10 @@ public class EditableProblemDto {
             @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
             @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
             @JsonProperty(ProblemDtoJsonPropertyName.MAX_ATTEMPTS) byte maxAttempts,
-            @JsonProperty(ProblemDtoJsonPropertyName.HTML_PART) String htmlPart,
-            @JsonProperty(ProblemDtoJsonPropertyName.CSS_PART) String cssPart,
-            @JsonProperty(ProblemDtoJsonPropertyName.JS_PART) String jsPart,
-            @JsonProperty(ProblemDtoJsonPropertyName.HTML_PART) String htmlSolution,
-            @JsonProperty(ProblemDtoJsonPropertyName.CSS_PART) String cssSolution,
-            @JsonProperty(ProblemDtoJsonPropertyName.JS_PART) String jsSolution,
+            @JsonProperty(ProblemDtoJsonPropertyName.ACTIVE) boolean active,
+            @JsonProperty(ProblemDtoJsonPropertyName.HTML_SOLUTION) String htmlPartSolution,
+            @JsonProperty(ProblemDtoJsonPropertyName.CSS_SOLUTION) String cssPartSolution,
+            @JsonProperty(ProblemDtoJsonPropertyName.JS_SOLUTION) String jsPartSolution,
             @JsonProperty(ProblemDtoJsonPropertyName.HTML_TEMPLATE) String htmlTemplate,
             @JsonProperty(ProblemDtoJsonPropertyName.CSS_TEMPLATE) String cssTemplate,
             @JsonProperty(ProblemDtoJsonPropertyName.JS_TEMPLATE) String jsTemplate,
@@ -52,12 +48,10 @@ public class EditableProblemDto {
         this.description = description;
         this.content = content;
         this.maxAttempts = maxAttempts;
-        this.htmlPart = htmlPart;
-        this.cssPart = cssPart;
-        this.jsPart = jsPart;
-        this.htmlSolution = htmlSolution;
-        this.cssSolution = cssSolution;
-        this.jsSolution = jsSolution;
+        this.active = active;
+        this.htmlPartSolution = htmlPartSolution;
+        this.cssPartSolution = cssPartSolution;
+        this.jsPartSolution = jsPartSolution;
         this.htmlTemplate = htmlTemplate;
         this.cssTemplate = cssTemplate;
         this.jsTemplate = jsTemplate;
