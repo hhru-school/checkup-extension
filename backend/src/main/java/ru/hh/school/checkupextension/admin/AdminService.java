@@ -1,5 +1,7 @@
 package ru.hh.school.checkupextension.admin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
@@ -8,6 +10,8 @@ import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedExc
 import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
 public class AdminService {
+  private final static Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
+
   private final CheckupInteraction checkupInteraction;
   private final ProblemRepository problemRepository;
 
@@ -19,9 +23,7 @@ public class AdminService {
   @Transactional
   public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
     checkPermission(userToken);
-
     var problem = EditableProblemMapper.toEntity(problemDto);
-    // TODO: Add cascade for the entity
     var addedProblem = problemRepository.create(problem);
     return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }

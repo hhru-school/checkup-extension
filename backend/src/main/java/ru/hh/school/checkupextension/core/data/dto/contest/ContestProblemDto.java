@@ -24,7 +24,7 @@ public class ContestProblemDto {
           @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
           @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
           @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
-          @JsonProperty(ProblemDtoJsonPropertyName.TYPE_ID) String type,
+          @JsonProperty(ProblemDtoJsonPropertyName.TYPE) String type,
           @JsonProperty(ProblemDtoJsonPropertyName.MAX_ATTEMPTS) byte maxAttempts,
           @JsonProperty(ProblemDtoJsonPropertyName.ACTIVE) boolean active,
           @JsonProperty(ProblemDtoJsonPropertyName.HTML_TEMPLATE) String htmlPart,

@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 
 import ru.hh.school.checkupextension.utils.constant.ProblemDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EditableProblemDto {
-    public final long Id;
+    public final long id;
     public final String type;
     public final String title;
     public final String description;
@@ -28,7 +30,7 @@ public class EditableProblemDto {
     @JsonCreator
     public EditableProblemDto(
             @JsonProperty(ProblemDtoJsonPropertyName.ID) long problemId,
-            @JsonProperty(ProblemDtoJsonPropertyName.TYPE_ID) String type,
+            @JsonProperty(ProblemDtoJsonPropertyName.TYPE) String type,
             @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
             @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
             @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
@@ -42,7 +44,7 @@ public class EditableProblemDto {
             @JsonProperty(ProblemDtoJsonPropertyName.JS_TEMPLATE) String jsTemplate,
             @JsonProperty(ProblemDtoJsonPropertyName.TEST) List<EditableVerificationDto> test
     ) {
-        this.Id = problemId;
+        this.id = problemId;
         this.type = type;
         this.title = title;
         this.description = description;
@@ -56,5 +58,15 @@ public class EditableProblemDto {
         this.cssTemplate = cssTemplate;
         this.jsTemplate = jsTemplate;
         this.test = test;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            var msg = "Unable to stringify %d %s %s";
+            return String.format(msg, id, title, description);
+        }
     }
 }

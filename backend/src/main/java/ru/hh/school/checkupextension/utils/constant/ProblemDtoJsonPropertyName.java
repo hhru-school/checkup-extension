@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProblemDtoJsonPropertyName {
   public static final String ID = "id";
-  public static final String TYPE_ID = "typeId";
+  public static final String TYPE = "type";
   public static final String TITLE = "title";
   public static final String CONTENT = "content";
   public static final String MAX_ATTEMPTS = "max_attempts";

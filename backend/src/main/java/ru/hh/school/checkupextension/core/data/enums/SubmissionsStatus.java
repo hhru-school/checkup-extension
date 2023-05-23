@@ -13,9 +13,9 @@ public enum SubmissionsStatus {
 
   static {
     statuses = new HashMap<>();
-    statuses.put((byte) 0, "checked");
-    statuses.put((byte) 1, "success");
-    statuses.put((byte) 2, "fault");
+    statuses.put(CHECKED.statusCode, "checked");
+    statuses.put(ACCEPTED.statusCode, "success");
+    statuses.put(REFUSED.statusCode, "fault");
   }
 
   public static String getTitleBy(byte code) {
