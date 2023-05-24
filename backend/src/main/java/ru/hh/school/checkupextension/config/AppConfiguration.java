@@ -36,6 +36,7 @@ import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
 
     // Other
     ContestManager.class,
+    CorsFilter.class,
 
     // TODO: Debug
 //    ProblemRepositoryStub.class
@@ -56,6 +57,9 @@ public class AppConfiguration {
     config.register(VerificationNotFoundExceptionMapper.class);
     config.register(ProblemNotFoundExceptionMapper.class);
     config.register(SubmissionNotFoundExceptionMapper.class);
+
+    // Фильтр CORS
+    config.register(CorsFilter.class);
 
     return config;
   }
