@@ -15,12 +15,12 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import styles from "./index.module.css";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
-import { Task, TaskTypes, taskStrings } from "../../__data__/slices/tasks";
 import { MarkdownEditor } from "../../components/md-editor";
 import { CodeEditor } from "../../components/code-editor";
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { addNewTasks } from "../../__data__/slices/new-task";
+import { Task, TaskTypes, taskStrings } from "../../types";
 
 export const Page: FC = () => {
   const { t } = useTranslation();
@@ -49,13 +49,13 @@ export const Page: FC = () => {
     if (loading) {
       messageApi.open({
         type: "loading",
-        content: "Action in progress..",
+        content: t("message.loading"),
         duration: 0,
       });
     } else {
       messageApi.destroy();
     }
-  }, [loading, messageApi]);
+  }, [loading, messageApi, t]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);

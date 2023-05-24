@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Task } from "./tasks";
 import axios from "axios";
+import { Task } from "../../types";
+import { endpoints } from "../constants/endpoints";
 
 type NewTasksType = {
   isLoading: boolean;
@@ -17,7 +18,7 @@ const initialState: NewTasksType = {
 export const addNewTasks = createAsyncThunk(
   "tasks/create",
   async (task: Task) => {
-    await axios.post("/tasks/create", task);
+    await axios.post(endpoints.newTask(), task);
     return "OK";
   }
 );

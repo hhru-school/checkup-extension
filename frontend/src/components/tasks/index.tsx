@@ -3,10 +3,10 @@ import type { ColumnsType } from "antd/es/table";
 import styles from "./index.module.css";
 import { Link } from "react-router-dom";
 import { TabHeader } from "../tab-header";
-import { Task } from "../../__data__/slices/tasks";
 import { useSelector } from "react-redux";
 import { getTasks } from "../../__data__/selectors";
 import { useTranslation } from "react-i18next";
+import { Task } from "../../types";
 
 export const Tasks = () => {
   const { t } = useTranslation();
