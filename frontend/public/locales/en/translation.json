@@ -2,6 +2,7 @@
     "type": "Type",
     "contest": "Contest",
     "tasks.title": "Task list",
+    "tasks.error.title": "Task list not loaded",
     "tasks.description.title": "Task description",
     "button.send": "Send",
     "button.back": "Back",
@@ -48,5 +49,9 @@
     "code.editor.title_solution": "Task solving in {{language}}",
     "code.editor.title_test": "Test case №{{index}}",
     "error.loading": "There was an error loading the data, try refreshing the page",
-    "message.loading": "Loading, please wait..."
+    "message.loading": "Loading, please wait...",
+    "message.not.content": "Maybe you forgot to add a solution...",
+    "message.error.title": "Error.",
+    "message.success.title": "Success.",
+    "message.solution.add": "Congratulations! Solution sent successfully, please wait for the result"
 }

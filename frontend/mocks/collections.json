@@ -1,0 +1,15 @@
+[
+  {
+    "id": "tasks-success-id-1",
+    "routes": ["get-tasks:success", "get-task:success-id-1", "get-history:success", "get-solution:success-id-1", "new-solution:success"]
+  },
+  {
+    "id": "tasks-error",
+    "routes": ["get-tasks:error", "new-solution:error"]
+  },
+  {
+    "id": "tasks-success-id-2",
+    "from": "tasks-success-id-1",
+    "routes": ["get-task:success-id-2"]
+  }
+]

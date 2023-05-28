@@ -163,14 +163,16 @@ export const Page: FC = () => {
               key="solution"
             >
               <Row gutter={[8, 8]} align="middle">
-                <Col span={24}>
-                  <CodeEditor
-                    value={jsSolution}
-                    language="JavaScript"
-                    mode="solution"
-                    onChange={setJsSolution}
-                  />
-                </Col>
+                {type === "JS" && (
+                  <Col span={24}>
+                    <CodeEditor
+                      value={jsSolution}
+                      language="JavaScript"
+                      mode="solution"
+                      onChange={setJsSolution}
+                    />
+                  </Col>
+                )}
                 <Col span={24}>
                   <CodeEditor
                     value={htmlSolution}
@@ -194,14 +196,16 @@ export const Page: FC = () => {
               key="template"
             >
               <Row gutter={[8, 8]} align="middle">
-                <Col span={24}>
-                  <CodeEditor
-                    value={jsTemplate}
-                    language="JavaScript"
-                    mode="template"
-                    onChange={setJsTemplate}
-                  />
-                </Col>
+                {type === "JS" && (
+                  <Col span={24}>
+                    <CodeEditor
+                      value={jsTemplate}
+                      language="JavaScript"
+                      mode="template"
+                      onChange={setJsTemplate}
+                    />
+                  </Col>
+                )}
                 <Col span={24}>
                   <CodeEditor
                     value={htmlTemplate}
@@ -220,38 +224,40 @@ export const Page: FC = () => {
                 </Col>
               </Row>
             </Collapse.Panel>
-            <Collapse.Panel header={t("new.task.test.title")} key="test">
-              <Row gutter={[8, 8]} align="middle">
-                <Col span={24} className={styles.col}>
-                  <Button
-                    type="primary"
-                    onClick={() => {
-                      setTestValues([...testValues, ""]);
-                    }}
-                  >
-                    {t("button.add")}
-                  </Button>
-                </Col>
-                {testValues.map((item, index) => {
-                  return (
-                    <Col span={24}>
-                      <CodeEditor
-                        key={index}
-                        value={item}
-                        language="JavaScript"
-                        mode="test"
-                        index={index}
-                        onChange={(value, index) => {
-                          const array = [...testValues];
-                          array[index ?? 0] = value;
-                          setTestValues(array);
-                        }}
-                      />
-                    </Col>
-                  );
-                })}
-              </Row>
-            </Collapse.Panel>
+            {type === "JS" && (
+              <Collapse.Panel header={t("new.task.test.title")} key="test">
+                <Row gutter={[8, 8]} align="middle">
+                  <Col span={24} className={styles.col}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setTestValues([...testValues, ""]);
+                      }}
+                    >
+                      {t("button.add")}
+                    </Button>
+                  </Col>
+                  {testValues.map((item, index) => {
+                    return (
+                      <Col span={24}>
+                        <CodeEditor
+                          key={index}
+                          value={item}
+                          language="JavaScript"
+                          mode="test"
+                          index={index}
+                          onChange={(value, index) => {
+                            const array = [...testValues];
+                            array[index ?? 0] = value;
+                            setTestValues(array);
+                          }}
+                        />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Collapse.Panel>
+            )}
           </Collapse>
         </Col>
       </Row>

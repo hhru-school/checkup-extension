@@ -2,6 +2,7 @@
     "type": "Тип",
     "contest": "Контест",
     "tasks.title": "Список задач",
+    "tasks.error.title": "Список задач не загрузился",
     "tasks.description.title": "Описание задачи",
     "button.send": "Отправить",
     "button.back": "Назад",
@@ -48,5 +49,9 @@
     "code.editor.title_solution": "Решение задачи на {{language}}",
     "code.editor.title_test": "Тестовый кейс №{{index}}",
     "error.loading": "При загрузке данных произошла ошибка, попробуйте обновить страницу",
-    "message.loading": "Идет загрузка, подождите..."
+    "message.loading": "Идет загрузка, подождите...",
+    "message.not.content": "Возможно вы забыли добавить решение...",
+    "message.error.title": "Ошибка.",
+    "message.success.title": "Успешно.",
+    "message.solution.add": "Поздравляем! Решение успешно отправлено, ожидайте результата"
 }

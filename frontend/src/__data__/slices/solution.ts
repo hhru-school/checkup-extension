@@ -34,7 +34,12 @@ export const sendSolution = createAsyncThunk(
 export const getSolution = createAsyncThunk(
   "solution/get",
   async (id: number) => {
-    const response = await axios.get(endpoints.getSolution(id));
+    const response = await axios.get(endpoints.getSolution(id), {
+      headers: {
+        withCredentials: true,
+        Cookie: "userToker='true'",
+      },
+    });
     return response.data;
   }
 );

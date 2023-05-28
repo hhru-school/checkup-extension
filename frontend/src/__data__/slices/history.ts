@@ -13,45 +13,19 @@ type ResponseType = {
 const initialState: ResponseType = {
   isLoading: false,
   error: null,
-  solutions: [
-    {
-      id: 4,
-      status: "success",
-      title: "Попытка №5",
-      date: "2023-04-09 15:22",
-    },
-    {
-      id: 3,
-      status: "success",
-      title: "Попытка №4",
-      date: "2023-04-09 15:22",
-    },
-    {
-      id: 2,
-      status: "fault",
-      title: "Попытка №3",
-      date: "2023-04-09 15:22",
-    },
-    {
-      id: 1,
-      status: "fault",
-      title: "Попытка №2",
-      date: "2023-04-09 15:22",
-    },
-    {
-      id: 0,
-      status: "fault",
-      title: "Попытка №1",
-      date: "2023-04-09 15:22",
-    },
-  ],
+  solutions: [],
   currentSolutionId: -1,
 };
 
 export const fetchHistory = createAsyncThunk(
   "history/fetch",
   async (problemId: number) => {
-    const response = await axios.get(endpoints.history(problemId));
+    const response = await axios.get(endpoints.history(problemId), {
+      headers: {
+        withCredentials: true,
+        Cookie: "userToker='true'",
+      },
+    });
     return response.data;
   }
 );
@@ -76,8 +50,8 @@ const slice = createSlice({
       })
       .addCase(fetchHistory.rejected, (state, action) => {
         state.isLoading = false;
-        // state.error = action.error.message as string;
-        // state.solutions = [];
+        state.error = action.error.message as string;
+        state.solutions = [];
       });
   },
 });

@@ -1,21 +1,41 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import tasks from "../json/tasks.json";
 import { Task } from "../../types";
+import axios from "axios";
+import { endpoints } from "../constants/endpoints";
 
 type ResponseType = {
   isLoading: boolean;
   error: string | null;
   tasks: Array<Task>;
+  task: Task | null;
 };
 
-const initialState: ResponseType = tasks as ResponseType;
+const initialState: ResponseType = {
+  isLoading: false,
+  error: null,
+  tasks: [],
+  task: null,
+};
 
-export const fetchTasks = createAsyncThunk<Array<Task>>(
-  "tasks/fetchTasks",
-  async () => {
-    return tasks.tasks as Array<Task>;
-  }
-);
+export const getTasks = createAsyncThunk<Array<Task>>("tasks/all", async () => {
+  const response = await axios.get(endpoints.getTasks(), {
+    headers: {
+      withCredentials: true,
+      Cookie: "userToker='true'",
+    },
+  });
+  return response.data;
+});
+
+export const getTask = createAsyncThunk("tasks/get", async (id: number) => {
+  const response = await axios.get(endpoints.getTask(id), {
+    headers: {
+      withCredentials: true,
+      Cookie: "userToker='true'",
+    },
+  });
+  return response.data;
+});
 
 const slice = createSlice({
   name: "tasks",
@@ -23,18 +43,31 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTasks.pending, (state, action) => {
+      .addCase(getTasks.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(fetchTasks.fulfilled, (state, action) => {
+      .addCase(getTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.tasks = action.payload;
         state.error = null;
       })
-      .addCase(fetchTasks.rejected, (state, action) => {
+      .addCase(getTasks.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message as string;
         state.tasks = [];
+      })
+      .addCase(getTask.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.task = action.payload;
+        state.error = null;
+      })
+      .addCase(getTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message as string;
+        state.task = null;
       });
   },
 });
