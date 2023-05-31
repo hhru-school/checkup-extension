@@ -1,0 +1,74 @@
+[
+  {
+    "id": "get-solution",
+    "url": "/submissions/:id",
+    "method": "GET",
+    "delay": 2000,
+    "variants": [
+      {
+        "id": "success-id-1",
+        "type": "json",
+        "options": {
+          "status": 200,
+          "body": {
+            "id": 4,
+            "status": "success",
+            "title": "Попытка №5",
+            "date": "2023-04-09 15:22",
+            "htmlContent": "HTML solution",
+            "cssContent": "CSS solution",
+            "jsContent": "JS solution"
+          }
+        }
+      },
+      {
+        "id": "not-found",
+        "type": "json",
+        "options": {
+          "status": 404,
+          "body": {}
+        }
+      },
+      {
+        "id": "error",
+        "type": "json",
+        "options": {
+          "status": 500,
+          "body": {}
+        }
+      }
+    ]
+  },
+  {
+    "id": "new-solution",
+    "url": "/submissions",
+    "method": "POST",
+    "delay": 2000,
+    "variants": [
+      {
+        "id": "success",
+        "type": "text",
+        "options": {
+          "status": 200,
+          "body": "OK"
+        }
+      },
+      {
+        "id": "not-found",
+        "type": "text",
+        "options": {
+          "status": 404,
+          "body": "ERROR"
+        }
+      },
+      {
+        "id": "error",
+        "type": "text",
+        "options": {
+          "status": 500,
+          "body": "ERROR"
+        }
+      }
+    ]
+  }
+]

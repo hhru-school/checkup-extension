@@ -15,7 +15,7 @@ export const routes: RouteObject[] = [
     element: <AdminPage.Admin />,
   },
   {
-    path: "/new-task",
+    path: "/admin/new-task",
     element: <NewTaskPage.Page />,
   },
   {

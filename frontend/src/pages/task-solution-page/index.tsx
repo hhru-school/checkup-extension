@@ -7,14 +7,11 @@ import {
   Button,
   Alert,
   message,
+  Skeleton,
 } from "antd";
 import styles from "./index.module.css";
 import { useTranslation } from "react-i18next";
-import {
-  StoreType,
-  useAppDispatch,
-  useAppSelector,
-} from "../../__data__/store";
+import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { Link, useParams } from "react-router-dom";
 import { History } from "../../components/history";
 import ReactMarkdown from "react-markdown";
@@ -25,42 +22,92 @@ import { CodeEditor } from "../../components/code-editor";
 import { FC, useEffect, useState } from "react";
 import { getSolution, sendSolution } from "../../__data__/slices/solution";
 import { SolutionToSend } from "../../types";
+import { getTask } from "../../__data__/slices/tasks";
+import { MIN_CONTENT_LENGTH } from "../../__data__/constants/constants";
+import { getFromLocalStorage, setToLocalStorage } from "../../utils";
 
-// TODO: выбор решения из истории
-// TODO: в список решений добавить текущее решение, не отправленное
-// TODO: текущее, не отправленное решение, сохранять в LS
-// TODO:
+const SolutionSkeleton = () => {
+  return (
+    <>
+      <Row>
+        <Col span={14}>
+          <Skeleton.Input active block={true} />
+          <br />
+          <br />
+          <br />
+        </Col>
+        <Col span={24}>
+          <Skeleton active />
+          <br />
+          <br />
+          <br />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={14}>
+          <Skeleton paragraph={{ rows: 7 }} active />
+          <Skeleton.Button active block={true} />
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+// TODO: доработать кейс, когда решение отправлено и пришел ответ:
+// TODO: успешно - запрашиваем заново историю, стираем инпуты и добавляем текущее решение очищаем LS
+// TODO: ошибка - выводим сообщение об ошибке
+
 export const Page: FC = () => {
   const [htmlContent, setHtmlContent] = useState("");
   const [cssContent, setCssContent] = useState("");
   const [jsContent, setJsContent] = useState("");
+  const [warning, setWarning] = useState("");
   const { t } = useTranslation();
   const { id: taskId } = useParams();
 
   const dispatch = useAppDispatch();
 
-  const loading = useAppSelector((store) => store.solution.isLoading);
-  const error = useAppSelector((store) => store.solution.error);
-  const result = useAppSelector((store) => store.solution.result);
+  const loadingSolution = useAppSelector((store) => store.solution.isLoading);
+  const errorSolution = useAppSelector((store) => store.solution.error);
+  const resultSolution = useAppSelector((store) => store.solution.result);
   const currentSolutionId = useAppSelector(
     (store) => store.history.currentSolutionId
   );
   const solution = useAppSelector((store) => store.solution.solution);
-  const task = useAppSelector((store: StoreType) =>
-    store.tasks.tasks.find((item) => item.id === Number(taskId))
-  );
+  const loadingTask = useAppSelector((store) => store.tasks.isLoading);
+  const errorTask = useAppSelector((store) => store.tasks.error);
+  const task = useAppSelector((store) => store.tasks.task);
+
+  useEffect(() => {
+    dispatch(getTask(Number(taskId)));
+  }, [dispatch, taskId]);
+
+  useEffect(() => {
+    if (task) {
+      setHtmlContent(task.htmlTemplate);
+      setCssContent(task.cssTemplate);
+      setJsContent(task.jsTemplate);
+    }
+  }, [task]);
 
   useEffect(() => {
     if (currentSolutionId > 0) {
       dispatch(getSolution(currentSolutionId));
+    } else {
+      const html = getFromLocalStorage<string>("html");
+      const css = getFromLocalStorage<string>("css");
+      const js = getFromLocalStorage<string>("js");
+      setHtmlContent(html ?? "");
+      setCssContent(css ?? "");
+      setJsContent(js ?? "");
     }
   }, [currentSolutionId, dispatch]);
 
   useEffect(() => {
-    if (error) {
+    if (errorSolution || errorTask) {
       window.scroll({ top: 0, behavior: "smooth" });
     }
-  }, [error]);
+  }, [errorSolution, errorTask]);
 
   useEffect(() => {
     if (solution) {
@@ -73,7 +120,7 @@ export const Page: FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    if (loading) {
+    if (loadingSolution) {
       messageApi.open({
         type: "loading",
         content: t("message.loading"),
@@ -82,17 +129,46 @@ export const Page: FC = () => {
     } else {
       messageApi.destroy();
     }
-  }, [loading, messageApi, t]);
+  }, [loadingSolution, loadingTask, messageApi, t]);
+
+  const handleHtmlContentChange = (value: string) => {
+    setHtmlContent(value);
+    setToLocalStorage("html", value);
+  };
+
+  const handleCssContentChange = (value: string) => {
+    setCssContent(value);
+    setToLocalStorage("css", value);
+  };
+
+  const handleJsContentChange = (value: string) => {
+    setJsContent(value);
+    setToLocalStorage("js", value);
+  };
 
   const handleSendButtonClick = () => {
-    const solution: SolutionToSend = {
-      problemId: Number(taskId),
-      htmlContent,
-      cssContent,
-      jsContent,
-    };
-    dispatch(sendSolution({ solution, taskId: Number(taskId) }));
+    if (
+      htmlContent.length > MIN_CONTENT_LENGTH ||
+      cssContent.length > MIN_CONTENT_LENGTH ||
+      jsContent.length > MIN_CONTENT_LENGTH
+    ) {
+      const solution: SolutionToSend = {
+        problemId: Number(taskId),
+        htmlContent,
+        cssContent,
+        jsContent,
+      };
+      setWarning("");
+      dispatch(sendSolution({ solution, taskId: Number(taskId) }));
+    } else {
+      setWarning(t("message.not.content") as string);
+      window.scroll({ top: 0, behavior: "smooth" });
+    }
   };
+
+  if (loadingTask) {
+    return <SolutionSkeleton />;
+  }
 
   if (!task) {
     return null;
@@ -102,8 +178,40 @@ export const Page: FC = () => {
     <>
       {contextHolder}
       <Space direction="vertical" size="middle" style={{ display: "flex" }}>
-        {error && (
-          <Alert message="Error" description={result} type="error" closable />
+        {errorSolution && (
+          <Alert
+            message={t("message.error.title")}
+            description={errorSolution}
+            type="error"
+            closable
+          />
+        )}
+        {errorTask && (
+          <Alert
+            message={t("message.error.title")}
+            description={errorTask}
+            type="error"
+            closable
+          />
+        )}
+        {resultSolution === "OK" && (
+          <Alert
+            message={t("message.success.title")}
+            description={t("message.solution.add")}
+            type="success"
+            closable
+          />
+        )}
+        {warning && (
+          <Alert
+            message={t("code.editor.title")}
+            description={warning}
+            type="warning"
+            closable
+            onClose={() => {
+              setWarning("");
+            }}
+          />
         )}
         <Row align="middle">
           <Col span={20}>
@@ -111,7 +219,10 @@ export const Page: FC = () => {
           </Col>
           <Col span={4} className={styles.col}>
             <Link to={"/"}>
-              <Button disabled={loading} icon={<LeftOutlined />}>
+              <Button
+                disabled={loadingSolution || loadingTask}
+                icon={<LeftOutlined />}
+              >
                 {t("button.back")}
               </Button>
             </Link>
@@ -165,14 +276,14 @@ export const Page: FC = () => {
                       value={htmlContent}
                       mode="solution"
                       language="HTML"
-                      onChange={setHtmlContent}
+                      onChange={handleHtmlContentChange}
                     />
                     <CodeEditor
                       disabled={currentSolutionId > 0}
                       value={cssContent}
                       mode="solution"
                       language="CSS"
-                      onChange={setCssContent}
+                      onChange={handleCssContentChange}
                     />
                   </Space>
                 </>
@@ -180,20 +291,20 @@ export const Page: FC = () => {
               {task.type === "JS" && (
                 <>
                   <CodeEditor
-                    disabled={currentSolutionId > 0}
+                    disabled={currentSolutionId !== -1}
                     value={jsContent}
                     mode="solution"
                     language="JavaScript"
-                    onChange={setJsContent}
+                    onChange={handleJsContentChange}
                   />
                 </>
               )}
               <Button
                 type="primary"
-                disabled={currentSolutionId > 0}
+                disabled={currentSolutionId !== -1}
                 onClick={handleSendButtonClick}
                 block
-                loading={loading}
+                loading={loadingSolution}
                 size="large"
                 style={{ margin: "0px" }}
               >
