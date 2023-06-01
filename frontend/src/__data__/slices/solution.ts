@@ -13,7 +13,7 @@ type SolutionSliceType = {
 const initialState: SolutionSliceType = {
   isLoading: false,
   error: null,
-  result: "OK",
+  result: "INPROGRESS",
   solution: null,
 };
 

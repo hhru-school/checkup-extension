@@ -1,5 +1,5 @@
 import { Tabs } from "antd";
-import { Tasks } from "../../components/tasks";
+import { TaskTable } from "../../components/task-table";
 import { Results } from "../../components/results";
 import { FileOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -22,7 +22,7 @@ export const Admin = () => {
             ),
             key: "2",
             disabled: false,
-            children: <Tasks />,
+            children: <TaskTable />,
           },
           {
             label: (
