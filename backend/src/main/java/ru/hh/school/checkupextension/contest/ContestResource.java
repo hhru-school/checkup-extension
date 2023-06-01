@@ -42,6 +42,12 @@ public class ContestResource {
     return contestService.getProblem(id);
   }
 
+  @GET
+  @Path("test")
+  public String getStatus() {
+    return "OK";
+  }
+
   @POST
   @Path("/submissions")
   @Consumes(MediaType.APPLICATION_JSON)
