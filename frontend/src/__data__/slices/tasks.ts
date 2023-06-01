@@ -22,6 +22,8 @@ export const getTasks = createAsyncThunk<Array<Task>>("tasks/all", async () => {
     headers: {
       withCredentials: true,
       Cookie: "userToker='true'",
+      "Content-Type": "application/json",
+      mode: "cors",
     },
   });
   return response.data;
@@ -30,6 +32,7 @@ export const getTasks = createAsyncThunk<Array<Task>>("tasks/all", async () => {
 export const getTask = createAsyncThunk("tasks/get", async (id: number) => {
   const response = await axios.get(endpoints.getTask(id), {
     headers: {
+      mode: "cors",
       withCredentials: true,
       Cookie: "userToker='true'",
     },
