@@ -8,7 +8,7 @@ import { getTasks } from "../../__data__/selectors";
 import { useTranslation } from "react-i18next";
 import { Task } from "../../types";
 
-export const Tasks = () => {
+export const TaskTable = () => {
   const { t } = useTranslation();
 
   const columns: ColumnsType<Task> = [
