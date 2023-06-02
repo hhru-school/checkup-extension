@@ -22,9 +22,10 @@ public class ContestSubmissionMapper {
 
   private static JsonContainer extractUserSolution(ContestSubmissionDto submission) {
     return JsonContainer.fill(
-      submission.htmlPart,
-      submission.cssPart,
-      submission.jsPart);
+        submission.htmlPart,
+        submission.cssPart,
+        submission.jsPart
+    );
   }
 
   public static ContestSubmissionDto toContestDto(Submission entity) {

@@ -44,6 +44,7 @@ public class JsonContainer {
     container.setJsPart(jsPart);
     return container;
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

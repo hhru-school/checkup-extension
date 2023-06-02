@@ -27,14 +27,16 @@ public class EditableProblemMapper {
         type,
         template,
         solution,
-        verifications);
+        verifications
+    );
   }
 
   private static JsonContainer extractSolution(EditableProblemDto problemDto) {
     return JsonContainer.fill(
-      problemDto.htmlPartSolution,
-      problemDto.cssPartSolution,
-      problemDto.jsPartSolution);
+        problemDto.htmlPartSolution,
+        problemDto.cssPartSolution,
+        problemDto.jsPartSolution
+    );
   }
 
   public static EditableProblemDto toEditableProblemDto(Problem problem) {
@@ -72,7 +74,8 @@ public class EditableProblemMapper {
     return JsonContainer.fill(
         problemDto.htmlTemplate,
         problemDto.cssTemplate,
-        problemDto.jsTemplate);
+        problemDto.jsTemplate
+    );
   }
 
   private static List<Verification> extractVerifications(EditableProblemDto problemDto) {
@@ -85,6 +88,7 @@ public class EditableProblemMapper {
     return VerificationBuilder.buildVerification(
         verificationDto.id(),
         problemId,
-        verificationDto.content());
+        verificationDto.content()
+    );
   }
 }

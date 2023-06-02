@@ -10,7 +10,8 @@ public class SubmissionBuilder {
       Long userId,
       Long problemId,
       byte status,
-      JsonContainer solution){
+      JsonContainer solution
+  ) {
     var entity = new Submission();
     entity.setProblem(new Problem());
     entity.setUser(userId);
