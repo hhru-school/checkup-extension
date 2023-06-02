@@ -12,7 +12,8 @@ public class ContestProblemMapper {
         problem.getId(),
         problem.getTitle(),
         problem.getDescription(),
-        type);
+        type
+    );
   }
 
   public static ContestProblemDto toContestProblem(Problem problem) {
@@ -20,16 +21,16 @@ public class ContestProblemMapper {
     String type = ProblemType.getTitleBy(problem.getType());
 
     return new ContestProblemDto(
-            problem.getId(),
-            problem.getTitle(),
-            problem.getDescription(),
-            problem.getContent(),
-            type, // Используем строковое представление типа задачи
-            problem.getMaxAttempts(),
-            problem.getActive(),
-            template.getHtmlPart(),
-            template.getCssPart(),
-            template.getJsPart()
+        problem.getId(),
+        problem.getTitle(),
+        problem.getDescription(),
+        problem.getContent(),
+        type, // Используем строковое представление типа задачи
+        problem.getMaxAttempts(),
+        problem.getActive(),
+        template.getHtmlPart(),
+        template.getCssPart(),
+        template.getJsPart()
     );
   }
 }

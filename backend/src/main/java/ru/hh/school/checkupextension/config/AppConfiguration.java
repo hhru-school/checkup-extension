@@ -39,7 +39,6 @@ import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
     CorsFilter.class,
 
     // TODO: Debug
-//    ProblemRepositoryStub.class
 })
 public class AppConfiguration {
   @Bean
