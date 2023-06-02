@@ -6,6 +6,25 @@ import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 
 public class ProblemBuilder {
+  public static Problem buildNewProblem(
+      String title,
+      String description,
+      String content,
+      boolean active,
+      byte maxAttempts,
+      byte type,
+      JsonContainer template,
+      JsonContainer solution,
+      List<Verification> verifications
+  ) {
+    return buildProblem(
+        null, title, description, content,
+        active, maxAttempts, type,
+        template, solution,
+        verifications
+    );
+  }
+
   public static Problem buildProblem(
       Long id,
       String title,

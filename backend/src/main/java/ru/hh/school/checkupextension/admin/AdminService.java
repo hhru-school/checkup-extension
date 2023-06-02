@@ -23,7 +23,7 @@ public class AdminService {
   @Transactional
   public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
     checkPermission(userToken);
-    var problem = EditableProblemMapper.toEntity(problemDto);
+    var problem = EditableProblemMapper.toNewEntity(problemDto);
     var addedProblem = problemRepository.create(problem);
     return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }

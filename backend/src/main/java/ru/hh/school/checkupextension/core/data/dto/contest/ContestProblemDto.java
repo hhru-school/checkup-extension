@@ -16,7 +16,7 @@ public class ContestProblemDto extends ContestProblemInfoDto {
 
   @JsonCreator
   public ContestProblemDto(
-      @JsonProperty(ProblemDtoJsonPropertyName.ID) long id,
+      @JsonProperty(ProblemDtoJsonPropertyName.ID) Long id,
       @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
       @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
       @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
