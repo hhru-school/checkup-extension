@@ -12,7 +12,7 @@ import ru.hh.school.checkupextension.utils.constant.ProblemDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EditableProblemDto {
-  public final long id;
+  public final Long id;
   public final String type;
   public final String title;
   public final String description;
@@ -29,7 +29,7 @@ public class EditableProblemDto {
 
   @JsonCreator
   public EditableProblemDto(
-      @JsonProperty(ProblemDtoJsonPropertyName.ID) long problemId,
+      @JsonProperty(ProblemDtoJsonPropertyName.ID) Long problemId,
       @JsonProperty(ProblemDtoJsonPropertyName.TYPE) String type,
       @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
       @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,

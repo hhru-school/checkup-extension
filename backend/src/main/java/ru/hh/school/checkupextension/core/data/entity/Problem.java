@@ -22,7 +22,7 @@ public class Problem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "problem_id")
-  private long id;
+  private Long id;
 
   @Column(name = "type")
   private byte type;
@@ -131,6 +131,7 @@ public class Problem {
 
   public void setVerifications(List<Verification> verifications) {
     this.verifications = verifications;
+    verifications.forEach(v -> v.setProblem(this));
   }
 
   public void addVerification(Verification verification) {

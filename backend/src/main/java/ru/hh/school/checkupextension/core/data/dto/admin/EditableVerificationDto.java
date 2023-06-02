@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.hh.school.checkupextension.utils.constant.VerificationDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record EditableVerificationDto(long id, String content) {
+public record EditableVerificationDto(Long id, String content) {
   @JsonCreator
   public EditableVerificationDto(
-      @JsonProperty(VerificationDtoJsonPropertyName.ID) long id,
+      @JsonProperty(VerificationDtoJsonPropertyName.ID) Long id,
       @JsonProperty(VerificationDtoJsonPropertyName.CONTENT) String content
   ) {
     this.id = id;
