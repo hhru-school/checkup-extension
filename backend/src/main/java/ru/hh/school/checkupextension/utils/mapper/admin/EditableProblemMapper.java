@@ -11,20 +11,19 @@ import ru.hh.school.checkupextension.utils.builder.ProblemBuilder;
 import ru.hh.school.checkupextension.utils.builder.VerificationBuilder;
 
 public class EditableProblemMapper {
-  public static Problem toEntity(EditableProblemDto problemDto) {
+  public static Problem toNewEntity(EditableProblemDto problemDto) {
     var solution = extractSolution(problemDto);
     var template = extractTemplate(problemDto);
-    var verifications = extractVerifications(problemDto);
-    var type = ProblemType.getCodeBy(problemDto.type);
+    var verifications = extractCreatedVerifications(problemDto);
+    var codeOfType = ProblemType.getCodeBy(problemDto.type);
 
-    return ProblemBuilder.buildProblem(
-        problemDto.id,
+    return ProblemBuilder.buildNewProblem(
         problemDto.title,
         problemDto.description,
         problemDto.content,
         problemDto.active,
         problemDto.maxAttempts,
-        type,
+        codeOfType,
         template,
         solution,
         verifications
@@ -40,14 +39,14 @@ public class EditableProblemMapper {
   }
 
   public static EditableProblemDto toEditableProblemDto(Problem problem) {
-    var type = ProblemType.getTitleBy(problem.getType());
+    var nameOfType = ProblemType.getTitleBy(problem.getType());
     var solution = problem.getReferenceSolution();
     var template = problem.getTemplate();
     var verificationDto = formatVerificationDto(problem);
 
     return new EditableProblemDto(
         problem.getId(),
-        type,
+        nameOfType,
         problem.getTitle(),
         problem.getDescription(),
         problem.getContent(),
@@ -78,16 +77,14 @@ public class EditableProblemMapper {
     );
   }
 
-  private static List<Verification> extractVerifications(EditableProblemDto problemDto) {
+  private static List<Verification> extractCreatedVerifications(EditableProblemDto problemDto) {
     return problemDto.test.stream()
-        .map(dto -> extractVerification(problemDto.id, dto))
+        .map(EditableProblemMapper::extractCreatedVerification)
         .toList();
   }
 
-  private static Verification extractVerification(long problemId, EditableVerificationDto verificationDto) {
-    return VerificationBuilder.buildVerification(
-        verificationDto.id(),
-        problemId,
+  private static Verification extractCreatedVerification(EditableVerificationDto verificationDto) {
+    return VerificationBuilder.buildNewVerification(
         verificationDto.content()
     );
   }

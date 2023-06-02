@@ -7,25 +7,25 @@ import ru.hh.school.checkupextension.core.data.enums.ProblemType;
 
 public class ContestProblemMapper {
   public static ContestProblemInfoDto toContestProblemInfo(Problem problem) {
-    String type = ProblemType.getTitleBy(problem.getType());
+    String nameOfType = ProblemType.getTitleBy(problem.getType());
     return new ContestProblemInfoDto(
         problem.getId(),
         problem.getTitle(),
         problem.getDescription(),
-        type
+        nameOfType
     );
   }
 
   public static ContestProblemDto toContestProblem(Problem problem) {
     var template = problem.getTemplate();
-    String type = ProblemType.getTitleBy(problem.getType());
+    String nameOfType = ProblemType.getTitleBy(problem.getType());
 
     return new ContestProblemDto(
         problem.getId(),
         problem.getTitle(),
         problem.getDescription(),
         problem.getContent(),
-        type, // Используем строковое представление типа задачи
+        nameOfType,
         problem.getMaxAttempts(),
         problem.getActive(),
         template.getHtmlPart(),
