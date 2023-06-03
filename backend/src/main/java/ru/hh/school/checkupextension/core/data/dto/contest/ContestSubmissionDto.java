@@ -21,7 +21,7 @@ public class ContestSubmissionDto {
   @JsonCreator
   public ContestSubmissionDto(
       @JsonProperty(SubmissionJsonPropertyName.ID) Long id,
-      @JsonProperty(SubmissionJsonPropertyName.TASK_ID) Long problemId,
+      @JsonProperty(SubmissionJsonPropertyName.PROBLEM_ID) Long problemId,
       @JsonProperty(SubmissionJsonPropertyName.STATUS_ID) String status,
       @JsonProperty(SubmissionJsonPropertyName.CREATION_DATE_TIME) LocalDateTime creationDateTime,
       @JsonProperty(SubmissionJsonPropertyName.HTML_CONTENT) String htmlContent,

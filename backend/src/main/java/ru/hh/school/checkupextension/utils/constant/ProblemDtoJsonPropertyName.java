@@ -8,7 +8,7 @@ public class ProblemDtoJsonPropertyName {
   public static final String TYPE = "type";
   public static final String TITLE = "title";
   public static final String CONTENT = "content";
-  public static final String MAX_ATTEMPTS = "max_attempts";
+  public static final String MAX_ATTEMPTS = "maxAttempts";
   public static final String ACTIVE = "active";
   public static final String DESCRIPTION = "description";
   public static final String HTML_SOLUTION = "htmlSolution";
