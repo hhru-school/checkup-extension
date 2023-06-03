@@ -22,4 +22,8 @@ public class ProblemRepository extends GenericRepository<Problem> {
   public List<Problem> getAll() {
     return getSession().createQuery("SELECT p FROM Problem p", Problem.class).getResultList();
   }
+
+  public List<Problem> getActiveProblems() {
+    return getSession().createQuery("SELECT p FROM Problem p WHERE p.active = true", Problem.class).getResultList();
+  }
 }

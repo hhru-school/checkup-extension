@@ -6,12 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.hh.school.checkupextension.utils.constant.ProblemDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContestProblemDto {
-  public final long id;
-  public final String title;
-  public final String description;
+public class ContestProblemDto extends ContestProblemInfoDto {
   public final String content;
-  public final String type;
   public final byte maxAttempts;
   public final boolean active;
   public final String htmlPart;
@@ -20,21 +16,20 @@ public class ContestProblemDto {
 
   @JsonCreator
   public ContestProblemDto(
-          @JsonProperty(ProblemDtoJsonPropertyName.ID) long id,
-          @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
-          @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
-          @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
-          @JsonProperty(ProblemDtoJsonPropertyName.TYPE) String type,
-          @JsonProperty(ProblemDtoJsonPropertyName.MAX_ATTEMPTS) byte maxAttempts,
-          @JsonProperty(ProblemDtoJsonPropertyName.ACTIVE) boolean active,
-          @JsonProperty(ProblemDtoJsonPropertyName.HTML_TEMPLATE) String htmlPart,
-          @JsonProperty(ProblemDtoJsonPropertyName.CSS_TEMPLATE) String cssPart,
-          @JsonProperty(ProblemDtoJsonPropertyName.JS_TEMPLATE) String jsPart) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
+      @JsonProperty(ProblemDtoJsonPropertyName.ID) Long id,
+      @JsonProperty(ProblemDtoJsonPropertyName.TITLE) String title,
+      @JsonProperty(ProblemDtoJsonPropertyName.DESCRIPTION) String description,
+      @JsonProperty(ProblemDtoJsonPropertyName.CONTENT) String content,
+      @JsonProperty(ProblemDtoJsonPropertyName.TYPE) String type,
+      @JsonProperty(ProblemDtoJsonPropertyName.MAX_ATTEMPTS) byte maxAttempts,
+      @JsonProperty(ProblemDtoJsonPropertyName.ACTIVE) boolean active,
+      @JsonProperty(ProblemDtoJsonPropertyName.HTML_TEMPLATE) String htmlPart,
+      @JsonProperty(ProblemDtoJsonPropertyName.CSS_TEMPLATE) String cssPart,
+      @JsonProperty(ProblemDtoJsonPropertyName.JS_TEMPLATE) String jsPart
+  ) {
+    super(id, title, description, type);
+
     this.content = content;
-    this.type = type;
     this.maxAttempts = maxAttempts;
     this.active = active;
     this.htmlPart = htmlPart;

@@ -33,9 +33,9 @@ public abstract class GenericRepository<TEntity> implements Repository<TEntity> 
 
   public void delete(Long id) {
     Optional<TEntity> entity = getById(id);
-      if (entity.isEmpty()) {
-          return;
-      }
+    if (entity.isEmpty()) {
+      return;
+    }
     getSession().remove(entity);
   }
 

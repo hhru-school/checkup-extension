@@ -9,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
@@ -18,9 +19,6 @@ import java.util.List;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
-/**
- * Класс, отвечающий за определение и обработку HTTP-запросов, связанных с контестом.
- */
 @Path("/")
 public class ContestResource {
   private final ContestService contestService;
@@ -30,16 +28,18 @@ public class ContestResource {
     this.contestService = contestService;
   }
 
-  /**
-   * Метод для получения информации о задаче по ее идентификатору.
-   * @param id - id задачи
-   * @return - объект типа ContestProblem, представляющий задачу с указанным id
-   */
   @GET
-  @Path("problem/{problem_id}")
+  @Path("/problems/{problem_id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestProblemDto getProblem(@PathParam("problem_id")long id) {
+  public ContestProblemDto getProblem(@PathParam("problem_id") long id) {
     return contestService.getProblem(id);
+  }
+
+  @GET
+  @Path("/problems/info")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<ContestProblemInfoDto> getContestProblemsInfo() {
+    return contestService.getContestProblemsInfo();
   }
 
   @POST
@@ -64,7 +64,7 @@ public class ContestResource {
   }
 
   @GET
-  @Path("/submissions/task/{id}")
+  @Path("/submissions/problem/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public List<ContestSubmissionShortInfoDto> getUserSubmissionsInfo(
       @CookieParam(USER_TOKEN) String userToken,

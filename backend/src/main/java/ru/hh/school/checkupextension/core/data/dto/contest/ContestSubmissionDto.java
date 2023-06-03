@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContestSubmissionDto {
-  public final long id;
+  public final Long id;
   public final long problemId;
   public final String status;
   public final LocalDateTime creationDateTime;
@@ -20,8 +20,8 @@ public class ContestSubmissionDto {
 
   @JsonCreator
   public ContestSubmissionDto(
-      @JsonProperty(SubmissionJsonPropertyName.ID) long id,
-      @JsonProperty(SubmissionJsonPropertyName.TASK_ID) Long problemId,
+      @JsonProperty(SubmissionJsonPropertyName.ID) Long id,
+      @JsonProperty(SubmissionJsonPropertyName.PROBLEM_ID) Long problemId,
       @JsonProperty(SubmissionJsonPropertyName.STATUS_ID) String status,
       @JsonProperty(SubmissionJsonPropertyName.CREATION_DATE_TIME) LocalDateTime creationDateTime,
       @JsonProperty(SubmissionJsonPropertyName.HTML_CONTENT) String htmlContent,
