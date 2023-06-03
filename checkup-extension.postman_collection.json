@@ -1,98 +1,135 @@
 {
 	"info": {
-		"_postman_id": "88a77b7f-67f1-4141-970c-4c24f3e41327",
+		"_postman_id": "7fdcc655-ee31-4218-81c9-52531f64aa36",
 		"name": "checkup-extension",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "task request",
+			"name": "problems request",
 			"item": [
 				{
-					"name": "create new task",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"type\": 2,\r\n  \"max_attempts\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+					"name": "contest",
+					"item": [
+						{
+							"name": "get problem by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/problems/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problems",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								},
+								"description": "Получить задачу с выбранным идентификатором для решения"
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{base-url}}/task",
-							"host": [
-								"{{base-url}}"
-							],
-							"path": [
-								"task"
-							]
+						{
+							"name": "get all problems for solving",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/problems/info",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problems",
+										"info"
+									]
+								},
+								"description": "Получить список краткой информации по всем задачам в этому году для поступающего"
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "get task by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-url}}/task/:id",
-							"host": [
-								"{{base-url}}"
-							],
-							"path": [
-								"task",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "19"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "put task",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"type\": 2,\r\n  \"title\": \"Some title\",\r\n  \"description\": \"Some description\",\r\n  \"content\": \"Some content\",\r\n  \"active\": true,\r\n  \"template\": {\r\n    \"html\": \"value1\",\r\n    \"css\": \"value2\",\r\n    \"js\": \"value3\"\r\n  }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+					"name": "admin",
+					"item": [
+						{
+							"name": "update task [not released]",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "userToken='true'",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 20,\r\n    \"type\": \"html\",\r\n    \"title\": \"Second js problem\",\r\n    \"description\": \"Short description\",\r\n    \"content\": \"Detailed desctiption\",\r\n    \"maxAttempts\": 10,\r\n    \"active\": true,\r\n    \"htmlSolution\": \"Html part of solution\",\r\n    \"cssSolution\": \"Css part of solution\",\r\n    \"jsSolution\": \"JS part of solution\",\r\n    \"htmlTemplate\": \"Some html template\",\r\n    \"cssTemplate\": \"Some css template\",\r\n    \"jsTemplate\": \"Some js template\",\r\n    \"test\": [\r\n        {\r\n            \"id\": 3,\r\n            \"content\": \"first test\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/problem",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problem"
+									]
+								},
+								"description": "Редактирование существующей задачи. (Не реализовано)"
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{base-url}}/task/:id",
-							"host": [
-								"{{base-url}}"
-							],
-							"path": [
-								"task",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "2"
-								}
-							]
+						{
+							"name": "create new problem",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "userToken='true'",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Second js problem\",\r\n  \"type\": \"html\",\r\n  \"active\": true,\r\n  \"maxAttempts\": 10,\r\n  \"description\": \"Short description\",\r\n  \"content\" : \"Detailed desctiption\",\r\n  \"htmlTemplate\": \"Some html template\",\r\n  \"cssTemplate\": \"Some css template\",\r\n  \"jsTemplate\": \"Some js template\",\r\n  \"htmlSolution\": \"Html part of solution\",\r\n  \"cssSolution\": \"Css part of solution\",\r\n  \"jsSolution\": \"JS part of solution\",\r\n  \"test\": [\r\n    {\r\n     \"content\": \"first test\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/problem",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problem"
+									]
+								},
+								"description": "Создание новой задачи"
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"description": "Все запросы требуют полномочий администратора."
 				}
-			],
-			"description": "запросы для сущности Проблем/Таск\nпротестированы, работают\nтребуют параметризации"
+			]
 		},
 		{
 			"name": "submission request",
@@ -101,10 +138,16 @@
 					"name": "send submission",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "userToken='false'",
+								"type": "default"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user_id\": 1,\r\n  \"problem_id\": 1,\r\n  \"request_datetime\": 1,\r\n  \"status\": 1,\r\n  \"solution\": {\r\n    \"value\": \"value1\"\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"problemId\": 2,\r\n  \"htmlPart\": \"html content\",\r\n  \"cssPart\": \"css content\",\r\n  \"jsPart\": \"js content\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -119,7 +162,8 @@
 							"path": [
 								"submissions"
 							]
-						}
+						},
+						"description": "Отправка решения пользователем на проверку. Идентификатор пользователя берётся из cookie."
 					},
 					"response": []
 				},
@@ -127,7 +171,13 @@
 					"name": "get submission",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "userToken='false'",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{base-url}}/submissions/:id",
 							"host": [
@@ -143,32 +193,40 @@
 									"value": "1"
 								}
 							]
-						}
+						},
+						"description": "Получить ранее отправленое решение. Идентификатор пользователя берётся из cookie."
 					},
 					"response": []
 				},
 				{
-					"name": "get user submission info",
+					"name": "get user all submissions info",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "userToken='false'",
+								"type": "default"
+							}
+						],
 						"url": {
-							"raw": "{{base-url}}/submissions/task/:id",
+							"raw": "{{base-url}}/submissions/problem/:id",
 							"host": [
 								"{{base-url}}"
 							],
 							"path": [
 								"submissions",
-								"task",
+								"problem",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "2"
 								}
 							]
-						}
+						},
+						"description": "Получить информацию по всем отправленным решениям.\nИдентификатор пользователя берётся из cookie."
 					},
 					"response": []
 				},
@@ -176,51 +234,39 @@
 					"name": "get submission status",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "userToken='false'",
+								"type": "default"
+							}
+						],
 						"url": {
-							"raw": "{{base-url}}/submissions/task/:id",
+							"raw": "{{base-url}}/submissions/problem/:id",
 							"host": [
 								"{{base-url}}"
 							],
 							"path": [
 								"submissions",
-								"task",
+								"problem",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "2"
 								}
 							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "запросы для сущности Сабмишен/Решение\nнепротестированы\nтребуют параметризации"
-		},
-		{
-			"name": "templates",
-			"item": [
-				{
-					"name": "get all tasks",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-url}}/tasks",
-							"host": [
-								"{{base-url}}"
-							],
-							"path": [
-								"tasks"
-							]
-						}
+						},
+						"description": "Получить статус отправленного решения.\nИдентификатор пользователя берётся из cookie."
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "templates",
+			"item": []
 		}
 	],
 	"event": [

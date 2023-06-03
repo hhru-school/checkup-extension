@@ -64,7 +64,7 @@ public class ContestResource {
   }
 
   @GET
-  @Path("/submissions/task/{id}")
+  @Path("/submissions/problem/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public List<ContestSubmissionShortInfoDto> getUserSubmissionsInfo(
       @CookieParam(USER_TOKEN) String userToken,

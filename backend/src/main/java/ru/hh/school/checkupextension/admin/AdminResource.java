@@ -11,7 +11,7 @@ import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
-@Path("/admin")
+@Path("/")
 public class AdminResource {
   private final AdminService adminService;
 
