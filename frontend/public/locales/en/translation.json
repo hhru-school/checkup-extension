@@ -15,6 +15,7 @@
     "history.error.title": "List of decisions not loaded",
     "history.no.data": "No solutions yet",
     "history.solution.current.title": "Current solution",
+    "history.solution.title": "Solution # {{index}}",
     "main.title": "Checking knowledge of the front-end from the school of programmers HH",
     "main.description": "We invite beginners and front-end developers with little experience who want to learn new things from practitioners who develop services with a multi-million audience.\n\nThere is no age limit. To enter the school, you need to know HTML, CSS and JavaScript and have experience in interface development - at least a little.",
     "challenges.title": "Challenges",
@@ -39,7 +40,8 @@
     "new.task.test.title": "Test",
     "new.task.description.title.placeholder": "Enter the name of the task",
     "new.task.description.short.placeholder": "Enter a brief description of the task",
-    "tooltep.active.text": "Tack active",
+    "tooltip.active.text": "Tack active",
+    "tooltip.max.attempts.text": "Max attempts",
     "code.editor.placeholder": "Please enter code",
     "code.editor.placeholder_template": "Please enter template {{language}} code",
     "code.editor.placeholder_solution": "Please enter {{language}} code",
@@ -53,5 +55,10 @@
     "message.not.content": "Maybe you forgot to add a solution...",
     "message.error.title": "Error.",
     "message.success.title": "Success.",
-    "message.solution.add": "Congratulations! Solution sent successfully, please wait for the result"
+    "message.solution.add": "Congratulations! Solution sent successfully, please wait for the result",
+    "message.task.add": "Task is add!",
+    "status.text": "In progress",
+    "status.text_checked": "Checking",
+    "status.text_success": "Success",
+    "status.text_fault": "Fault"
 }

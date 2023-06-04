@@ -2,10 +2,12 @@
 const base = "http://localhost:8081";
 
 export const endpoints = {
-  history: (id: number) => `${base}/submissions/task/${id}`,
-  newTask: () => `${base}/task`,
+  history: (id: number) => `${base}/submissions/problem/${id}`,
+  newTask: () => `${base}/problem`,
+  updateTask: () => `${base}/problem`,
   newSolution: () => `${base}/submissions`,
   getSolution: (id: number) => `${base}/submissions/${id}`,
-  getTasks: () => `${base}/tasks`,
-  getTask: (id: number) => `${base}/tasks/${id}`,
+  getSolutionStatus: (id: number) => `${base}/submissions/problem/${id}`,
+  getTasks: () => `${base}/problems/info`,
+  getTask: (id: number) => `${base}/problems/${id}`,
 };

@@ -1,15 +1,35 @@
 import { Col, Row, Switch, Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./index.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TabHeader } from "../tab-header";
-import { useSelector } from "react-redux";
-import { getTasks } from "../../__data__/selectors";
+import { getTasks } from "../../__data__/slices/tasks";
 import { useTranslation } from "react-i18next";
 import { Task } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../__data__/store";
+import { useEffect, useState } from "react";
+import { Banner } from "../banner";
 
 export const TaskTable = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [data, setData] = useState<Array<Task>>();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((store) => store.tasks.isLoading);
+  const error = useAppSelector((store) => store.tasks.error);
+  const tasks = useAppSelector((store) => store.tasks.tasks);
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setData(
+      tasks.map((item) => {
+        return { ...item, key: item.id };
+      })
+    );
+  }, [tasks]);
 
   const columns: ColumnsType<Task> = [
     {
@@ -37,22 +57,28 @@ export const TaskTable = () => {
     {
       title: t("table.column.actions"),
       key: "actions",
-      render: (_, record) => <Link to="#">{t("link.edit")}</Link>,
+      render: (_, record) => (
+        <Link to={`new-task/${record.id}`}>{t("link.edit")}</Link>
+      ),
     },
   ];
 
-  const tasks = useSelector(getTasks);
-  const data = tasks.map((item) => {
-    return { ...item, key: item.id };
-  });
+  if (error) {
+    return <Banner mode="error" />;
+  }
 
   return (
     <>
       <Space direction="vertical" size="large" className={styles.space}>
-        <TabHeader title={t("tasks.title")} onAdd={() => {}} />
+        <TabHeader
+          title={t("tasks.title")}
+          onAdd={() => {
+            navigate("new-task");
+          }}
+        />
         <Row>
           <Col span={24}>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} loading={loading} />
           </Col>
         </Row>
       </Space>

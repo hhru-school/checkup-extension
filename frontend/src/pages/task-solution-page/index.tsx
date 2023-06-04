@@ -25,6 +25,7 @@ import { SolutionToSend } from "../../types";
 import { getTask } from "../../__data__/slices/tasks";
 import { MIN_CONTENT_LENGTH } from "../../__data__/constants/constants";
 import { getFromLocalStorage, setToLocalStorage } from "../../utils";
+import { getHistory } from "../../__data__/slices/history";
 
 const SolutionSkeleton = () => {
   return (
@@ -53,9 +54,9 @@ const SolutionSkeleton = () => {
   );
 };
 
-// TODO: доработать кейс, когда решение отправлено и пришел ответ:
-// TODO: успешно - запрашиваем заново историю, стираем инпуты и добавляем текущее решение очищаем LS
 // TODO: ошибка - выводим сообщение об ошибке
+// TODO: 2 раза срабатывает запрос данных, разобраться почему, возможно роутинг
+// TODO: при загрузке задачи проверяем LS, если там что то есть грузим его, или предлагаем загрузить
 
 export const Page: FC = () => {
   const [htmlContent, setHtmlContent] = useState("");
@@ -84,11 +85,20 @@ export const Page: FC = () => {
 
   useEffect(() => {
     if (task) {
-      setHtmlContent(task.htmlTemplate);
-      setCssContent(task.cssTemplate);
-      setJsContent(task.jsTemplate);
+      const html = getFromLocalStorage<string>("html");
+      const css = getFromLocalStorage<string>("css");
+      const js = getFromLocalStorage<string>("js");
+      setHtmlContent(html ?? task.htmlTemplate);
+      setCssContent(css ?? task.cssTemplate);
+      setJsContent(js ?? task.jsTemplate);
     }
   }, [task]);
+
+  useEffect(() => {
+    if (resultSolution) {
+      dispatch(getHistory(Number(taskId)));
+    }
+  }, [dispatch, resultSolution, taskId]);
 
   useEffect(() => {
     if (currentSolutionId > 0) {
@@ -111,9 +121,9 @@ export const Page: FC = () => {
 
   useEffect(() => {
     if (solution) {
-      setHtmlContent(solution.htmlContent);
-      setCssContent(solution.cssContent);
-      setJsContent(solution.jsContent);
+      setHtmlContent(solution.htmlPart);
+      setCssContent(solution.cssPart);
+      setJsContent(solution.jsPart);
     }
   }, [solution]);
 
@@ -154,11 +164,17 @@ export const Page: FC = () => {
     ) {
       const solution: SolutionToSend = {
         problemId: Number(taskId),
-        htmlContent,
-        cssContent,
-        jsContent,
+        htmlPart: htmlContent,
+        cssPart: cssContent,
+        jsPart: jsContent,
       };
       setWarning("");
+      setToLocalStorage("html", "");
+      setToLocalStorage("css", "");
+      setToLocalStorage("js", "");
+      setHtmlContent("");
+      setCssContent("");
+      setJsContent("");
       dispatch(sendSolution({ solution, taskId: Number(taskId) }));
     } else {
       setWarning(t("message.not.content") as string);
@@ -194,7 +210,7 @@ export const Page: FC = () => {
             closable
           />
         )}
-        {resultSolution === "OK" && (
+        {resultSolution && (
           <Alert
             message={t("message.success.title")}
             description={t("message.solution.add")}
@@ -264,7 +280,7 @@ export const Page: FC = () => {
               size="middle"
               style={{ display: "flex" }}
             >
-              {task.type === "HTML" && (
+              {task.type === "html" && (
                 <>
                   <Space
                     direction="vertical"
@@ -288,7 +304,7 @@ export const Page: FC = () => {
                   </Space>
                 </>
               )}
-              {task.type === "JS" && (
+              {task.type === "js" && (
                 <>
                   <CodeEditor
                     disabled={currentSolutionId !== -1}
@@ -313,7 +329,7 @@ export const Page: FC = () => {
             </Space>
           </Col>
           <Col span={8}>
-            <History task={Number(taskId)} />
+            <History taskId={Number(taskId)} />
           </Col>
         </Row>
       </Space>

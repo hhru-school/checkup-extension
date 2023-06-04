@@ -6,14 +6,14 @@ import { endpoints } from "../constants/endpoints";
 type SolutionSliceType = {
   isLoading: boolean;
   error: string | null;
-  result: string;
+  result: SolutionFull | null;
   solution: SolutionFull | null;
 };
 
 const initialState: SolutionSliceType = {
   isLoading: false,
   error: null,
-  result: "INPROGRESS",
+  result: null,
   solution: null,
 };
 
@@ -26,8 +26,10 @@ export const sendSolution = createAsyncThunk(
     solution: SolutionToSend;
     taskId: number;
   }) => {
-    await axios.post(endpoints.newSolution(), solution);
-    return "OK";
+    const response = await axios.post(endpoints.newSolution(), solution, {
+      withCredentials: true,
+    });
+    return response.data;
   }
 );
 
@@ -35,10 +37,7 @@ export const getSolution = createAsyncThunk(
   "solution/get",
   async (id: number) => {
     const response = await axios.get(endpoints.getSolution(id), {
-      headers: {
-        withCredentials: true,
-        Cookie: "userToker='true'",
-      },
+      withCredentials: true,
     });
     return response.data;
   }
@@ -61,7 +60,7 @@ const slice = createSlice({
       .addCase(sendSolution.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message as string;
-        state.result = "ERROR";
+        state.result = null;
       })
       .addCase(getSolution.pending, (state, action) => {
         state.isLoading = true;

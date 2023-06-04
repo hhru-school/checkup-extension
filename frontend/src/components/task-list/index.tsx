@@ -1,12 +1,13 @@
 import { FC, useEffect } from "react";
 import styles from "./index.module.css";
-import { Alert, Avatar, Button, List, Steps } from "antd";
+import { Avatar, List, Steps } from "antd";
 import html from "./html.svg";
 import js from "./js.svg";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { getTasks } from "../../__data__/slices/tasks";
 import { useTranslation } from "react-i18next";
+import { Banner } from "../banner";
 
 const stepsItems = [
   {
@@ -38,24 +39,7 @@ export const TaskList: FC = () => {
   }, [dispatch]);
 
   if (error) {
-    return (
-      <Alert
-        message={t("tasks.error.title")}
-        description={t("error.loading")}
-        type="error"
-        action={
-          <Button
-            size="small"
-            danger
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
-            {t("button.reload")}
-          </Button>
-        }
-      />
-    );
+    return <Banner mode="error" />;
   }
 
   return (
@@ -72,7 +56,7 @@ export const TaskList: FC = () => {
                 <Avatar
                   shape="square"
                   size={64}
-                  src={item.type === "JS" ? js : html}
+                  src={item.type === "js" ? js : html}
                 />
               }
               title={<Link to={String(item.id)}>{item.title}</Link>}

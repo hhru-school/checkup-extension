@@ -18,25 +18,12 @@ const initialState: ResponseType = {
 };
 
 export const getTasks = createAsyncThunk<Array<Task>>("tasks/all", async () => {
-  const response = await axios.get(endpoints.getTasks(), {
-    headers: {
-      withCredentials: true,
-      Cookie: "userToker='true'",
-      "Content-Type": "application/json",
-      mode: "cors",
-    },
-  });
+  const response = await axios.get(endpoints.getTasks());
   return response.data;
 });
 
 export const getTask = createAsyncThunk("tasks/get", async (id: number) => {
-  const response = await axios.get(endpoints.getTask(id), {
-    headers: {
-      mode: "cors",
-      withCredentials: true,
-      Cookie: "userToker='true'",
-    },
-  });
+  const response = await axios.get(endpoints.getTask(id));
   return response.data;
 });
 
