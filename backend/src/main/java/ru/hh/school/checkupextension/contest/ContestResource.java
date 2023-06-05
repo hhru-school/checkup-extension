@@ -41,6 +41,13 @@ public class ContestResource {
     return "OK";
   }
 
+  @GET
+  @Path("/problems/info")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<ContestProblemInfoDto> getContestProblemsInfo() {
+    return contestService.getContestProblemsInfo();
+  }
+
   @POST
   @Path("/submissions")
   @Consumes(MediaType.APPLICATION_JSON)
