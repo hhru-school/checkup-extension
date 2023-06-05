@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { TabHeader } from "../tab-header";
 import { getTasks } from "../../__data__/slices/tasks";
 import { useTranslation } from "react-i18next";
-import { Task } from "../../types";
+import { TaskShort } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { useEffect, useState } from "react";
 import { Banner } from "../banner";
@@ -13,7 +13,7 @@ import { Banner } from "../banner";
 export const TaskTable = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [data, setData] = useState<Array<Task>>();
+  const [data, setData] = useState<Array<TaskShort>>();
   const dispatch = useAppDispatch();
   const loading = useAppSelector((store) => store.tasks.isLoading);
   const error = useAppSelector((store) => store.tasks.error);
@@ -31,7 +31,7 @@ export const TaskTable = () => {
     );
   }, [tasks]);
 
-  const columns: ColumnsType<Task> = [
+  const columns: ColumnsType<TaskShort> = [
     {
       title: t("table.column.id"),
       dataIndex: "id",

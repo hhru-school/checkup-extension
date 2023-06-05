@@ -9,6 +9,14 @@ export type Test = {
   content: string;
 };
 
+export type TaskShort = {
+  id?: number;
+  type: TaskTypes;
+  title: string;
+  description: string;
+  active: boolean;
+};
+
 export type Task = {
   id?: number;
   type: TaskTypes;

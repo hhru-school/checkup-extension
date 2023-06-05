@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Task } from "../../types";
+import { Task, TaskShort } from "../../types";
 import axios from "axios";
 import { endpoints } from "../constants/endpoints";
 
 type ResponseType = {
   isLoading: boolean;
   error: string | null;
-  tasks: Array<Task>;
+  tasks: Array<TaskShort>;
   task: Task | null;
 };
 
@@ -17,10 +17,27 @@ const initialState: ResponseType = {
   task: null,
 };
 
-export const getTasks = createAsyncThunk<Array<Task>>("tasks/all", async () => {
-  const response = await axios.get(endpoints.getTasks());
-  return response.data;
-});
+export const getTasks = createAsyncThunk<Array<TaskShort>>(
+  "tasks/all",
+  async () => {
+    const response = await axios.get(endpoints.getTasks(), {
+      transformResponse: [
+        (data) => {
+          try {
+            const parsedData = JSON.parse(data);
+            return parsedData.map((item: TaskShort) => ({
+              ...item,
+              active: true,
+            }));
+          } catch (error) {
+            return data;
+          }
+        },
+      ],
+    });
+    return response.data;
+  }
+);
 
 export const getTask = createAsyncThunk("tasks/get", async (id: number) => {
   const response = await axios.get(endpoints.getTask(id));
