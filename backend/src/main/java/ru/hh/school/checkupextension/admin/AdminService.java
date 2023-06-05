@@ -1,9 +1,11 @@
 package ru.hh.school.checkupextension.admin;
 
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
@@ -18,6 +20,15 @@ public class AdminService {
   public AdminService(CheckupInteraction checkupInteraction, ProblemRepository problemRepository) {
     this.checkupInteraction = checkupInteraction;
     this.problemRepository = problemRepository;
+  }
+
+  @Transactional
+  public List<EditableProblemInfoDto> getAllProblemsToEdit(String userToken) {
+    checkPermission(userToken);
+    return problemRepository.getAll()
+        .stream()
+        .map(EditableProblemMapper::toEditableInfoProblemDto)
+        .toList();
   }
 
   @Transactional
