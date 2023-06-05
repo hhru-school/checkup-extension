@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7fdcc655-ee31-4218-81c9-52531f64aa36",
+		"_postman_id": "5678c00b-f6a4-45db-a8a4-786b104a1863",
 		"name": "checkup-extension",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27805968"
 	},
 	"item": [
 		{
@@ -123,6 +124,36 @@
 									]
 								},
 								"description": "Создание новой задачи"
+							},
+							"response": []
+						},
+						{
+							"name": "get problem by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "userToken='true'",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/problem/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problem",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
 							},
 							"response": []
 						}
