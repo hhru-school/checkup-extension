@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
+import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
@@ -26,6 +27,14 @@ public class AdminService {
     var problem = EditableProblemMapper.toNewEntity(problemDto);
     var addedProblem = problemRepository.create(problem);
     return EditableProblemMapper.toEditableProblemDto(addedProblem);
+  }
+
+  @Transactional
+  public EditableProblemDto getProblemToEdit(String userToken, Long problemId) {
+    checkPermission(userToken);
+    var problem = problemRepository.getById(problemId)
+        .orElseThrow(() -> new ProblemNotFoundException(problemId));
+    return EditableProblemMapper.toEditableProblemDto(problem);
   }
 
   public void checkPermission(String userToken) {
