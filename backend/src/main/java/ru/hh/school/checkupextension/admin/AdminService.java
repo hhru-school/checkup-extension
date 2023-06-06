@@ -24,9 +24,13 @@ public class AdminService {
   }
 
   @Transactional
-  public List<EditableProblemInfoDto> getAllProblemsToEdit(String userToken) {
+  public List<EditableProblemInfoDto> getAllProblemsToEdit(
+      String userToken,
+      int pageNumber,
+      int pageSize
+  ) {
     checkPermission(userToken);
-    return problemRepository.getAll()
+    return problemRepository.getProblemsFrom(pageNumber, pageSize)
         .stream()
         .map(EditableProblemMapper::toEditableInfoProblemDto)
         .toList();

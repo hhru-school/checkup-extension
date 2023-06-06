@@ -3,11 +3,13 @@ package ru.hh.school.checkupextension.admin;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
@@ -38,8 +40,12 @@ public class AdminResource {
   @GET
   @Path("/problems/all")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<EditableProblemInfoDto> getAllProblems(@CookieParam((USER_TOKEN)) String userToken) {
-    return adminService.getAllProblemsToEdit(userToken);
+  public List<EditableProblemInfoDto> getAllProblems(
+      @CookieParam((USER_TOKEN)) String userToken,
+      @QueryParam("page") @DefaultValue("1") int pageNumber,
+      @QueryParam("size") @DefaultValue("20") int pageSize
+  ) {
+    return adminService.getAllProblemsToEdit(userToken, pageNumber, pageSize);
   }
 
   @POST

@@ -23,6 +23,13 @@ public class ProblemRepository extends GenericRepository<Problem> {
     return getSession().createQuery("SELECT p FROM Problem p", Problem.class).getResultList();
   }
 
+  public List<Problem> getProblemsFrom(int firstRecordNumber, int size) {
+    return getSession().createQuery("FROM Problem", Problem.class)
+        .setFirstResult((firstRecordNumber - 1) * size)
+        .setMaxResults(size)
+        .getResultList();
+  }
+
   public List<Problem> getActiveProblems() {
     return getSession().createQuery("SELECT p FROM Problem p WHERE p.active = true", Problem.class).getResultList();
   }
