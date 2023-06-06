@@ -1,13 +1,12 @@
 package ru.hh.school.checkupextension.utils.mapper.contest;
 
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionShortInfo;
 import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
-
 import ru.hh.school.checkupextension.utils.builder.SubmissionBuilder;
 
 public class ContestSubmissionMapper {

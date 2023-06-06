@@ -1,10 +1,9 @@
 package ru.hh.school.checkupextension.utils.stub;
 
 import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.integration.UserInfo;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class CheckupApiStub implements CheckupInteraction {
   private final static Logger LOGGER = getLogger(CheckupApiStub.class);

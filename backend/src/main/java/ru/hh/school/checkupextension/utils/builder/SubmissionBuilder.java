@@ -1,8 +1,8 @@
 package ru.hh.school.checkupextension.utils.builder;
 
 import java.time.LocalDateTime;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
 
 public class SubmissionBuilder {

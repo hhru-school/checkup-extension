@@ -1,16 +1,14 @@
 package ru.hh.school.checkupextension.contest;
 
+import jakarta.inject.Inject;
 import java.util.List;
-
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
-import jakarta.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
-
 import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;

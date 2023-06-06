@@ -1,11 +1,10 @@
 package ru.hh.school.checkupextension.core.repository;
 
 import jakarta.inject.Inject;
-import org.hibernate.SessionFactory;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
-
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.SessionFactory;
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 
 public class ProblemRepository extends GenericRepository<Problem> {
   @Inject

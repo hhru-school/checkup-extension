@@ -1,7 +1,5 @@
 package ru.hh.school.checkupextension.admin;
 
-import java.util.List;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
@@ -13,10 +11,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-
+import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
-
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
 @Path("/")
