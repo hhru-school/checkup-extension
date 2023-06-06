@@ -1,6 +1,7 @@
 package ru.hh.school.checkupextension.admin;
 
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.DefaultValue;
@@ -30,8 +31,8 @@ public class AdminResource {
   @Produces(MediaType.APPLICATION_JSON)
   public PaginationResultDto<EditableProblemInfoDto> getAllProblems(
       @CookieParam((USER_TOKEN)) String userToken,
-      @QueryParam("page") @DefaultValue("1") int pageNumber,
-      @QueryParam("size") @DefaultValue("20") int pageSize
+      @QueryParam("page") @DefaultValue("1") @Min(1) int pageNumber,
+      @QueryParam("size") @DefaultValue("20") @Min(1) int pageSize
   ) {
     return adminService.getAllProblemsToEdit(userToken, pageNumber, pageSize);
   }
