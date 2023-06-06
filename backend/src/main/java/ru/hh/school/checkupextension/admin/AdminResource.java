@@ -1,5 +1,7 @@
 package ru.hh.school.checkupextension.admin;
 
+import java.util.List;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.CookieParam;
@@ -11,10 +13,10 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
-import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
+
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
 @Path("/")
@@ -27,17 +29,6 @@ public class AdminResource {
   }
 
   @GET
-  @Path("/problem/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public EditableProblemDto getExistProblem(
-      @CookieParam(USER_TOKEN) String userToken,
-      @PathParam("id") Long problemId
-  ) {
-    return adminService.getProblemToEdit(userToken, problemId);
-  }
-
-
-  @GET
   @Path("/problems/all")
   @Produces(MediaType.APPLICATION_JSON)
   public List<EditableProblemInfoDto> getAllProblems(
@@ -46,6 +37,16 @@ public class AdminResource {
       @QueryParam("size") @DefaultValue("20") int pageSize
   ) {
     return adminService.getAllProblemsToEdit(userToken, pageNumber, pageSize);
+  }
+
+  @GET
+  @Path("/problem/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public EditableProblemDto getExistProblem(
+      @CookieParam(USER_TOKEN) String userToken,
+      @PathParam("id") Long problemId
+  ) {
+    return adminService.getProblemToEdit(userToken, problemId);
   }
 
   @POST

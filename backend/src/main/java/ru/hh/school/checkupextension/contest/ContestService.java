@@ -1,10 +1,10 @@
 package ru.hh.school.checkupextension.contest;
 
-import jakarta.inject.Inject;
+import java.util.List;
 
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
-
+import jakarta.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.hh.school.checkupextension.core.checker.ContestManager;
@@ -20,8 +20,6 @@ import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundExcepti
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestSubmissionMapper;
-
-import java.util.List;
 
 /**
  * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,

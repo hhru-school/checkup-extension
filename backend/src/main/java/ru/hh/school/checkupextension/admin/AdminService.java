@@ -1,9 +1,11 @@
 package ru.hh.school.checkupextension.admin;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
@@ -37,19 +39,19 @@ public class AdminService {
   }
 
   @Transactional
-  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
-    checkPermission(userToken);
-    var problem = EditableProblemMapper.toNewEntity(problemDto);
-    var addedProblem = problemRepository.create(problem);
-    return EditableProblemMapper.toEditableProblemDto(addedProblem);
-  }
-
-  @Transactional
   public EditableProblemDto getProblemToEdit(String userToken, Long problemId) {
     checkPermission(userToken);
     var problem = problemRepository.getById(problemId)
         .orElseThrow(() -> new ProblemNotFoundException(problemId));
     return EditableProblemMapper.toEditableProblemDto(problem);
+  }
+
+  @Transactional
+  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
+    checkPermission(userToken);
+    var problem = EditableProblemMapper.toNewEntity(problemDto);
+    var addedProblem = problemRepository.create(problem);
+    return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }
 
   public void checkPermission(String userToken) {
