@@ -11,7 +11,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
+import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
@@ -28,7 +28,7 @@ public class AdminResource {
   @GET
   @Path("/problems/all")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<EditableProblemInfoDto> getAllProblems(
+  public PaginationResultDto<EditableProblemInfoDto> getAllProblems(
       @CookieParam((USER_TOKEN)) String userToken,
       @QueryParam("page") @DefaultValue("1") int pageNumber,
       @QueryParam("size") @DefaultValue("20") int pageSize

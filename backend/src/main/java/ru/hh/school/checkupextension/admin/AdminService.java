@@ -1,15 +1,16 @@
 package ru.hh.school.checkupextension.admin;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
+import ru.hh.school.checkupextension.utils.mapper.PaginationResultMapper;
 import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
 public class AdminService {
@@ -24,16 +25,16 @@ public class AdminService {
   }
 
   @Transactional
-  public List<EditableProblemInfoDto> getAllProblemsToEdit(
+  public PaginationResultDto<EditableProblemInfoDto> getAllProblemsToEdit(
       String userToken,
       int pageNumber,
       int pageSize
   ) {
     checkPermission(userToken);
-    return problemRepository.getProblemsFrom(pageNumber, pageSize)
-        .stream()
-        .map(EditableProblemMapper::toEditableInfoProblemDto)
-        .toList();
+    return PaginationResultMapper.toPaginationResultDto(
+        problemRepository.getProblems(pageNumber, pageSize),
+        EditableProblemMapper::toEditableInfoProblemDto
+    );
   }
 
   @Transactional
