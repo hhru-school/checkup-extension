@@ -15,6 +15,7 @@
     "history.error.title": "Список решений не загрузился",
     "history.no.data": "Решений пока нет",
     "history.solution.current.title": "Текущее решение",
+    "history.solution.title": "Решение № {{index}}",
     "main.title": "Проверка знаний фронтендера от школы программистов HH",
     "main.description": "Мы приглашаем начинающих и имеющих небольшой опыт фронтенд-разработчиков, которые хотят учиться новому у практиков, разрабатывающих сервисы с многомиллионной аудиторией.\n\nОграничений по возрасту нет. Для поступления в школу нужно знать HTML, CSS и JavaScript и иметь опыт разработки интерфейсов — хотя бы небольшой.",
     "challenges.title": "Испытания",
@@ -39,7 +40,8 @@
     "new.task.test.title": "Тесты",
     "new.task.description.title.placeholder": "Введите название задачи",
     "new.task.description.short.placeholder": "Введите краткое описание задачи",
-    "tooltep.active.text": "Активность задачи",
+    "tooltip.active.text": "Активность задачи",
+    "tooltip.max.attempts.text": "Максимум попыток",
     "code.editor.placeholder": "Пожалуйста, введите код",
     "code.editor.placeholder_template": "Пожалуйста, введите шаблонный код на {{language}}",
     "code.editor.placeholder_solution": "Пожалуйста, введите код на {{language}}",
@@ -53,5 +55,12 @@
     "message.not.content": "Возможно вы забыли добавить решение...",
     "message.error.title": "Ошибка.",
     "message.success.title": "Успешно.",
-    "message.solution.add": "Поздравляем! Решение успешно отправлено, ожидайте результата"
+    "message.solution.add": "Поздравляем! Решение успешно отправлено, ожидайте результата",
+    "message.task.add": "Задача добавлена!",
+    "status.text": "Решается",
+    "status.text_checked": "На проверке",
+    "status.text_success": "Принято",
+    "status.text_fault": "Ошибка"
+    
+    
 }

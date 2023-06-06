@@ -1,18 +1,50 @@
-export const taskStrings = ["JS", "HTML"];
+export const taskStrings = ["js", "html"] as const;
 export type TaskTypes = (typeof taskStrings)[number];
+
+export const statusStrings = ["checked", "success", "fault"] as const;
+export type StatusTypes = (typeof statusStrings)[number];
+
+export type Test = {
+  id?: number;
+  content: string;
+};
+
+export type TaskShort = {
+  id?: number;
+  type: TaskTypes;
+  title: string;
+  description: string;
+  active: boolean;
+};
 
 export type Task = {
   id?: number;
   type: TaskTypes;
   title: string;
+  maxAttempts: number;
   description: string;
-  // step: number;
-  // status: TaskProcess;
   content: string;
   active: boolean;
   htmlTemplate: string;
   cssTemplate: string;
   jsTemplate: string;
+};
+
+export type NewTask = {
+  id?: number;
+  type: TaskTypes;
+  title: string;
+  maxAttempts: number;
+  description: string;
+  content: string;
+  active: boolean;
+  htmlSolution: string;
+  cssSolution: string;
+  jsSolution: string;
+  htmlTemplate: string;
+  cssTemplate: string;
+  jsTemplate: string;
+  test?: Array<Test>;
 };
 
 export enum TaskProcess {
@@ -22,13 +54,13 @@ export enum TaskProcess {
 
 export type SolutionToSend = {
   problemId: number;
-  htmlContent: string;
-  cssContent: string;
-  jsContent: string;
+  htmlPart: string;
+  cssPart: string;
+  jsPart: string;
 };
 
 export type SolutionShort = {
-  id: number;
+  submissionId: number;
   status: string;
   title: string;
   date: string;
@@ -36,10 +68,10 @@ export type SolutionShort = {
 
 export type SolutionFull = {
   id: number;
-  status: string;
-  title: string;
+  problemId: number;
+  statusId: string;
   date: string;
-  htmlContent: string;
-  cssContent: string;
-  jsContent: string;
+  htmlPart: string;
+  cssPart: string;
+  jsPart: string;
 };

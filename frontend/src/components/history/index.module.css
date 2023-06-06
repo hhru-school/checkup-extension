@@ -1,5 +1,5 @@
-.item:nth-child(even) {
-  background-color: #e6f7ff;
+.item {
+  cursor: pointer;
 }
 
 .space {

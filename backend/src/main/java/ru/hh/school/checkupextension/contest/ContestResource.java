@@ -36,6 +36,12 @@ public class ContestResource {
   }
 
   @GET
+  @Path("test")
+  public String getStatus() {
+    return "OK";
+  }
+
+  @GET
   @Path("/problems/info")
   @Produces(MediaType.APPLICATION_JSON)
   public List<ContestProblemInfoDto> getContestProblemsInfo() {

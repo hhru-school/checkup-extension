@@ -9,11 +9,15 @@ import {
   Skeleton,
   Space,
   Typography,
+  Badge,
+  Card,
+  Tag,
 } from "antd";
+import { ClockCircleOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
-import { fetchHistory, actions } from "../../__data__/slices/history";
-import { SolutionShort } from "../../types";
+import { getHistory, actions } from "../../__data__/slices/history";
+import { SolutionShort, StatusTypes } from "../../types";
 
 const HistorySkeleton = () => {
   const rows = new Array(7).fill(null).map((item, index) => {
@@ -38,11 +42,18 @@ const HistorySkeleton = () => {
   );
 };
 
+enum TagColors {
+  checked = "geekblue",
+  success = "green",
+  fault = "red",
+}
+
 type PropsType = {
-  task: number;
+  taskId: number;
 };
-// TODO: переделать дизайн, убрать кнопку выбрать и каждый item сделать активным
-export const History: FC<PropsType> = ({ task }) => {
+
+// TODO: если одна из задач в статусе проверяется, то пока нельзя отправлять другие решения
+export const History: FC<PropsType> = ({ taskId }) => {
   const { t } = useTranslation();
   const [solutionsCopy, setSolutionsCopy] = useState<Array<SolutionShort>>([]);
   const dispatch = useAppDispatch();
@@ -51,19 +62,23 @@ export const History: FC<PropsType> = ({ task }) => {
   const solutions = useAppSelector((store) => store.history.solutions);
 
   useEffect(() => {
-    dispatch(fetchHistory(task));
-  }, [dispatch, task]);
+    dispatch(getHistory(taskId));
+  }, [dispatch, taskId]);
 
   useEffect(() => {
     if (solutions) {
+      const solutionsWithTitle = solutions.map((item, index) => ({
+        ...item,
+        title: t("history.solution.title", { index: index + 1 }),
+      }));
       setSolutionsCopy([
         {
-          id: -1,
+          submissionId: -1,
           date: new Date().toLocaleString(),
-          status: "check",
+          status: "inprogress",
           title: t("history.solution.current.title"),
         },
-        ...solutions,
+        ...solutionsWithTitle,
       ]);
     }
   }, [solutions, t]);
@@ -108,18 +123,15 @@ export const History: FC<PropsType> = ({ task }) => {
         loading={loading}
         dataSource={solutionsCopy}
         locale={{ emptyText: t("history.no.data") }}
-        rowKey={(item) => item.id}
+        rowKey={(item) => item.submissionId}
         renderItem={(item) => (
           <List.Item
             className={styles.item}
+            onClick={() => handleShowButtonClick(item.submissionId)}
             actions={[
-              <Button
-                block
-                type="dashed"
-                onClick={() => handleShowButtonClick(item.id)}
-              >
-                {t("button.show")}
-              </Button>,
+              <Tag color={TagColors[item.status as StatusTypes]}>
+                {t("status.text", { context: item.status })}
+              </Tag>,
             ]}
           >
             <List.Item.Meta title={item.title} description={item.date} />
