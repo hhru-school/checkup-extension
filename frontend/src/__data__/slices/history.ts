@@ -17,14 +17,11 @@ const initialState: ResponseType = {
   currentSolutionId: -1,
 };
 
-export const fetchHistory = createAsyncThunk(
+export const getHistory = createAsyncThunk(
   "history/fetch",
   async (problemId: number) => {
     const response = await axios.get(endpoints.history(problemId), {
-      headers: {
-        withCredentials: true,
-        Cookie: "userToker='true'",
-      },
+      withCredentials: true,
     });
     return response.data;
   }
@@ -40,15 +37,15 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchHistory.pending, (state, action) => {
+      .addCase(getHistory.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(fetchHistory.fulfilled, (state, action) => {
+      .addCase(getHistory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.solutions = action.payload;
         state.error = null;
       })
-      .addCase(fetchHistory.rejected, (state, action) => {
+      .addCase(getHistory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message as string;
         state.solutions = [];

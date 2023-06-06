@@ -1,25 +1,37 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Task } from "../../types";
+import { NewTask, Task } from "../../types";
 import { endpoints } from "../constants/endpoints";
 
 type NewTasksType = {
   isLoading: boolean;
   error: string | null;
-  result: string;
+  result: NewTask | null;
 };
 
 const initialState: NewTasksType = {
   isLoading: false,
   error: null,
-  result: "OK",
+  result: null,
 };
 
 export const addNewTasks = createAsyncThunk(
   "tasks/create",
   async (task: Task) => {
-    await axios.post(endpoints.newTask(), task);
-    return "OK";
+    const response = await axios.post(endpoints.newTask(), task, {
+      withCredentials: true,
+    });
+    return response.data;
+  }
+);
+
+export const updateTask = createAsyncThunk(
+  "tasks/update",
+  async (task: Task) => {
+    const response = await axios.put(endpoints.newTask(), task, {
+      withCredentials: true,
+    });
+    return response.data;
   }
 );
 
@@ -41,7 +53,7 @@ const slice = createSlice({
         console.log(action);
         state.isLoading = false;
         state.error = action.error.message as string;
-        state.result = "ERROR";
+        state.result = null;
       });
   },
 });
