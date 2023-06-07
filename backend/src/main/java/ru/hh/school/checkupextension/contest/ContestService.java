@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
@@ -52,9 +52,12 @@ public class ContestService {
   }
 
   @Transactional
-  public List<ContestProblemInfoDto> getContestProblemsInfo() {
-    var problems = problemRepository.getActiveProblems();
-    return problems.stream().map(ContestProblemMapper::toContestProblemInfo).toList();
+  public ContestDto getContestProblemsInfo() {
+    var problems = problemRepository.getActiveProblems()
+        .stream()
+        .map(ContestProblemMapper::toContestProblemInfo)
+        .toList();
+    return new ContestDto(problems);
   }
 
   @Transactional

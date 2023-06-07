@@ -10,8 +10,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
@@ -29,7 +29,7 @@ public class ContestResource {
   @GET
   @Path("/problems/info")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<ContestProblemInfoDto> getContestProblemsInfo() {
+  public ContestDto getContestProblemsInfo() {
     return contestService.getContestProblemsInfo();
   }
 
