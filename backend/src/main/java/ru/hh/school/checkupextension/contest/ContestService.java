@@ -1,16 +1,14 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
-
+import java.util.List;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import ru.hh.school.checkupextension.core.checker.ContestManager;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
@@ -20,8 +18,6 @@ import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundExcepti
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestSubmissionMapper;
-
-import java.util.List;
 
 /**
  * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,
@@ -56,9 +52,12 @@ public class ContestService {
   }
 
   @Transactional
-  public List<ContestProblemInfoDto> getContestProblemsInfo() {
-    var problems = problemRepository.getActiveProblems();
-    return problems.stream().map(ContestProblemMapper::toContestProblemInfo).toList();
+  public ContestDto getContestProblemsInfo() {
+    var problems = problemRepository.getActiveProblems()
+        .stream()
+        .map(ContestProblemMapper::toContestProblemInfo)
+        .toList();
+    return new ContestDto(problems);
   }
 
   @Transactional

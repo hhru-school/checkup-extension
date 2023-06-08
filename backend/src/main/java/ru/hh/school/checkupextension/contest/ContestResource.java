@@ -9,14 +9,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemInfoDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
+import java.util.List;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
-
-import java.util.List;
-
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
 @Path("/")
@@ -29,23 +27,17 @@ public class ContestResource {
   }
 
   @GET
+  @Path("/problems/info")
+  @Produces(MediaType.APPLICATION_JSON)
+  public ContestDto getContestProblemsInfo() {
+    return contestService.getContestProblemsInfo();
+  }
+
+  @GET
   @Path("/problems/{problem_id}")
   @Produces(MediaType.APPLICATION_JSON)
   public ContestProblemDto getProblem(@PathParam("problem_id") long id) {
     return contestService.getProblem(id);
-  }
-
-  @GET
-  @Path("test")
-  public String getStatus() {
-    return "OK";
-  }
-
-  @GET
-  @Path("/problems/info")
-  @Produces(MediaType.APPLICATION_JSON)
-  public List<ContestProblemInfoDto> getContestProblemsInfo() {
-    return contestService.getContestProblemsInfo();
   }
 
   @POST

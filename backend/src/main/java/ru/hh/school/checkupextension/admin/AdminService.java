@@ -3,11 +3,14 @@ package ru.hh.school.checkupextension.admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
+import ru.hh.school.checkupextension.utils.mapper.PaginationResultMapper;
 import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
 public class AdminService {
@@ -22,11 +25,16 @@ public class AdminService {
   }
 
   @Transactional
-  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
+  public PaginationResultDto<EditableProblemInfoDto> getAllProblemsToEdit(
+      String userToken,
+      int pageNumber,
+      int pageSize
+  ) {
     checkPermission(userToken);
-    var problem = EditableProblemMapper.toNewEntity(problemDto);
-    var addedProblem = problemRepository.create(problem);
-    return EditableProblemMapper.toEditableProblemDto(addedProblem);
+    return PaginationResultMapper.toPaginationResultDto(
+        problemRepository.getProblems(pageNumber, pageSize),
+        EditableProblemMapper::toEditableInfoProblemDto
+    );
   }
 
   @Transactional
@@ -35,6 +43,14 @@ public class AdminService {
     var problem = problemRepository.getById(problemId)
         .orElseThrow(() -> new ProblemNotFoundException(problemId));
     return EditableProblemMapper.toEditableProblemDto(problem);
+  }
+
+  @Transactional
+  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
+    checkPermission(userToken);
+    var problem = EditableProblemMapper.toNewEntity(problemDto);
+    var addedProblem = problemRepository.create(problem);
+    return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }
 
   public void checkPermission(String userToken) {

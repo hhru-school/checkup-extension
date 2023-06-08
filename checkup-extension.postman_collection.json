@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "5678c00b-f6a4-45db-a8a4-786b104a1863",
+		"_postman_id": "aad004aa-a99c-476a-bb9b-cd5ea98858cc",
 		"name": "checkup-extension",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27805968"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -154,6 +153,41 @@
 										}
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problems to edit",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "userToken='true'",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/problems/all?page=1&size=3",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"problems",
+										"all"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								},
+								"description": "По умолчанию выставлены page=1 и size=20"
 							},
 							"response": []
 						}

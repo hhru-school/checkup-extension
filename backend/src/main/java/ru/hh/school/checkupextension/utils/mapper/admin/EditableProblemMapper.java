@@ -2,9 +2,10 @@ package ru.hh.school.checkupextension.utils.mapper.admin;
 
 import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableVerificationDto;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 import ru.hh.school.checkupextension.core.data.enums.ProblemType;
 import ru.hh.school.checkupextension.utils.builder.ProblemBuilder;
@@ -87,5 +88,15 @@ public class EditableProblemMapper {
     return VerificationBuilder.buildNewVerification(
         verificationDto.content()
     );
+  }
+
+  public static EditableProblemInfoDto toEditableInfoProblemDto(Problem problem) {
+    var nameOfType = ProblemType.getTitleBy(problem.getType());
+    return new EditableProblemInfoDto(
+        problem.getId(),
+        problem.getTitle(),
+        problem.getDescription(),
+        nameOfType,
+        problem.getActive());
   }
 }

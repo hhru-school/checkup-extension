@@ -1,10 +1,9 @@
 package ru.hh.school.checkupextension.core.repository;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public abstract class GenericRepository<TEntity> implements Repository<TEntity> {
   protected SessionFactory sessionFactory;

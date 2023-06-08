@@ -2,12 +2,11 @@ package ru.hh.school.checkupextension.core.repository;
 
 
 import jakarta.inject.Inject;
+import java.util.List;
+import java.util.Optional;
 import org.hibernate.SessionFactory;
 import ru.hh.school.checkupextension.core.data.entity.Submission;
 import ru.hh.school.checkupextension.core.data.entity.SubmissionShortInfo;
-
-import java.util.List;
-import java.util.Optional;
 
 public class SubmissionRepository extends GenericRepository<Submission> {
   @Inject

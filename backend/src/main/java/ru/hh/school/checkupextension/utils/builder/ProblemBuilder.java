@@ -1,8 +1,8 @@
 package ru.hh.school.checkupextension.utils.builder;
 
 import java.util.List;
-import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
+import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
 
 public class ProblemBuilder {

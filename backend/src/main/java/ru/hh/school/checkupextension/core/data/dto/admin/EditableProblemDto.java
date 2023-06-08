@@ -3,11 +3,9 @@ package ru.hh.school.checkupextension.core.data.dto.admin;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-
 import ru.hh.school.checkupextension.utils.constant.ProblemDtoJsonPropertyName;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
