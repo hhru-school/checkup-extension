@@ -9,12 +9,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
 @Path("/")
@@ -64,7 +63,7 @@ public class ContestResource {
   @GET
   @Path("/submissions/problem/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<ContestSubmissionShortInfoDto> getUserSubmissionsInfo(
+  public UserSubmissionsDto getUserSubmissionsInfo(
       @CookieParam(USER_TOKEN) String userToken,
       @PathParam("id") long problemId
   ) {
