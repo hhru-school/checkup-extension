@@ -75,7 +75,7 @@
 <!--                            <goal>copy-resources</goal>-->
 <!--                        </goals>-->
 <!--                        <configuration>-->
-<!--                            <outputDirectory> ${basedir}/target/utils </outputDirectory>-->
+<!--                            <outputDirectory> ${basedir}/utils </outputDirectory>-->
 <!--                            <resources>-->
 <!--                                <resource>-->
 <!--                                    <directory>${basedir}/checker</directory>-->
