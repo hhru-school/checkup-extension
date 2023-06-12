@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Test(boolean success, List<TestResult> testResults) {
+public record TestInfo(boolean success, List<TestResult> testResults) {
   public static final String FAILED = "failed";
   public static final String PASSED = "passed";
 
   @JsonCreator
-  public Test(
+  public TestInfo(
       @JsonProperty("success") boolean success,
       @JsonProperty("testResults") List<TestResult> testResults
   ) {
