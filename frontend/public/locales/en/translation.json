@@ -60,5 +60,6 @@
     "status.text": "In progress",
     "status.text_checked": "Checking",
     "status.text_success": "Success",
-    "status.text_fault": "Fault"
+    "status.text_fault": "Fault",
+    "menu.admin": "Admin"
 }
