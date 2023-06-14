@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import ru.hh.school.checkupextension.core.checker.TestingUtility;
 import ru.hh.school.checkupextension.core.checker.data.TestInfo;
-import ru.hh.school.checkupextension.core.data.dto.checker.UserSolutionDto;
+import ru.hh.school.checkupextension.core.data.dto.checker.UserSolution;
 
 public abstract class TestEnvironment {
   public static final String ROOT_DIR = String.join(File.separator, System.getProperty("user.dir"), "backend", "utils");
@@ -23,14 +23,14 @@ public abstract class TestEnvironment {
     this.userSolutionDirectory = userSolutionDirectory;
   }
 
-  public static String createWorkDirectory(UserSolutionDto submission) throws IOException {
+  public static String createWorkDirectory(UserSolution submission) throws IOException {
     var workDirectory = getPathToWorkDirectory(submission);
     var pathToWorkDirectory = Paths.get(workDirectory);
     Files.createDirectories(pathToWorkDirectory);
     return workDirectory;
   }
 
-  private static String getPathToWorkDirectory(UserSolutionDto userSolutionDto) {
+  private static String getPathToWorkDirectory(UserSolution userSolutionDto) {
     String problemId = String.valueOf(userSolutionDto.problemId());
     String submissionId = String.valueOf(userSolutionDto.submissionId());
     return String.join(File.separator, PATH_TO_PROBLEMS_DIRECTORY, problemId, "submissions", submissionId);
@@ -43,7 +43,7 @@ public abstract class TestEnvironment {
     return userSolutionDirectory;
   }
 
-  public void fillWorkDirectory(UserSolutionDto submission) throws IOException {
+  public void fillWorkDirectory(UserSolution submission) throws IOException {
     addTestFile();
     addUserSolution(submission);
   }
@@ -58,7 +58,7 @@ public abstract class TestEnvironment {
 
   protected abstract String getPathToTestScript();
 
-  protected abstract void addUserSolution(UserSolutionDto submissionDto) throws IOException;
+  protected abstract void addUserSolution(UserSolution submissionDto) throws IOException;
 
   protected void writeContentToFile(String content, String fileName) throws IOException {
     var file = String.join(File.separator, userSolutionDirectory, fileName);

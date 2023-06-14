@@ -9,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import ru.hh.school.checkupextension.core.checker.Checker;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
@@ -47,7 +48,7 @@ public class ContestResource {
       @CookieParam(USER_TOKEN) String userToken,
       ContestSubmissionDto submission
   ) {
-    return contestService.createSubmission(userToken, submission);
+    return contestService.handleSubmission(userToken, submission);
   }
 
   @GET

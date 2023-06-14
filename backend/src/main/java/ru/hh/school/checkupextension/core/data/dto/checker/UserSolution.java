@@ -2,7 +2,7 @@ package ru.hh.school.checkupextension.core.data.dto.checker;
 
 import ru.hh.school.checkupextension.core.data.enums.ProblemType;
 
-public record UserSolutionDto(
+public record UserSolution(
     Long submissionId,
     Long problemId,
     ProblemType type,
