@@ -1,9 +1,9 @@
 import { Col, Row, Switch, Space, Table } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import styles from "./index.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TabHeader } from "../tab-header";
-import { getTasks } from "../../__data__/slices/tasks";
+import { getTasksToEdit } from "../../__data__/slices/tasks";
 import { useTranslation } from "react-i18next";
 import { TaskShort } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
@@ -14,22 +14,44 @@ export const TaskTable = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [data, setData] = useState<Array<TaskShort>>();
+  const [pagination, setPagination] = useState<TablePaginationConfig>({
+    current: 1,
+    pageSize: 2,
+  });
   const dispatch = useAppDispatch();
   const loading = useAppSelector((store) => store.tasks.isLoading);
   const error = useAppSelector((store) => store.tasks.error);
-  const tasks = useAppSelector((store) => store.tasks.tasks);
+  const tasks = useAppSelector((store) => store.tasks.tasksToEdit);
 
   useEffect(() => {
-    dispatch(getTasks());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setData(
-      tasks.map((item) => {
-        return { ...item, key: item.id };
+    dispatch(
+      getTasksToEdit({
+        page: pagination.current as number,
+        size: pagination.pageSize as number,
       })
     );
-  }, [tasks]);
+  }, [dispatch, JSON.stringify(pagination)]);
+
+  useEffect(() => {
+    if (tasks) {
+      setData(
+        tasks.records.map((item) => {
+          return { ...item, key: item.id };
+        })
+      );
+
+      setPagination({
+        ...pagination,
+        total: tasks.total,
+      });
+    }
+  }, [JSON.stringify(pagination), tasks]);
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setPagination({
+      ...pagination,
+    });
+  };
 
   const columns: ColumnsType<TaskShort> = [
     {
@@ -78,7 +100,13 @@ export const TaskTable = () => {
         />
         <Row>
           <Col span={24}>
-            <Table columns={columns} dataSource={data} loading={loading} />
+            <Table
+              columns={columns}
+              dataSource={data}
+              loading={loading}
+              pagination={pagination}
+              onChange={handleTableChange}
+            />
           </Col>
         </Row>
       </Space>

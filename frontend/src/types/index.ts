@@ -17,6 +17,14 @@ export type TaskShort = {
   active: boolean;
 };
 
+export type TasksToEdit = {
+  page: number;
+  size: number;
+  pages: number;
+  total: number;
+  records: Array<TaskShort>;
+};
+
 export type Task = {
   id?: number;
   type: TaskTypes;
