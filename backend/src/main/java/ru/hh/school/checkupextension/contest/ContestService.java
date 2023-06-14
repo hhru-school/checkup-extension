@@ -1,7 +1,6 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
-import java.util.List;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
-import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
@@ -92,12 +91,13 @@ public class ContestService {
   }
 
   @Transactional
-  public List<ContestSubmissionShortInfoDto> getUserSubmissionsInfo(String userToken, long problemId) {
+  public UserSubmissionsDto getUserSubmissionsInfo(String userToken, long problemId) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
-    return submissionRepository.getUserSubmissionsShortInfo(userInfo.userId(), problemId)
+    var submissions = submissionRepository.getUserSubmissionsShortInfo(userInfo.userId(), problemId)
         .stream()
         .map(ContestSubmissionMapper::toContestSubmissionShortInfo)
         .toList();
+    return new UserSubmissionsDto(submissions);
   }
 
   @Transactional
