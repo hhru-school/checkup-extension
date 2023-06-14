@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "unit": "jest --json ./submission",
-    "integration": "jest --json --preset jest-puppeteer ./submission"
+    "comparing": "jest --json --preset jest-puppeteer"
   },
   "dependencies": {
     "@babel/core": "^7.21.4",
