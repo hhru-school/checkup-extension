@@ -43,7 +43,7 @@ public class ContestSubmissionMapper {
   }
 
   public static ContestSubmissionShortInfoDto toContestSubmissionShortInfo(SubmissionShortInfo info) {
-    return new ContestSubmissionShortInfoDto(info.submissionId(), SubmissionsStatus.getTitleBy(info.status()));
+    return new ContestSubmissionShortInfoDto(info.submissionId(), info.creationDateTime(), SubmissionsStatus.getTitleBy(info.status()));
   }
 
   public static ContestSubmissionResultDto toContestStatusDto(Submission submission) {
