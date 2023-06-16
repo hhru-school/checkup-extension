@@ -54,4 +54,15 @@ public class SubmissionRepository extends GenericRepository<Submission> {
 
     return (long) query.uniqueResult();
   }
+
+  public void updateSubmissionStatus(long id, byte status) {
+    getSession().createQuery("""
+        UPDATE Submission s
+        SET s.status := :status
+        WHERE s.id := :id
+        """)
+        .setParameter("id", id)
+        .setParameter("status", status)
+        .executeUpdate();
+  }
 }

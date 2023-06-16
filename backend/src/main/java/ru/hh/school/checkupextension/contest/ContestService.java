@@ -1,6 +1,8 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -14,6 +16,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ProblemInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
+import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
@@ -37,6 +40,8 @@ public class ContestService {
 
   private final ContestManager contestManager;
   private final CheckupInteraction checkupIntegrator;
+
+  private final Executor executor = Executors.newFixedThreadPool(50 * Runtime.getRuntime().availableProcessors());
 
   @Inject
   public ContestService(
@@ -75,9 +80,9 @@ public class ContestService {
     var problemInfo = getProblemInfoForUser(userId, submission);
     checkPermissionForUser(userId, problemInfo);
     var registeredSubmission = registerSubmissionForUser(userId, submission);
-    Executors.newSingleThreadExecutor().execute(() ->
-        checkSolution(submission, problemInfo)
-    );
+    CompletableFuture
+        .supplyAsync(() -> checkSolution(submission, problemInfo), executor)
+        .thenAccept(res -> saveResultOfChecking(submission.id, res));
 
     return registeredSubmission;
   }
@@ -106,6 +111,12 @@ public class ContestService {
   private TestInfo checkSolution(ContestSubmissionDto submissionDto, ProblemInfo problemInfo) {
     var userSolution = UserSolutionMapper.toUserSolutionDto(submissionDto, problemInfo.problem);
     return checker.check(userSolution);
+  }
+
+  @Transactional
+  private void saveResultOfChecking(long submissionId, TestInfo result) {
+    var status = result.success() ? SubmissionsStatus.ACCEPTED : SubmissionsStatus.REFUSED;
+    submissionRepository.updateSubmissionStatus(submissionId, status.getCode());
   }
 
   @Transactional
