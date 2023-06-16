@@ -1,9 +1,12 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,16 +78,38 @@ public class ContestService {
   }
 
   public ContestSubmissionShortInfoDto handleSubmission(String userToken, ContestSubmissionDto submission) {
+    return handleSubmissionMethod(userToken, submission, Optional.empty());
+  }
+
+  public void handleSubmission(String userToken, ContestSubmissionDto submissionDto, Optional<Consumer<ContestSubmissionShortInfoDto>> callback) {
+    handleSubmissionMethod(userToken, submissionDto, callback);
+  }
+
+  private ContestSubmissionShortInfoDto handleSubmissionMethod(
+      String userToken,
+      ContestSubmissionDto submission,
+      Optional<Consumer<ContestSubmissionShortInfoDto>> callback
+  ) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
     var userId = userInfo.userId();
 
     var problemInfo = getProblemInfoForUser(userId, submission);
     checkPermissionForUser(userId, problemInfo);
-    var registeredSubmission = registerSubmissionForUser(userId, submission);
 
-    CompletableFuture
+    var registeredSubmission = registerSubmissionForUser(userId, submission);
+    callback.ifPresent(consumer -> consumer.accept(registeredSubmission));
+
+    var future = CompletableFuture
         .supplyAsync(() -> checkSolution(submission, problemInfo), executor)
-        .thenAccept(res -> saveResultOfChecking(registeredSubmission.submissionId(), res));
+        .thenApply(res -> saveResultOfChecking(registeredSubmission, res));
+
+    if (callback.isPresent()) {
+      try {
+        callback.get().accept(future.get());
+      } catch (InterruptedException | ExecutionException e) {
+        throw new RuntimeException(e);
+      }
+    }
 
     return registeredSubmission;
   }
@@ -116,9 +141,10 @@ public class ContestService {
   }
 
   @Transactional
-  private void saveResultOfChecking(long submissionId, TestInfo result) {
+  private ContestSubmissionShortInfoDto saveResultOfChecking(ContestSubmissionShortInfoDto submission, TestInfo result) {
     var status = result.success() ? SubmissionsStatus.ACCEPTED : SubmissionsStatus.REFUSED;
-    submissionRepository.updateSubmissionStatus(submissionId, status.getCode());
+    submissionRepository.updateSubmissionStatus(submission.submissionId(), status.getCode());
+    return new ContestSubmissionShortInfoDto(submission.submissionId(), submission.creationDateTime(), status.getTitle());
   }
 
   @Transactional
