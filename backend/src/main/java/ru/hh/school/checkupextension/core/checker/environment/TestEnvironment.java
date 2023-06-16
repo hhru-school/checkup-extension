@@ -10,7 +10,7 @@ import ru.hh.school.checkupextension.core.data.dto.checker.UserSolutionDto;
 
 public abstract class TestEnvironment {
   public static final String ROOT_DIR = String.join(File.separator, System.getProperty("user.dir"), "backend", "utils");
-  protected static final String PATH_TO_PROBLEMS_DIRECTORY = String.join(File.separator, ROOT_DIR, "problems");
+  public static final String PATH_TO_PROBLEMS_DIRECTORY = String.join(File.separator, ROOT_DIR, "problems");
 
   protected static final String TEST_SCRIPT_NAME = "test.js";
 

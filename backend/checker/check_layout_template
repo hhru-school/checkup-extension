@@ -4,7 +4,7 @@ import { configureToMatchImageSnapshot } from "jest-image-snapshot";
 
 let path = require('path');
 const toMatchImageSnapshot = configureToMatchImageSnapshot({
-  customSnapshotsDir: `${path.join(__dirname, '..', '..', '__snapshots__')}`,
+  customSnapshotsDir: `${path.join(__dirname, path_to_snapshots_replace_mark)}`,
   customDiffDir: `${__dirname}/__diff__`,
 });
 
