@@ -1,3 +1,5 @@
 package ru.hh.school.checkupextension.core.data.entity;
 
-public record SubmissionShortInfo(Long submissionId, byte status) { }
+import java.time.LocalDateTime;
+
+public record SubmissionShortInfo(Long submissionId, LocalDateTime creationDateTime, byte status) { }

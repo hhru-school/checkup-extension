@@ -1,3 +1,5 @@
 package ru.hh.school.checkupextension.core.data.dto.contest;
 
-public record ContestSubmissionShortInfoDto(Long submissionId, String status) { }
+import java.time.LocalDateTime;
+
+public record ContestSubmissionShortInfoDto(Long submissionId, LocalDateTime creationDateTime, String status) { }
