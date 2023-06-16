@@ -14,6 +14,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ProblemInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
 import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
@@ -73,16 +74,17 @@ public class ContestService {
     return new ContestDto(problems);
   }
 
-  public ContestSubmissionDto handleSubmission(String userToken, ContestSubmissionDto submission) {
+  public ContestSubmissionShortInfoDto handleSubmission(String userToken, ContestSubmissionDto submission) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
     var userId = userInfo.userId();
 
     var problemInfo = getProblemInfoForUser(userId, submission);
     checkPermissionForUser(userId, problemInfo);
     var registeredSubmission = registerSubmissionForUser(userId, submission);
+
     CompletableFuture
         .supplyAsync(() -> checkSolution(submission, problemInfo), executor)
-        .thenAccept(res -> saveResultOfChecking(submission.id, res));
+        .thenAccept(res -> saveResultOfChecking(registeredSubmission.submissionId(), res));
 
     return registeredSubmission;
   }
@@ -120,10 +122,10 @@ public class ContestService {
   }
 
   @Transactional
-  public ContestSubmissionDto registerSubmissionForUser(long userId, ContestSubmissionDto submission) {
+  public ContestSubmissionShortInfoDto registerSubmissionForUser(long userId, ContestSubmissionDto submission) {
     var entity = ContestSubmissionMapper.toNewEntity(userId, submission);
     var addedEntity = submissionRepository.create(entity);
-    return ContestSubmissionMapper.toContestDto(addedEntity);
+    return ContestSubmissionMapper.toContestSubmissionShortInfo(addedEntity);
   }
 
   @Transactional

@@ -46,6 +46,11 @@ public class ContestSubmissionMapper {
     return new ContestSubmissionShortInfoDto(info.submissionId(), info.creationDateTime(), SubmissionsStatus.getTitleBy(info.status()));
   }
 
+  public static ContestSubmissionShortInfoDto toContestSubmissionShortInfo(Submission info) {
+    var status = SubmissionsStatus.getTitleBy(info.getStatus());
+    return new ContestSubmissionShortInfoDto(info.getId(), info.getCreationDateTime(), status);
+  }
+
   public static ContestSubmissionResultDto toContestStatusDto(Submission submission) {
     var submissionId = submission.getId();
     var status = SubmissionsStatus.getTitleBy(submission.getStatus());
