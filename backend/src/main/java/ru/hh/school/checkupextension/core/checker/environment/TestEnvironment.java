@@ -9,10 +9,10 @@ import ru.hh.school.checkupextension.core.checker.data.TestInfo;
 import ru.hh.school.checkupextension.core.data.dto.checker.UserSolution;
 
 public abstract class TestEnvironment {
-  public static final String ROOT_DIR = String.join(File.separator, System.getProperty("user.dir"), "backend", "utils");
-  protected static final String PATH_TO_PROBLEMS_DIRECTORY = String.join(File.separator, ROOT_DIR, "problems");
+  public static final String ROOT_DIR = String.join(File.separator, System.getProperty("user.dir"), "utils");
+  public static final String PATH_TO_PROBLEMS_DIRECTORY = String.join(File.separator, ROOT_DIR, "problems");
 
-  protected static final String TEST_SCRIPT_NAME = "test.js";
+  public static final String TEST_SCRIPT_NAME = "test.js";
 
   protected final String workDirectory;
   protected final String userSolutionDirectory;
@@ -48,15 +48,7 @@ public abstract class TestEnvironment {
     addUserSolution(submission);
   }
 
-  private void addTestFile() throws IOException {
-    var inputFilePath = Paths.get(getPathToTestScript());
-    this.pathToFinalTestScript = String.join(File.separator, workDirectory, TEST_SCRIPT_NAME);
-    var outputFilePath = Paths.get(pathToFinalTestScript);
-
-    Files.copy(inputFilePath, outputFilePath);
-  }
-
-  protected abstract String getPathToTestScript();
+  protected abstract void addTestFile() throws IOException;
 
   protected abstract void addUserSolution(UserSolution submissionDto) throws IOException;
 
