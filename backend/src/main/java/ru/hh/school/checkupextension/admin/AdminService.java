@@ -3,7 +3,7 @@ package ru.hh.school.checkupextension.admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
-import ru.hh.school.checkupextension.core.checker.creator.ScreenshotsCreator;
+import ru.hh.school.checkupextension.core.checker.register.ScreenshotsCreator;
 import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
@@ -51,7 +51,6 @@ public class AdminService {
     checkPermission(userToken);
     var problem = EditableProblemMapper.toNewEntity(problemDto);
     var addedProblem = problemRepository.create(problem);
-    // Generate screenshot
     ScreenshotsCreator.createScreenshot(addedProblem);
     return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }
