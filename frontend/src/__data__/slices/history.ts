@@ -23,7 +23,7 @@ export const getHistory = createAsyncThunk(
     const response = await axios.get(endpoints.history(problemId), {
       withCredentials: true,
     });
-    return response.data;
+    return response.data.submissions;
   }
 );
 

@@ -52,7 +52,7 @@ export type NewTask = {
   htmlTemplate: string;
   cssTemplate: string;
   jsTemplate: string;
-  test?: Array<Test>;
+  test: Array<Test>;
 };
 
 export enum TaskProcess {
@@ -69,7 +69,7 @@ export type SolutionToSend = {
 
 export type SolutionShort = {
   submissionId: number;
-  status: string;
+  status: StatusTypes | "inprogress";
   title: string;
   date: string;
 };
@@ -77,7 +77,7 @@ export type SolutionShort = {
 export type SolutionFull = {
   id: number;
   problemId: number;
-  statusId: string;
+  statusId: StatusTypes;
   date: string;
   htmlPart: string;
   cssPart: string;

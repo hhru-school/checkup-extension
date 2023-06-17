@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Task, TaskShort, TasksToEdit } from "../../types";
+import { NewTask, Task, TaskShort, TasksToEdit } from "../../types";
 import axios from "axios";
 import { endpoints } from "../constants/endpoints";
 
@@ -9,6 +9,7 @@ type ResponseType = {
   tasks: Array<TaskShort>;
   task: Task | null;
   tasksToEdit: TasksToEdit | null;
+  taskToEdit: NewTask | null;
 };
 
 const initialState: ResponseType = {
@@ -17,6 +18,7 @@ const initialState: ResponseType = {
   tasks: [],
   task: null,
   tasksToEdit: null,
+  taskToEdit: null,
 };
 
 export const getTasks = createAsyncThunk<Array<TaskShort>>(
@@ -55,6 +57,16 @@ export const getTask = createAsyncThunk("tasks/get", async (id: number) => {
   const response = await axios.get(endpoints.getTask(id));
   return response.data;
 });
+
+export const getTaskToEdit = createAsyncThunk(
+  "tasks/get/edit",
+  async (id: number) => {
+    const response = await axios.get(endpoints.getTaskToEdit(id), {
+      withCredentials: true,
+    });
+    return response.data;
+  }
+);
 
 const slice = createSlice({
   name: "tasks",
@@ -100,6 +112,19 @@ const slice = createSlice({
         state.isLoading = false;
         state.error = action.error.message as string;
         state.tasksToEdit = null;
+      })
+      .addCase(getTaskToEdit.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getTaskToEdit.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.taskToEdit = action.payload;
+        state.error = null;
+      })
+      .addCase(getTaskToEdit.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message as string;
+        state.taskToEdit = null;
       });
   },
 });

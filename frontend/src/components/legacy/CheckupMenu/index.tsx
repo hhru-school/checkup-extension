@@ -11,6 +11,11 @@ export const CheckupMenu = () => {
           {t("menu.admin")}
         </a>
       </li>
+      <li>
+        <a className={styles.link} href="/">
+          {t("tasks.title")}
+        </a>
+      </li>
     </ul>
   );
 };
