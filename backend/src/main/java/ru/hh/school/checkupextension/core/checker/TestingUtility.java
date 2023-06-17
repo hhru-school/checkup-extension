@@ -10,7 +10,7 @@ import ru.hh.school.checkupextension.core.checker.data.TestInfo;
 import ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment;
 import ru.hh.school.checkupextension.core.checker.environment.TestEnvironment;
 import ru.hh.school.checkupextension.core.checker.utils.ProgrammRunner;
-import ru.hh.school.checkupextension.core.data.dto.checker.UserSolutionDto;
+import ru.hh.school.checkupextension.core.data.dto.checker.UserSolution;
 import ru.hh.school.checkupextension.utils.exception.checker.NotImplementedException;
 
 public class TestingUtility {
@@ -23,15 +23,15 @@ public class TestingUtility {
     return readResult(process);
   }
 
-  public static TestEnvironment createEnvironment(UserSolutionDto userSolutionDto) throws IOException {
+  public static TestEnvironment createEnvironment(UserSolution userSolutionDto) throws IOException {
     TestEnvironment environment;
     var workDirectory = TestEnvironment.createWorkDirectory(userSolutionDto);
     var userSolutionDirectory = TestEnvironment.createUserSolutionDirectory(workDirectory);
     var type = userSolutionDto.type();
 
     switch (type) {
-      case HTML -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
-      case JS -> environment = new LayoutTestEnvironment(workDirectory, userSolutionDirectory);
+      case HTML -> environment = new LayoutTestEnvironment(workDirectory, userSolutionDirectory);
+      case JS -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
       default -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
     }
 

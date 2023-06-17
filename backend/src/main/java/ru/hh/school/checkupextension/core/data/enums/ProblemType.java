@@ -9,6 +9,7 @@ public enum ProblemType {
   HTML((byte) 1),
   UNKNOWN((byte) 2);
 
+  private  static final Map<Byte, ProblemType> enums;
   private static final Map<Byte, String> types;
   private static final Map<String, Byte> names;
 
@@ -16,6 +17,7 @@ public enum ProblemType {
     var jsName = "js";
     var htmlName = "html";
     var unknown = "unknown";
+
     types = new HashMap<>();
     types.put(JS.typeCode, jsName);
     types.put(HTML.typeCode, htmlName);
@@ -25,6 +27,15 @@ public enum ProblemType {
     names.put(jsName, JS.typeCode);
     names.put(htmlName, HTML.typeCode);
     names.put(unknown, UNKNOWN.typeCode);
+
+    enums = new HashMap<>();
+    enums.put(HTML.typeCode, HTML);
+    enums.put(JS.typeCode, JS);
+    enums.put(UNKNOWN.typeCode, UNKNOWN);
+  }
+
+  public static ProblemType getValue(byte code) {
+    return enums.get(code);
   }
 
   public static String getTitleBy(byte code) {

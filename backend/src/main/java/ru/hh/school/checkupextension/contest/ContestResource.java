@@ -13,6 +13,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
@@ -43,11 +44,11 @@ public class ContestResource {
   @Path("/submissions")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ContestSubmissionDto sendSubmission(
+  public ContestSubmissionShortInfoDto sendSubmission(
       @CookieParam(USER_TOKEN) String userToken,
       ContestSubmissionDto submission
   ) {
-    return contestService.createSubmission(userToken, submission);
+    return contestService.handleSubmission(userToken, submission);
   }
 
   @GET

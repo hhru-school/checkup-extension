@@ -4,12 +4,17 @@ import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hh.school.checkupextension.core.checker.Checker;
 import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.checker.data.TestInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionResultDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ContestSubmissionShortInfoDto;
+import ru.hh.school.checkupextension.core.data.dto.contest.ProblemInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
+import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
@@ -17,6 +22,7 @@ import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundExcepti
 import ru.hh.school.checkupextension.utils.exception.core.SubmissionNotFoundException;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestSubmissionMapper;
+import ru.hh.school.checkupextension.utils.mapper.contest.UserSolutionMapper;
 
 /**
  * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,
@@ -28,17 +34,21 @@ public class ContestService {
   private final ProblemRepository problemRepository;
   private final SubmissionRepository submissionRepository;
 
+  private final Checker checker;
+
   private final ContestManager contestManager;
   private final CheckupInteraction checkupIntegrator;
 
   @Inject
   public ContestService(
       CheckupInteraction checkupIntegrator,
+      Checker checker,
       ContestManager contestManager,
       ProblemRepository problemRepository,
       SubmissionRepository submissionRepository
   ) {
     this.checkupIntegrator = checkupIntegrator;
+    this.checker = checker;
     this.contestManager = contestManager;
     this.problemRepository = problemRepository;
     this.submissionRepository = submissionRepository;
@@ -60,7 +70,7 @@ public class ContestService {
   }
 
   @Transactional
-  public ContestSubmissionDto createSubmission(String userToken, ContestSubmissionDto submission) {
+  public ContestSubmissionShortInfoDto handleSubmission(String userToken, ContestSubmissionDto submission) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
     var userId = userInfo.userId();
 
@@ -71,13 +81,31 @@ public class ContestService {
 
     var totalSubmissions = submissionRepository.getTotalSubmissionsOfTaskForUser(userId, problemId);
 
-    LOGGER.info("Total submissions {} [max: {}] from user {}", totalSubmissions, problem.getMaxAttempts(), userId);
-    contestManager.allowSolvingProblem(userId, totalSubmissions, problem);
+    var problemInfo = new ProblemInfo(problem, totalSubmissions);
+    checkPermissionForUser(userId, problemInfo);
 
     var entity = ContestSubmissionMapper.toNewEntity(userId, submission);
     var addedEntity = submissionRepository.create(entity);
+    var checkedDto = ContestSubmissionMapper.toContestDto(addedEntity);
 
-    return ContestSubmissionMapper.toContestDto(addedEntity);
+    var res = checkSolution(checkedDto, problemInfo);
+    var status = res.success() ? SubmissionsStatus.ACCEPTED : SubmissionsStatus.REFUSED;
+    submissionRepository.updateSubmissionStatus(checkedDto.id, status.getCode());
+
+    return new ContestSubmissionShortInfoDto(checkedDto.id, checkedDto.creationDateTime, status.getTitle());
+  }
+
+  private void checkPermissionForUser(long userId, ProblemInfo problemInfo) {
+    var problem = problemInfo.problem;
+    var totalSubmissions = problemInfo.totalSubmissions;
+
+    LOGGER.info("Total submissions {} [max: {}] from user {}", totalSubmissions, problem.getMaxAttempts(), userId);
+    contestManager.allowSolvingProblem(userId, problemInfo);
+  }
+
+  private TestInfo checkSolution(ContestSubmissionDto submissionDto, ProblemInfo problemInfo) {
+    var userSolution = UserSolutionMapper.toUserSolutionDto(submissionDto, problemInfo.problem);
+    return checker.check(userSolution);
   }
 
   @Transactional
