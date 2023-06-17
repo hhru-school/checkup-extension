@@ -77,54 +77,30 @@ public class ContestService {
     return new ContestDto(problems);
   }
 
+  @Transactional
   public ContestSubmissionShortInfoDto handleSubmission(String userToken, ContestSubmissionDto submission) {
-    return handleSubmissionMethod(userToken, submission, Optional.empty());
-  }
-
-  public void handleSubmission(String userToken, ContestSubmissionDto submissionDto, Optional<Consumer<ContestSubmissionShortInfoDto>> callback) {
-    handleSubmissionMethod(userToken, submissionDto, callback);
-  }
-
-  private ContestSubmissionShortInfoDto handleSubmissionMethod(
-      String userToken,
-      ContestSubmissionDto submission,
-      Optional<Consumer<ContestSubmissionShortInfoDto>> callback
-  ) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
     var userId = userInfo.userId();
 
-    var problemInfo = getProblemInfoForUser(userId, submission);
-    checkPermissionForUser(userId, problemInfo);
-
-    var registeredSubmission = registerSubmissionForUser(userId, submission);
-    callback.ifPresent(consumer -> consumer.accept(registeredSubmission));
-
-    var future = CompletableFuture
-        .supplyAsync(() -> checkSolution(submission, problemInfo), executor)
-        .thenApply(res -> saveResultOfChecking(registeredSubmission, res));
-
-    if (callback.isPresent()) {
-      try {
-        callback.get().accept(future.get());
-      } catch (InterruptedException | ExecutionException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    return registeredSubmission;
-  }
-
-  @Transactional
-  private ProblemInfo getProblemInfoForUser(long userId, ContestSubmissionDto submissionDto) {
-    var problemId = submissionDto.problemId;
-
+    var problemId = submission.problemId;
     var problem = problemRepository
         .getById(problemId)
         .orElseThrow(() -> new ProblemNotFoundException(problemId));
 
     var totalSubmissions = submissionRepository.getTotalSubmissionsOfTaskForUser(userId, problemId);
 
-    return new ProblemInfo(problem, totalSubmissions);
+    var problemInfo = new ProblemInfo(problem, totalSubmissions);
+    checkPermissionForUser(userId, problemInfo);
+
+    var entity = ContestSubmissionMapper.toNewEntity(userId, submission);
+    var addedEntity = submissionRepository.create(entity);
+    var checkedDto = ContestSubmissionMapper.toContestDto(addedEntity);
+
+    var res = checkSolution(checkedDto, problemInfo);
+    var status = res.success() ? SubmissionsStatus.ACCEPTED : SubmissionsStatus.REFUSED;
+    submissionRepository.updateSubmissionStatus(checkedDto.id, status.getCode());
+
+    return new ContestSubmissionShortInfoDto(checkedDto.id, checkedDto.creationDateTime, status.getTitle());
   }
 
   private void checkPermissionForUser(long userId, ProblemInfo problemInfo) {
@@ -138,20 +114,6 @@ public class ContestService {
   private TestInfo checkSolution(ContestSubmissionDto submissionDto, ProblemInfo problemInfo) {
     var userSolution = UserSolutionMapper.toUserSolutionDto(submissionDto, problemInfo.problem);
     return checker.check(userSolution);
-  }
-
-  @Transactional
-  private ContestSubmissionShortInfoDto saveResultOfChecking(ContestSubmissionShortInfoDto submission, TestInfo result) {
-    var status = result.success() ? SubmissionsStatus.ACCEPTED : SubmissionsStatus.REFUSED;
-    submissionRepository.updateSubmissionStatus(submission.submissionId(), status.getCode());
-    return new ContestSubmissionShortInfoDto(submission.submissionId(), submission.creationDateTime(), status.getTitle());
-  }
-
-  @Transactional
-  public ContestSubmissionShortInfoDto registerSubmissionForUser(long userId, ContestSubmissionDto submission) {
-    var entity = ContestSubmissionMapper.toNewEntity(userId, submission);
-    var addedEntity = submissionRepository.create(entity);
-    return ContestSubmissionMapper.toContestSubmissionShortInfo(addedEntity);
   }
 
   @Transactional
