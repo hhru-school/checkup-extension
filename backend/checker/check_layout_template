@@ -10,7 +10,7 @@ const toMatchImageSnapshot = configureToMatchImageSnapshot({
 
 expect.extend({ toMatchImageSnapshot });
 
-describe("Решение", () => {
+describe("Solution", () => {
   beforeAll(async () => {
     await page.goto(`file://${__dirname}/solution/index.html`, {
       waitUntil: "load",
@@ -18,7 +18,7 @@ describe("Решение", () => {
   });
 
   let threshold = 0.01;
-  it(`Совпадает с точностью ${(1 - threshold) * 100} %`, async () => {
+  it(`Overlapping accuracy ${(1 - threshold) * 100} %`, async () => {
     const image = await page.screenshot();
 
     expect(image).toMatchImageSnapshot({
