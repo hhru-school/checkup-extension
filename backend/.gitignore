@@ -1,4 +1,6 @@
 HELP.md
+utils/node_modules/
+utils/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -31,3 +33,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/utils/
