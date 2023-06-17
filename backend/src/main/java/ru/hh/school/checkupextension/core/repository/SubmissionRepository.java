@@ -58,8 +58,8 @@ public class SubmissionRepository extends GenericRepository<Submission> {
   public void updateSubmissionStatus(long id, byte status) {
     getSession().createQuery("""
         UPDATE Submission s
-        SET s.status := :status
-        WHERE s.id := :id
+        SET s.status = :status
+        WHERE s.id = :id
         """)
         .setParameter("id", id)
         .setParameter("status", status)

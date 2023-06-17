@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import ru.hh.school.checkupextension.core.data.dto.checker.UserSolutionDto;
+import ru.hh.school.checkupextension.core.data.dto.checker.UserSolution;
 
 public class LayoutTestEnvironment extends TestEnvironment {
 
@@ -33,7 +33,7 @@ public class LayoutTestEnvironment extends TestEnvironment {
   }
 
   @Override
-  protected void addUserSolution(UserSolutionDto userSolutionDto) throws IOException {
+  protected void addUserSolution(UserSolution userSolutionDto) throws IOException {
     writeContentToFile(userSolutionDto.htmlPartSolution(), HTML_FILE_NAME);
     writeContentToFile(userSolutionDto.cssPartSolution(), CSS_FILE_NAME);
   }

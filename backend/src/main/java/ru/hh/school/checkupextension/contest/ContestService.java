@@ -1,12 +1,6 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +38,6 @@ public class ContestService {
 
   private final ContestManager contestManager;
   private final CheckupInteraction checkupIntegrator;
-
-  private final Executor executor = Executors.newFixedThreadPool(50 * Runtime.getRuntime().availableProcessors());
 
   @Inject
   public ContestService(

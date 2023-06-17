@@ -30,8 +30,8 @@ public class TestingUtility {
     var type = userSolutionDto.type();
 
     switch (type) {
-      case HTML -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
-      case JS -> environment = new LayoutTestEnvironment(workDirectory, userSolutionDirectory);
+      case HTML -> environment = new LayoutTestEnvironment(workDirectory, userSolutionDirectory);
+      case JS -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
       default -> throw new NotImplementedException(String.format("Unknown problem's type: %s", type.getTitle()));
     }
 
