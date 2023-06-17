@@ -8,7 +8,7 @@ COPY mvnw pom.xml ./
 
 RUN ./mvnw dependency:go-offline
 COPY src ./src
-COPY utils ./utils
+COPY checker ./utils
 WORKDIR ./utils
 RUN npm ci --cache .npm
 WORKDIR /app
