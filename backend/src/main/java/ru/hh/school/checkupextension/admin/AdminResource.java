@@ -60,11 +60,10 @@ public class AdminResource {
 
   @POST
   @Path("/problem/update")
-  @Produces(MediaType.APPLICATION_JSON)
-  public EditableProblemDto updateExistProblem(
+  public void updateExistProblem(
       @CookieParam(USER_TOKEN) String userToken,
       EditableProblemDto problemDto
   ) {
-    return adminService.updateExistProblem(userToken, problemDto);
+    adminService.updateExistProblem(userToken, problemDto);
   }
 }
