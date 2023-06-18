@@ -55,6 +55,14 @@ public class AdminService {
     return EditableProblemMapper.toEditableProblemDto(addedProblem);
   }
 
+  @Transactional
+  public void updateExistProblem(String userToken, EditableProblemDto problemDto) {
+    checkPermission(userToken);
+    var problem = EditableProblemMapper.toExistEntity(problemDto);
+    problemRepository.update(problem);
+    ScreenshotsCreator.updateScreenshot(problem);
+  }
+
   public void checkPermission(String userToken) {
     var user = checkupInteraction.getUserInfo(userToken);
 

@@ -57,4 +57,13 @@ public class AdminResource {
   ) {
     return adminService.createNewProblem(userToken, problemDto);
   }
+
+  @POST
+  @Path("/problem/update")
+  public void updateExistProblem(
+      @CookieParam(USER_TOKEN) String userToken,
+      EditableProblemDto problemDto
+  ) {
+    adminService.updateExistProblem(userToken, problemDto);
+  }
 }
