@@ -13,6 +13,8 @@ import ru.hh.school.checkupextension.core.integration.ContestManager;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
+import ru.hh.school.checkupextension.utils.exception.mapper.checker.CheckingProcessExceptionMapper;
+import ru.hh.school.checkupextension.utils.exception.mapper.checker.NotImplementedExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.checker.ProblemInitializingExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
@@ -58,6 +60,8 @@ public class AppConfiguration {
     config.register(SubmissionNotFoundExceptionMapper.class);
     // Checker
     config.register(ProblemInitializingExceptionMapper.class);
+    config.register(CheckingProcessExceptionMapper.class);
+    config.register(NotImplementedExceptionMapper.class);
 
     // Фильтр CORS
     config.register(CorsFilter.class);
