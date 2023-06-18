@@ -9,7 +9,7 @@ import ru.hh.school.checkupextension.admin.AdminService;
 import ru.hh.school.checkupextension.contest.ContestResource;
 import ru.hh.school.checkupextension.contest.ContestService;
 import ru.hh.school.checkupextension.core.checker.Checker;
-import ru.hh.school.checkupextension.core.checker.ContestManager;
+import ru.hh.school.checkupextension.core.integration.ContestManager;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;

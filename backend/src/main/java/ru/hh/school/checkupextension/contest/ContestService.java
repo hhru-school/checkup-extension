@@ -1,11 +1,8 @@
 package ru.hh.school.checkupextension.contest;
 
 import jakarta.inject.Inject;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hh.school.checkupextension.core.checker.Checker;
-import ru.hh.school.checkupextension.core.checker.ContestManager;
 import ru.hh.school.checkupextension.core.checker.data.TestInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestDto;
 import ru.hh.school.checkupextension.core.data.dto.contest.ContestProblemDto;
@@ -16,6 +13,7 @@ import ru.hh.school.checkupextension.core.data.dto.contest.ProblemInfo;
 import ru.hh.school.checkupextension.core.data.dto.contest.UserSubmissionsDto;
 import ru.hh.school.checkupextension.core.data.enums.SubmissionsStatus;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
+import ru.hh.school.checkupextension.core.integration.ContestManager;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
@@ -24,13 +22,7 @@ import ru.hh.school.checkupextension.utils.mapper.contest.ContestProblemMapper;
 import ru.hh.school.checkupextension.utils.mapper.contest.ContestSubmissionMapper;
 import ru.hh.school.checkupextension.utils.mapper.contest.UserSolutionMapper;
 
-/**
- * Класс, который представляет собой сервисную службу, содержащую бизнес-логику для обработки запросов,
- * связанных с контестом.
- */
 public class ContestService {
-  private static final Logger LOGGER = getLogger(ContestService.class);
-
   private final ProblemRepository problemRepository;
   private final SubmissionRepository submissionRepository;
 
@@ -99,7 +91,6 @@ public class ContestService {
     var problem = problemInfo.problem;
     var totalSubmissions = problemInfo.totalSubmissions;
 
-    LOGGER.info("Total submissions {} [max: {}] from user {}", totalSubmissions, problem.getMaxAttempts(), userId);
     contestManager.allowSolvingProblem(userId, problemInfo);
   }
 
@@ -111,7 +102,6 @@ public class ContestService {
   @Transactional
   public ContestSubmissionDto getSubmission(String userToken, long submissionId) {
     var userInfo = checkupIntegrator.getUserInfo(userToken);
-    LOGGER.info("Request the submission id {} from user {}", submissionId, userInfo.userId());
     var submission = submissionRepository
         .getForUserById(userInfo.userId(), submissionId)
         .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
