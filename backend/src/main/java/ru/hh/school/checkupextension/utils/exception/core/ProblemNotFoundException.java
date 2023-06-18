@@ -18,4 +18,3 @@ public class ProblemNotFoundException extends RuntimeException {
     super(message, cause);
   }
 }
-

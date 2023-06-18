@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
-import ru.hh.school.checkupextension.core.integration.UserInfo;
+import ru.hh.school.checkupextension.core.integration.data.UserInfo;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 

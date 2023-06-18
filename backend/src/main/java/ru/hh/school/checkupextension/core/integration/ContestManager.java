@@ -1,8 +1,7 @@
-package ru.hh.school.checkupextension.core.checker;
+package ru.hh.school.checkupextension.core.integration;
 
 import jakarta.inject.Inject;
 import ru.hh.school.checkupextension.core.data.dto.contest.ProblemInfo;
-import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.utils.exception.integration.AccessDeniedException;
 
 public class ContestManager {
