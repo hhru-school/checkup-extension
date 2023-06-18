@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import styles from "./index.module.css";
+import { Link } from "react-router-dom";
 
 export const CheckupMenu = () => {
   const { t } = useTranslation();
@@ -7,14 +8,14 @@ export const CheckupMenu = () => {
   return (
     <ul className={styles.root}>
       <li>
-        <a className={styles.link} href="/admin">
+        <Link className={styles.link} to={"/admin"}>
           {t("menu.admin")}
-        </a>
+        </Link>
       </li>
       <li>
-        <a className={styles.link} href="/">
+        <Link className={styles.link} to={"/"}>
           {t("tasks.title")}
-        </a>
+        </Link>
       </li>
     </ul>
   );

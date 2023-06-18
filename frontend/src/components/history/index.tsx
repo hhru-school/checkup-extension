@@ -73,7 +73,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
       setSolutionsCopy([
         {
           submissionId: -1,
-          date: new Date().toLocaleString(),
+          creationDateTime: new Date().toISOString(),
           status: "inprogress",
           title: t("history.solution.current.title"),
         },
@@ -149,7 +149,10 @@ export const History: FC<PropsType> = ({ taskId }) => {
               </Tag>,
             ]}
           >
-            <List.Item.Meta title={item.title} description={item.date} />
+            <List.Item.Meta
+              title={item.title}
+              description={new Date(item.creationDateTime).toLocaleString()}
+            />
           </List.Item>
         )}
       />

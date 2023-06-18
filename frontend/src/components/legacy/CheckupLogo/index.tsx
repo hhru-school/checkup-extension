@@ -1,3 +1,10 @@
+import { Link } from "react-router-dom";
 import logo from "./logo.svg";
 
-export const CheckupLogo = () => <img src={logo} alt="CheckUp Extension" />;
+export const CheckupLogo = () => {
+  return (
+    <Link to={"/"}>
+      <img src={logo} alt="CheckUp Extension" />
+    </Link>
+  );
+};

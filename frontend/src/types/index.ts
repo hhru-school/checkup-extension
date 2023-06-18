@@ -71,7 +71,7 @@ export type SolutionShort = {
   submissionId: number;
   status: StatusTypes | "inprogress";
   title: string;
-  date: string;
+  creationDateTime: string;
 };
 
 export type SolutionFull = {
