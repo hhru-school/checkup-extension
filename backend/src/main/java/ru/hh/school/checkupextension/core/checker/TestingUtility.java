@@ -6,14 +6,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.school.checkupextension.core.checker.data.TestInfo;
 import ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment;
 import ru.hh.school.checkupextension.core.checker.environment.TestEnvironment;
 import ru.hh.school.checkupextension.core.checker.utils.ProgrammRunner;
 import ru.hh.school.checkupextension.core.data.dto.checker.UserSolution;
+import ru.hh.school.checkupextension.utils.exception.checker.CheckingProcessException;
 import ru.hh.school.checkupextension.utils.exception.checker.NotImplementedException;
 
 public class TestingUtility {
+  private static final Logger LOGGER = LoggerFactory.getLogger(TestingUtility.class);
   private static final long HEAD_SIZE = 4L;
 
   private final static ObjectMapper mapper = new ObjectMapper();
@@ -41,6 +45,9 @@ public class TestingUtility {
 
   private static TestInfo readResult(Process process) throws JsonProcessingException {
     var raw = readRawData(process);
+    if (isEmptyPipOutput(raw)) {
+      checkError(process);
+    }
     return mapper.readValue(raw, TestInfo.class);
   }
 
@@ -49,5 +56,18 @@ public class TestingUtility {
         .lines()
         .skip(HEAD_SIZE)
         .collect(Collectors.joining("\n"));
+  }
+
+  private static void checkError(Process process) {
+    var errorMessage = new BufferedReader(new InputStreamReader(process.getErrorStream())).lines().collect(Collectors.joining());
+    if (isEmptyPipOutput(errorMessage)) {
+      return;
+    }
+    LOGGER.error("Utils error: {}", errorMessage);
+    throw new CheckingProcessException();
+  }
+
+  private static boolean isEmptyPipOutput(String  output) {
+    return (output == null || output.isEmpty() || output.isBlank());
   }
 }
