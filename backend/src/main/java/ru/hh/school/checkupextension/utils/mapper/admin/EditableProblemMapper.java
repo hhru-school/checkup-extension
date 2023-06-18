@@ -4,6 +4,7 @@ import java.util.List;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableVerificationDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.ShortEditableProblemDto;
 import ru.hh.school.checkupextension.core.data.entity.JsonContainer;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
 import ru.hh.school.checkupextension.core.data.entity.Verification;
@@ -118,5 +119,10 @@ public class EditableProblemMapper {
         problem.getDescription(),
         nameOfType,
         problem.getActive());
+  }
+
+  public static ShortEditableProblemDto toShortEditableProblemDto(Problem problem) {
+    var verificationsIds = formatVerificationDto(problem);
+    return new ShortEditableProblemDto(problem.getId(), verificationsIds);
   }
 }

@@ -7,6 +7,7 @@ import ru.hh.school.checkupextension.core.checker.register.ScreenshotsCreator;
 import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.ShortEditableProblemDto;
 import ru.hh.school.checkupextension.core.integration.CheckupInteraction;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.utils.exception.core.ProblemNotFoundException;
@@ -15,8 +16,6 @@ import ru.hh.school.checkupextension.utils.mapper.PaginationResultMapper;
 import ru.hh.school.checkupextension.utils.mapper.admin.EditableProblemMapper;
 
 public class AdminService {
-  private final static Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
-
   private final CheckupInteraction checkupInteraction;
   private final ProblemRepository problemRepository;
 
@@ -47,12 +46,12 @@ public class AdminService {
   }
 
   @Transactional
-  public EditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
+  public ShortEditableProblemDto createNewProblem(String userToken, EditableProblemDto problemDto) {
     checkPermission(userToken);
     var problem = EditableProblemMapper.toNewEntity(problemDto);
     var addedProblem = problemRepository.create(problem);
     ScreenshotsCreator.createScreenshot(addedProblem);
-    return EditableProblemMapper.toEditableProblemDto(addedProblem);
+    return EditableProblemMapper.toShortEditableProblemDto(addedProblem);
   }
 
   @Transactional

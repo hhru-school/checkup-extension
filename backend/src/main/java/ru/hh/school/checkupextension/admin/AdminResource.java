@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import ru.hh.school.checkupextension.core.data.dto.PaginationResultDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemDto;
 import ru.hh.school.checkupextension.core.data.dto.admin.EditableProblemInfoDto;
+import ru.hh.school.checkupextension.core.data.dto.admin.ShortEditableProblemDto;
 import static ru.hh.school.checkupextension.utils.constant.CookiesName.USER_TOKEN;
 
 @Path("/")
@@ -51,7 +52,7 @@ public class AdminResource {
   @Path("/problem")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public EditableProblemDto createNewProblem(
+  public ShortEditableProblemDto createNewProblem(
       @CookieParam(USER_TOKEN) String userToken,
       EditableProblemDto problemDto
   ) {
