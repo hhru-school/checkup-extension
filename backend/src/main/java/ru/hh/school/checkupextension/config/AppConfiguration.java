@@ -13,6 +13,7 @@ import ru.hh.school.checkupextension.core.integration.ContestManager;
 import ru.hh.school.checkupextension.core.repository.ProblemRepository;
 import ru.hh.school.checkupextension.core.repository.SubmissionRepository;
 import ru.hh.school.checkupextension.core.repository.VerificationRepository;
+import ru.hh.school.checkupextension.utils.exception.mapper.checker.ProblemInitializingExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.ProblemNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.SubmissionNotFoundExceptionMapper;
 import ru.hh.school.checkupextension.utils.exception.mapper.core.VerificationNotFoundExceptionMapper;
@@ -38,8 +39,6 @@ import ru.hh.school.checkupextension.utils.stub.CheckupApiStub;
     Checker.class,
     ContestManager.class,
     CorsFilter.class,
-
-    // TODO: Debug
 })
 public class AppConfiguration {
   @Bean
@@ -57,6 +56,8 @@ public class AppConfiguration {
     config.register(VerificationNotFoundExceptionMapper.class);
     config.register(ProblemNotFoundExceptionMapper.class);
     config.register(SubmissionNotFoundExceptionMapper.class);
+    // Checker
+    config.register(ProblemInitializingExceptionMapper.class);
 
     // Фильтр CORS
     config.register(CorsFilter.class);

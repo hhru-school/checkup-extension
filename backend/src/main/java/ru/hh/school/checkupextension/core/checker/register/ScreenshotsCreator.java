@@ -5,14 +5,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.school.checkupextension.core.checker.TestingUtility;
 import static ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment.COMMAND;
 import static ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment.CSS_FILE_NAME;
 import static ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment.HTML_FILE_NAME;
 import static ru.hh.school.checkupextension.core.checker.environment.LayoutTestEnvironment.PATH_TO_TEMPLATE;
 import ru.hh.school.checkupextension.core.data.entity.Problem;
+import ru.hh.school.checkupextension.utils.exception.checker.ProblemInitializingException;
 
 public class ScreenshotsCreator extends ProblemRegister {
+  private final static Logger LOGGER = LoggerFactory.getLogger(ScreenshotsCreator.class);
 
   private static final ScreenshotsCreator screenshotsCreator = new ScreenshotsCreator();
 
@@ -37,7 +41,9 @@ public class ScreenshotsCreator extends ProblemRegister {
       TestingUtility.run(COMMAND, pathToFinalTestScript);
 
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      var msg = String.format("Не удалось сохранить файлы для задачи № %s", problem.getId());
+      LOGGER.error("{} Details: {}", msg, e.getMessage());
+      throw new ProblemInitializingException(msg);
     }
   }
 
@@ -48,7 +54,9 @@ public class ScreenshotsCreator extends ProblemRegister {
       cleanSnapshots();
       TestingUtility.run(COMMAND, pathToFinalTestScript);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      var msg = String.format("Не удалось обновить файлы для задачи № %s", problem.getId());
+      LOGGER.error("{} Details: {}", msg, e.getMessage());
+      throw new ProblemInitializingException(msg);
     }
   }
 
