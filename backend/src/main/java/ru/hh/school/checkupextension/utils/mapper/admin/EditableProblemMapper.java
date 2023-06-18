@@ -31,6 +31,26 @@ public class EditableProblemMapper {
     );
   }
 
+  public static Problem toExistEntity(EditableProblemDto problemDto) {
+    var solution = extractSolution(problemDto);
+    var template = extractTemplate(problemDto);
+    var verifications = extractCreatedVerifications(problemDto);
+    var codeOfType = ProblemType.getCodeBy(problemDto.type);
+
+    return ProblemBuilder.buildProblem(
+        problemDto.id,
+        problemDto.title,
+        problemDto.description,
+        problemDto.content,
+        problemDto.active,
+        problemDto.maxAttempts,
+        codeOfType,
+        template,
+        solution,
+        verifications
+    );
+  }
+
   private static JsonContainer extractSolution(EditableProblemDto problemDto) {
     return JsonContainer.fill(
         problemDto.htmlPartSolution,

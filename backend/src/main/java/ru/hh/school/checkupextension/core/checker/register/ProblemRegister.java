@@ -16,7 +16,15 @@ public abstract class ProblemRegister {
     save(problem, workDir, solutionDir);
   }
 
+  public void update(Problem problem) {
+    var problemId = String.valueOf(problem.getId());
+    var workDir = String.join(File.separator, PATH_TO_PROBLEMS_DIRECTORY, problemId);
+    var solutionDir = String.join(File.separator, workDir, "solution");
+    update(problem, workDir, solutionDir);
+  }
+
   protected abstract void save(Problem problem, String workDir, String solutionDir);
+  protected abstract void update(Problem problem, String workDir, String solutionDir);
 
   protected void writeContentToFile(String content, Path file) throws IOException {
     if (Files.exists(file)) {
