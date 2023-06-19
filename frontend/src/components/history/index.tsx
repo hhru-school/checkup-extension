@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styles from "./index.module.css";
 import {
   Alert,
@@ -9,15 +9,14 @@ import {
   Skeleton,
   Space,
   Typography,
-  Badge,
-  Card,
   Tag,
 } from "antd";
-import { ClockCircleOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { getHistory, actions } from "../../__data__/slices/history";
 import { SolutionShort, StatusTypes } from "../../types";
+import { SyncOutlined } from "@ant-design/icons";
+import { POLLINT_TIMEOUT_MSEC } from "../../__data__/constants/constants";
 
 const HistorySkeleton = () => {
   const rows = new Array(7).fill(null).map((item, index) => {
@@ -52,7 +51,6 @@ type PropsType = {
   taskId: number;
 };
 
-// TODO: если одна из задач в статусе проверяется, то пока нельзя отправлять другие решения
 export const History: FC<PropsType> = ({ taskId }) => {
   const { t } = useTranslation();
   const [solutionsCopy, setSolutionsCopy] = useState<Array<SolutionShort>>([]);
@@ -60,9 +58,11 @@ export const History: FC<PropsType> = ({ taskId }) => {
   const loading = useAppSelector((store) => store.history.isLoading);
   const error = useAppSelector((store) => store.history.error);
   const solutions = useAppSelector((store) => store.history.solutions);
+  const timerId = useRef<NodeJS.Timeout | null>();
+  const polling = useRef<boolean>(false);
 
   useEffect(() => {
-    dispatch(getHistory(taskId));
+    dispatch(getHistory({ problemId: taskId }));
   }, [dispatch, taskId]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
       setSolutionsCopy([
         {
           submissionId: -1,
-          date: new Date().toLocaleString(),
+          creationDateTime: new Date().toISOString(),
           status: "inprogress",
           title: t("history.solution.current.title"),
         },
@@ -83,11 +83,24 @@ export const History: FC<PropsType> = ({ taskId }) => {
     }
   }, [solutions, t]);
 
+  useEffect(() => {
+    if (solutions) {
+      const isChecked = solutions.some((item) => item.status === "checked");
+      if (isChecked && !timerId.current) {
+        polling.current = true;
+        timerId.current = setTimeout(() => {
+          dispatch(getHistory({ problemId: taskId }));
+          timerId.current = null;
+        }, POLLINT_TIMEOUT_MSEC);
+      }
+    }
+  }, [dispatch, solutions, taskId]);
+
   const handleShowButtonClick = (id: number) => {
     dispatch(actions.setCurrentSolution(id));
   };
 
-  if (loading) {
+  if (loading && !polling) {
     return <HistorySkeleton />;
   }
 
@@ -120,7 +133,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
         }
         size="small"
         bordered
-        loading={loading}
+        loading={loading && !polling}
         dataSource={solutionsCopy}
         locale={{ emptyText: t("history.no.data") }}
         rowKey={(item) => item.submissionId}
@@ -129,12 +142,18 @@ export const History: FC<PropsType> = ({ taskId }) => {
             className={styles.item}
             onClick={() => handleShowButtonClick(item.submissionId)}
             actions={[
-              <Tag color={TagColors[item.status as StatusTypes]}>
+              <Tag
+                icon={item.status === "checked" && <SyncOutlined spin />}
+                color={TagColors[item.status as StatusTypes]}
+              >
                 {t("status.text", { context: item.status })}
               </Tag>,
             ]}
           >
-            <List.Item.Meta title={item.title} description={item.date} />
+            <List.Item.Meta
+              title={item.title}
+              description={new Date(item.creationDateTime).toLocaleString()}
+            />
           </List.Item>
         )}
       />

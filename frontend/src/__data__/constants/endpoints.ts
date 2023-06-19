@@ -10,4 +10,7 @@ export const endpoints = {
   getSolutionStatus: (id: number) => `${base}/submissions/problem/${id}`,
   getTasks: () => `${base}/problems/info`,
   getTask: (id: number) => `${base}/problems/${id}`,
+  getTasksToEdit: (page: number, size: number) =>
+    `${base}/problems/all?page=${page}&size=${size}`,
+  getTaskToEdit: (id: number) => `${base}/problem/${id}`,
 };

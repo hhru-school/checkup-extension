@@ -60,7 +60,6 @@
     "status.text": "Решается",
     "status.text_checked": "На проверке",
     "status.text_success": "Принято",
-    "status.text_fault": "Ошибка"
-    
-    
+    "status.text_fault": "Ошибка",
+    "menu.admin": "Админка"
 }

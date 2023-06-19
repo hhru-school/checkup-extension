@@ -22,9 +22,9 @@ import { CodeEditor } from "../../components/code-editor";
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { addNewTasks, updateTask } from "../../__data__/slices/new-task";
-import { NewTask, Task, TaskTypes, Test, taskStrings } from "../../types";
+import { NewTask, TaskTypes, Test, taskStrings } from "../../types";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTask } from "../../__data__/slices/tasks";
+import { getTaskToEdit } from "../../__data__/slices/tasks";
 import { Banner } from "../../components/banner";
 
 const NewTaskSkeleton = () => {
@@ -86,7 +86,6 @@ const NewTaskSkeleton = () => {
   );
 };
 
-// TODO: нужен запрос задачи для админа со всеми параметрами
 export const Page: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -114,7 +113,7 @@ export const Page: FC = () => {
   const result = useAppSelector((store) => store.newTask.result);
   const loadingTask = useAppSelector((store) => store.tasks.isLoading);
   const errorTask = useAppSelector((store) => store.tasks.error);
-  const task = useAppSelector((store) => store.tasks.task);
+  const task = useAppSelector((store) => store.tasks.taskToEdit);
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -139,7 +138,7 @@ export const Page: FC = () => {
 
   useEffect(() => {
     if (taskId && Number.isInteger(Number(taskId))) {
-      dispatch(getTask(Number(taskId)));
+      dispatch(getTaskToEdit(Number(taskId)));
     }
   }, [dispatch, taskId]);
 
@@ -152,10 +151,10 @@ export const Page: FC = () => {
       setActive(task.active);
       setDescription(task.description);
       setContent(task.content);
-      setTestValues([]);
-      setJsSolution("task.jsSolution");
-      setHtmlSolution("task.htmlSolution");
-      setCssSolution("task.cssSolution");
+      setTestValues(task.test.map((item): string => item.content));
+      setJsSolution(task.jsSolution);
+      setHtmlSolution(task.htmlSolution);
+      setCssSolution(task.cssSolution);
       setJsTemplate(task.jsTemplate);
       setHtmlTemplate(task.htmlTemplate);
       setCssTemplate(task.cssTemplate);
