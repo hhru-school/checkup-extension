@@ -96,7 +96,7 @@ export const Page: FC = () => {
 
   useEffect(() => {
     if (resultSolution) {
-      dispatch(getHistory(Number(taskId)));
+      dispatch(getHistory({ problemId: Number(taskId) }));
     }
   }, [dispatch, resultSolution, taskId]);
 

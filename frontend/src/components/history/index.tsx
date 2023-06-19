@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { getHistory, actions } from "../../__data__/slices/history";
 import { SolutionShort, StatusTypes } from "../../types";
 import { SyncOutlined } from "@ant-design/icons";
+import { POLLINT_TIMEOUT_MSEC } from "../../__data__/constants/constants";
 
 const HistorySkeleton = () => {
   const rows = new Array(7).fill(null).map((item, index) => {
@@ -61,7 +62,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
   const polling = useRef<boolean>(false);
 
   useEffect(() => {
-    dispatch(getHistory(taskId));
+    dispatch(getHistory({ problemId: taskId }));
   }, [dispatch, taskId]);
 
   useEffect(() => {
@@ -88,9 +89,9 @@ export const History: FC<PropsType> = ({ taskId }) => {
       if (isChecked && !timerId.current) {
         polling.current = true;
         timerId.current = setTimeout(() => {
-          dispatch(getHistory(taskId));
+          dispatch(getHistory({ problemId: taskId }));
           timerId.current = null;
-        }, 5000);
+        }, POLLINT_TIMEOUT_MSEC);
       }
     }
   }, [dispatch, solutions, taskId]);

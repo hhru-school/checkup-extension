@@ -16,12 +16,19 @@ const initialState: ResponseType = {
   solutions: [],
   currentSolutionId: -1,
 };
-
+// TODO: добавить во всех запросах к бэку возможность прервать запрос
 export const getHistory = createAsyncThunk(
   "history/fetch",
-  async (problemId: number) => {
+  async ({
+    problemId,
+    signal,
+  }: {
+    problemId: number;
+    signal?: AbortSignal;
+  }) => {
     const response = await axios.get(endpoints.history(problemId), {
       withCredentials: true,
+      signal,
     });
     return response.data.submissions;
   }
