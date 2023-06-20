@@ -26,6 +26,18 @@ services:
       database:
         condition: service_healthy
 
+  web:
+    image: nginx
+    container_name: checkup_extension_static_sources
+    ports:
+      - "8082:8082"
+    environment:
+      - NGINX_PORT=8082
+      - NGINX_SERVER_NAME=localhost
+    volumes:
+      - ./backend/nginx/templates:/etc/nginx/templates
+      - problems-data:/var/www/screenshots:ro
+
   frontend:
     build: ./frontend
     container_name: checkup_extension_frontend
