@@ -38,7 +38,11 @@ export const updateTask = createAsyncThunk(
 const slice = createSlice({
   name: "newTask",
   initialState,
-  reducers: {},
+  reducers: {
+    resetResult: (state) => {
+      state.result = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addNewTasks.pending, (state, action) => {

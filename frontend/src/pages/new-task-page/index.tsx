@@ -21,7 +21,11 @@ import { MarkdownEditor } from "../../components/md-editor";
 import { CodeEditor } from "../../components/code-editor";
 import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
-import { addNewTasks, updateTask } from "../../__data__/slices/new-task";
+import {
+  actions,
+  addNewTasks,
+  updateTask,
+} from "../../__data__/slices/new-task";
 import { NewTask, TaskTypes, Test, taskStrings } from "../../types";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTaskToEdit } from "../../__data__/slices/tasks";
@@ -95,7 +99,7 @@ export const Page: FC = () => {
   const [activeTab, setActiveTab] = useState("instruction");
   const [title, setTitle] = useState("");
   const [maxAttempts, setMaxAttempts] = useState(5);
-  const [type, setType] = useState<TaskTypes>("js");
+  const [type, setType] = useState<TaskTypes>("html");
   const [active, setActive] = useState(false);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -116,6 +120,7 @@ export const Page: FC = () => {
   const loadingTask = useAppSelector((store) => store.tasks.isLoading);
   const errorTask = useAppSelector((store) => store.tasks.error);
   const task = useAppSelector((store) => store.tasks.taskToEdit);
+  const { resetResult } = actions;
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -204,6 +209,7 @@ export const Page: FC = () => {
   };
 
   const handleBackClick = () => {
+    dispatch(resetResult());
     navigate("/admin");
   };
 
@@ -280,10 +286,7 @@ export const Page: FC = () => {
                 key="snapshot"
               >
                 <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    `/snapshots/${taskId}/__snapshots__/test-js-solution-overlapping-accuracy-99-1-snap.png`
-                  }
+                  src={`http://localhost:8082/${taskId}/__snapshots__/test-js-solution-overlapping-accuracy-99-1-snap.png`}
                   alt="reference snapshot"
                   onError={handleImageError}
                 />

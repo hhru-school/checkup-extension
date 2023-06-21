@@ -10,12 +10,13 @@ import {
   Space,
   Typography,
   Tag,
+  Modal,
 } from "antd";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../__data__/store";
 import { getHistory, actions } from "../../__data__/slices/history";
 import { SolutionShort, StatusTypes } from "../../types";
-import { SyncOutlined } from "@ant-design/icons";
+import { EyeOutlined, SyncOutlined } from "@ant-design/icons";
 import { POLLINT_TIMEOUT_MSEC } from "../../__data__/constants/constants";
 
 const HistorySkeleton = () => {
@@ -60,6 +61,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
   const solutions = useAppSelector((store) => store.history.solutions);
   const timerId = useRef<NodeJS.Timeout | null>();
   const polling = useRef<boolean>(false);
+  const [modal, contextHolder] = Modal.useModal();
 
   useEffect(() => {
     dispatch(getHistory({ problemId: taskId }));
@@ -98,6 +100,29 @@ export const History: FC<PropsType> = ({ taskId }) => {
 
   const handleShowButtonClick = (id: number) => {
     dispatch(actions.setCurrentSolution(id));
+  };
+
+  const showModal = (id: number) => {
+    const config = {
+      title: "Сравнение снапшотов",
+      width: "1250px",
+      content: (
+        <>
+          <img
+            src={`http://localhost:8082/${taskId}/submissions/${id}/__diff__/test-js-solution-overlapping-accuracy-99-1-snap-diff.png`}
+            alt="error snapshot"
+            width="100%"
+            onClick={({
+              currentTarget,
+            }: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              // currentTarget.style.width = `${window.screen.width}px`
+              // currentTarget.style.height = `${currentTarget.naturalHeight}px`
+            }}
+          />{" "}
+        </>
+      ),
+    };
+    modal.error(config);
   };
 
   if (loading && !polling) {
@@ -141,14 +166,27 @@ export const History: FC<PropsType> = ({ taskId }) => {
           <List.Item
             className={styles.item}
             onClick={() => handleShowButtonClick(item.submissionId)}
-            actions={[
-              <Tag
-                icon={item.status === "checked" && <SyncOutlined spin />}
-                color={TagColors[item.status as StatusTypes]}
-              >
-                {t("status.text", { context: item.status })}
-              </Tag>,
-            ]}
+            actions={
+              item.status === "fault"
+                ? [
+                    <Tag color={TagColors[item.status as StatusTypes]}>
+                      {t("status.text", { context: item.status })}
+                    </Tag>,
+                    <Button
+                      type="default"
+                      onClick={() => showModal(item.submissionId)}
+                      icon={<EyeOutlined />}
+                    />,
+                  ]
+                : [
+                    <Tag
+                      icon={item.status === "checked" && <SyncOutlined spin />}
+                      color={TagColors[item.status as StatusTypes]}
+                    >
+                      {t("status.text", { context: item.status })}
+                    </Tag>,
+                  ]
+            }
           >
             <List.Item.Meta
               title={item.title}
@@ -157,6 +195,7 @@ export const History: FC<PropsType> = ({ taskId }) => {
           </List.Item>
         )}
       />
+      {contextHolder}
     </>
   );
 };
