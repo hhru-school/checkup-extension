@@ -38,6 +38,7 @@
     "new.task.solution.title": "Решение",
     "new.task.template.title": "Шаблоны",
     "new.task.test.title": "Тесты",
+    "new.task.snapshot.title": "Эталонный снапшот",
     "new.task.description.title.placeholder": "Введите название задачи",
     "new.task.description.short.placeholder": "Введите краткое описание задачи",
     "tooltip.active.text": "Активность задачи",

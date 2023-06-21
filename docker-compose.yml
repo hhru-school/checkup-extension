@@ -43,6 +43,8 @@ services:
     container_name: checkup_extension_frontend
     ports:
       - "8080:8080"
+    volumes:
+      - problems-data:/app/public/snapshots
     depends_on:
       - backend
 

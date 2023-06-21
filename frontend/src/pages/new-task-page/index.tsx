@@ -26,6 +26,7 @@ import { NewTask, TaskTypes, Test, taskStrings } from "../../types";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTaskToEdit } from "../../__data__/slices/tasks";
 import { Banner } from "../../components/banner";
+import notFind from "./not-find.svg";
 
 const NewTaskSkeleton = () => {
   return (
@@ -98,13 +99,14 @@ export const Page: FC = () => {
   const [active, setActive] = useState(false);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
-  const [testValues, setTestValues] = useState<Array<string>>([""]);
+  const [testValues, setTestValues] = useState<Array<Test>>([]);
   const [jsSolution, setJsSolution] = useState<string>("");
   const [htmlSolution, setHtmlSolution] = useState<string>("");
   const [cssSolution, setCssSolution] = useState<string>("");
   const [jsTemplate, setJsTemplate] = useState<string>("");
   const [htmlTemplate, setHtmlTemplate] = useState<string>("");
   const [cssTemplate, setCssTemplate] = useState<string>("");
+  const [snapshotNotFind, setSnapshotNotFind] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -151,7 +153,7 @@ export const Page: FC = () => {
       setActive(task.active);
       setDescription(task.description);
       setContent(task.content);
-      setTestValues(task.test.map((item): string => item.content));
+      setTestValues(task.test);
       setJsSolution(task.jsSolution);
       setHtmlSolution(task.htmlSolution);
       setCssSolution(task.cssSolution);
@@ -191,9 +193,10 @@ export const Page: FC = () => {
       cssSolution,
       htmlSolution,
       jsSolution,
-      test: testValues.map((item): Test => ({ content: item })),
+      test: testValues,
     };
     if (taskId) {
+      task.id = Number(taskId);
       dispatch(updateTask(task));
     } else {
       dispatch(addNewTasks(task));
@@ -202,6 +205,14 @@ export const Page: FC = () => {
 
   const handleBackClick = () => {
     navigate("/admin");
+  };
+
+  const handleImageError = ({
+    currentTarget,
+  }: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    currentTarget.src = notFind;
+    currentTarget.className = styles.image;
+    setSnapshotNotFind(true);
   };
 
   if (errorTask) {
@@ -246,7 +257,7 @@ export const Page: FC = () => {
               {t("button.back")}
             </Button>
             <Button type="primary" onClick={handleSendClick}>
-              {t("button.send")}
+              {taskId ? t("button.reload") : t("button.send")}
             </Button>
           </Space>
         </Col>
@@ -260,6 +271,24 @@ export const Page: FC = () => {
             >
               <ReactMarkdown children={t("new.task.instruction.content")} />
             </Collapse.Panel>
+            {type === "html" && taskId && (
+              <Collapse.Panel
+                className={
+                  snapshotNotFind ? styles.snapshot_not : styles.snapshot
+                }
+                header={t("new.task.snapshot.title")}
+                key="snapshot"
+              >
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    `/snapshots/${taskId}/__snapshots__/test-js-solution-overlapping-accuracy-99-1-snap.png`
+                  }
+                  alt="reference snapshot"
+                  onError={handleImageError}
+                />
+              </Collapse.Panel>
+            )}
             <Collapse.Panel
               header={t("new.task.description.title")}
               key="description"
@@ -395,7 +424,10 @@ export const Page: FC = () => {
                     <Button
                       type="primary"
                       onClick={() => {
-                        setTestValues([...testValues, ""]);
+                        setTestValues([
+                          ...testValues,
+                          { content: "", id: testValues.length },
+                        ]);
                       }}
                     >
                       {t("button.add")}
@@ -406,13 +438,13 @@ export const Page: FC = () => {
                       <Col span={24}>
                         <CodeEditor
                           key={index}
-                          value={item}
+                          value={item.content}
                           language="JavaScript"
                           mode="test"
                           index={index}
                           onChange={(value, index) => {
                             const array = [...testValues];
-                            array[index ?? 0] = value;
+                            array[index ?? 0].content = value;
                             setTestValues(array);
                           }}
                         />
