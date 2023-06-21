@@ -103,15 +103,15 @@ export const Page: FC = () => {
   useEffect(() => {
     if (currentSolutionId > 0) {
       dispatch(getSolution(currentSolutionId));
-    } else {
+    } else if (task) {
       const html = getFromLocalStorage<string>("html");
       const css = getFromLocalStorage<string>("css");
       const js = getFromLocalStorage<string>("js");
-      setHtmlContent(html ?? "");
-      setCssContent(css ?? "");
-      setJsContent(js ?? "");
+      setHtmlContent(html && html !== "" ? html : task.htmlTemplate);
+      setCssContent(css && css !== "" ? css : task.cssTemplate);
+      setJsContent(js && js !== "" ? js : task.jsTemplate);
     }
-  }, [currentSolutionId, dispatch]);
+  }, [currentSolutionId, dispatch, task]);
 
   useEffect(() => {
     if (errorSolution || errorTask) {

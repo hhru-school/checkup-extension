@@ -28,7 +28,7 @@ export const addNewTasks = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   "tasks/update",
   async (task: Task) => {
-    const response = await axios.put(endpoints.newTask(), task, {
+    const response = await axios.post(endpoints.updateTask(), task, {
       withCredentials: true,
     });
     return response.data;
@@ -38,7 +38,11 @@ export const updateTask = createAsyncThunk(
 const slice = createSlice({
   name: "newTask",
   initialState,
-  reducers: {},
+  reducers: {
+    resetResult: (state) => {
+      state.result = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addNewTasks.pending, (state, action) => {
@@ -50,10 +54,20 @@ const slice = createSlice({
         state.error = null;
       })
       .addCase(addNewTasks.rejected, (state, action) => {
-        console.log(action);
         state.isLoading = false;
         state.error = action.error.message as string;
         state.result = null;
+      })
+      .addCase(updateTask.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message as string;
       });
   },
 });

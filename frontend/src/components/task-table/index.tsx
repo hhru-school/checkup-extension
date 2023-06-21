@@ -16,7 +16,7 @@ export const TaskTable = () => {
   const [data, setData] = useState<Array<TaskShort>>();
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
-    pageSize: 2,
+    pageSize: 10,
   });
   const dispatch = useAppDispatch();
   const loading = useAppSelector((store) => store.tasks.isLoading);
